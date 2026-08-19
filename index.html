@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#111827">
-<title>Meu Treino V3</title>
+<title>Meu Treino V4.1</title>
 
 <style>
 *{box-sizing:border-box}
@@ -116,14 +116,25 @@ font-size:14px
 button.green{background:#166534}
 button.secondary{background:#e5e7eb;color:#111827}
 button.red{background:#991b1b}
+button.blue{background:#1d4ed8}
 
-input{
+button:disabled{
+opacity:.5;
+cursor:not-allowed
+}
+
+input,textarea{
 width:100%;
 padding:11px;
 border:1px solid #cbd5e1;
 border-radius:10px;
 font-size:14px;
 background:white
+}
+
+textarea{
+min-height:80px;
+resize:vertical
 }
 
 .inputs{
@@ -235,10 +246,56 @@ background:#f8fafc;
 border-radius:10px
 }
 
+.series.done{
+border-left:4px solid #166534;
+background:#f0fdf4
+}
+
 .series-title{
 font-size:12px;
 font-weight:bold;
 margin-bottom:6px
+}
+
+.last-performance{
+font-size:11px;
+color:#64748b;
+margin-top:5px
+}
+
+.progression{
+margin-top:10px;
+padding:10px;
+border-radius:10px;
+background:#eff6ff;
+border:1px solid #bfdbfe;
+font-size:12px;
+line-height:1.4
+}
+
+.progression.ready{
+background:#f0fdf4;
+border-color:#bbf7d0
+}
+
+.rest-box{
+margin-top:12px;
+padding:14px;
+border-radius:14px;
+background:#111827;
+color:white;
+text-align:center
+}
+
+.rest-time{
+font-size:32px;
+font-weight:bold;
+margin:8px 0
+}
+
+.rest-label{
+font-size:11px;
+color:#cbd5e1
 }
 
 .history{
@@ -251,6 +308,46 @@ border-top:1px solid #e5e7eb
 .history-exercise{
 padding:8px 0;
 font-size:12px
+}
+
+.note-history{
+background:#f8fafc;
+padding:10px;
+border-radius:10px;
+font-size:12px;
+margin-top:8px;
+line-height:1.4
+}
+
+.calendar{
+display:grid;
+grid-template-columns:repeat(7,1fr);
+gap:5px;
+margin-top:12px
+}
+
+.calendar-day{
+min-height:48px;
+background:#f8fafc;
+border-radius:9px;
+padding:5px;
+font-size:10px;
+text-align:center
+}
+
+.calendar-day.done{
+background:#dcfce7;
+border:1px solid #86efac
+}
+
+.calendar-day.planned{
+border:1px dashed #94a3b8
+}
+
+.calendar-day strong{
+display:block;
+font-size:12px;
+margin-top:3px
 }
 
 .hidden{display:none!important}
@@ -298,6 +395,39 @@ padding:12px;
 font-size:12px
 }
 
+.info{
+background:#eff6ff;
+border:1px solid #bfdbfe;
+border-radius:12px;
+padding:12px;
+font-size:12px;
+line-height:1.5
+}
+
+.danger{
+background:#fef2f2;
+border:1px solid #fecaca;
+border-radius:12px;
+padding:12px;
+font-size:12px
+}
+
+.timer-buttons{
+display:flex;
+gap:8px;
+justify-content:center;
+flex-wrap:wrap
+}
+
+.timer-buttons button{
+padding:9px 12px
+}
+
+@media(max-width:500px){
+main{padding-left:10px;padding-right:10px}
+.card{padding:15px}
+.grid{grid-template-columns:1fr 1fr}
+}
 </style>
 </head>
 
@@ -305,7 +435,7 @@ font-size:12px
 
 <header>
 <h1>💪 Meu Treino</h1>
-<p>Plano de hipertrofia • 52 semanas • V3</p>
+<p>Plano de hipertrofia • 52 semanas • V4.1</p>
 </header>
 
 <main>
@@ -354,8 +484,6 @@ Escolha quando pretende começar e quais dias da semana serão seus treinos.
 </div>
 
 
-<!-- PRÉVIA -->
-
 <div class="card" id="cardPreview">
 
 <div class="row">
@@ -376,14 +504,12 @@ Escolha a data e os 3 dias de treino para visualizar.
 </div>
 
 
-<!-- CONFIRMAÇÃO -->
-
 <div class="card" id="cardConfirmacao">
 
 <strong>🚀 Quando estiver pronto</strong>
 
 <p class="muted">
-A data e os dias escolhidos serão usados para montar seu plano de 52 semanas.
+A data e os dias escolhidos serão usadas para montar seu plano de 52 semanas.
 </p>
 
 <button class="green" onclick="iniciarPlanoOficial()">
@@ -392,8 +518,6 @@ A data e os dias escolhidos serão usados para montar seu plano de 52 semanas.
 
 </div>
 
-
-<!-- PLANO ATIVO -->
 
 <div class="card hidden" id="cardAtivo">
 
@@ -429,8 +553,6 @@ A data e os dias escolhidos serão usados para montar seu plano de 52 semanas.
 </div>
 
 
-<!-- FASE -->
-
 <div class="card hidden" id="cardFase">
 
 <div class="phase">
@@ -445,8 +567,6 @@ A data e os dias escolhidos serão usados para montar seu plano de 52 semanas.
 
 </div>
 
-
-<!-- HOJE -->
 
 <div class="card hidden" id="cardHoje">
 
@@ -469,8 +589,6 @@ Abrir treino →
 
 </div>
 
-
-<!-- ESTATÍSTICAS -->
 
 <div class="card">
 
@@ -515,10 +633,57 @@ Abrir treino →
 
 <div id="listaExercicios"></div>
 
+<div id="cronometroContainer" class="hidden">
+
+<div class="rest-box">
+
+<div class="rest-label">
+⏱️ DESCANSO
+</div>
+
+<div class="rest-time" id="tempoRestante">
+00:00
+</div>
+
+<div class="timer-buttons">
+
+<button class="secondary" onclick="pausarCronometro()">
+⏸ Pausar
+</button>
+
+<button class="secondary" onclick="reiniciarCronometro()">
+↻ Reiniciar
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<br>
+
+<div id="observacaoTreinoBox">
+
+<strong>📝 Observação do treino</strong>
+
+<p class="muted">
+Anote como foi o treino, dificuldades, cargas ou qualquer informação importante.
+</p>
+
+<textarea
+id="observacaoTreino"
+placeholder="Ex.: Treino tranquilo. Posso aumentar a carga no leg press..."
+></textarea>
+
+</div>
+
+<br>
+
 <div class="warning">
 
 💡 <strong>Antes de concluir:</strong>
-confira se todas as séries que você realizou estão registradas.
+confira se todas as séries realizadas estão registradas.
 
 </div>
 
@@ -590,7 +755,26 @@ Semana <strong id="progressoSemana">-</strong>
 </div>
 
 
-<!-- HISTÓRICO -->
+<div class="card">
+
+<div class="row">
+
+<strong>📅 Calendário de treinos</strong>
+
+<span class="badge">Realizados</span>
+
+</div>
+
+<div id="calendarioTreinos">
+
+<p class="muted">
+Inicie o plano para visualizar o calendário.
+</p>
+
+</div>
+
+</div>
+
 
 <div class="card">
 
@@ -614,8 +798,6 @@ Nenhum treino concluído ainda.
 
 </div>
 
-
-<!-- BACKUP -->
 
 <div class="card">
 
@@ -650,8 +832,6 @@ onchange="importarBackup(event)"
 
 </main>
 
-
-<!-- ================= MENU ================= -->
 
 <nav>
 
@@ -693,6 +873,7 @@ nome:"Leg press",
 series:3,
 reps:"8–12",
 descanso:"2 min",
+segundos:120,
 nota:"Ao fazer 12 reps nas 3 séries com boa técnica, aumente um pouco a carga."
 },
 
@@ -701,6 +882,7 @@ nome:"Supino máquina ou barra",
 series:3,
 reps:"8–12",
 descanso:"2 min",
+segundos:120,
 nota:"Mesma regra."
 },
 
@@ -709,6 +891,7 @@ nome:"Remada baixa",
 series:3,
 reps:"8–12",
 descanso:"2 min",
+segundos:120,
 nota:"Movimento controlado, sem puxar com o corpo."
 },
 
@@ -717,6 +900,7 @@ nome:"Elevação lateral",
 series:3,
 reps:"12–15",
 descanso:"60–90 s",
+segundos:75,
 nota:"Aumente a carga mantendo controle."
 },
 
@@ -725,6 +909,7 @@ nome:"Mesa flexora",
 series:2,
 reps:"10–15",
 descanso:"90 s",
+segundos:90,
 nota:"Controle a volta do movimento."
 },
 
@@ -733,6 +918,7 @@ nome:"Rosca bíceps",
 series:2,
 reps:"10–15",
 descanso:"60–90 s",
+segundos:75,
 nota:"Evite balançar o tronco."
 },
 
@@ -741,6 +927,7 @@ nome:"Tríceps na polia",
 series:2,
 reps:"10–15",
 descanso:"60–90 s",
+segundos:75,
 nota:"Movimento controlado."
 }
 
@@ -758,6 +945,7 @@ nome:"Agachamento guiado ou leg press",
 series:3,
 reps:"8–12",
 descanso:"2 min",
+segundos:120,
 nota:"Priorize técnica e amplitude confortável."
 },
 
@@ -766,6 +954,7 @@ nome:"Supino inclinado",
 series:3,
 reps:"8–12",
 descanso:"2 min",
+segundos:120,
 nota:"Controle a descida."
 },
 
@@ -774,6 +963,7 @@ nome:"Puxada alta",
 series:3,
 reps:"8–12",
 descanso:"2 min",
+segundos:120,
 nota:"Puxe em direção ao alto do peito."
 },
 
@@ -782,6 +972,7 @@ nome:"Desenvolvimento de ombros máquina",
 series:2,
 reps:"8–12",
 descanso:"2 min",
+segundos:120,
 nota:"Movimento controlado."
 },
 
@@ -790,6 +981,7 @@ nome:"Cadeira extensora",
 series:2,
 reps:"10–15",
 descanso:"90 s",
+segundos:90,
 nota:"Controle subida e descida."
 },
 
@@ -798,6 +990,7 @@ nome:"Rosca bíceps",
 series:2,
 reps:"10–15",
 descanso:"60–90 s",
+segundos:75,
 nota:"Sem balanço."
 },
 
@@ -806,6 +999,7 @@ nome:"Tríceps na polia",
 series:2,
 reps:"10–15",
 descanso:"60–90 s",
+segundos:75,
 nota:"Controle o movimento."
 }
 
@@ -879,6 +1073,7 @@ const nomesDias=[
 
 /* =====================================================
 DADOS
+Mantém compatibilidade com V3
 ===================================================== */
 
 let dados=JSON.parse(
@@ -886,27 +1081,44 @@ localStorage.getItem("meuTreino12MesesV3")
 ) || {
 
 dataInicio:null,
-
 diasTreino:[],
-
 treinos:0,
-
 peso:null,
-
 historicoPeso:[],
-
 proximoTreino:"A",
-
 historicoTreinos:[],
-
 cargas:{}
 
 };
 
 
-let diasSelecionados=[];
+/* Compatibilidade com versões anteriores */
+
+if(!dados.historicoTreinos)
+dados.historicoTreinos=[];
+
+if(!dados.historicoPeso)
+dados.historicoPeso=[];
+
+if(!dados.cargas)
+dados.cargas={};
+
+if(!dados.diasTreino)
+dados.diasTreino=[];
+
+if(!dados.proximoTreino)
+dados.proximoTreino="A";
+
+
+let diasSelecionados=[
+...(dados.diasTreino || [])
+];
 
 let treinoEmEdicao=null;
+
+let timerInterval=null;
+
+let tempoRestante=0;
 
 
 /* =====================================================
@@ -934,11 +1146,8 @@ document.getElementById(
 "dataPlanejamento"
 );
 
-if(!campo.value){
-
+if(!campo.value)
 return null;
-
-}
 
 return new Date(
 campo.value+"T00:00:00"
@@ -969,11 +1178,8 @@ div.className="day";
 
 if(
 diasSelecionados.includes(i)
-){
-
+)
 div.classList.add("selected");
-
-}
 
 div.innerHTML=
 `
@@ -1032,6 +1238,12 @@ area.appendChild(div);
 
 }
 
+document.getElementById(
+"contadorDias"
+).textContent=
+diasSelecionados.length+
+" de 3 dias selecionados";
+
 }
 
 
@@ -1046,11 +1258,8 @@ dia
 
 if(
 !diasSelecionados.includes(dia)
-){
-
+)
 return "Descanso";
-
-}
 
 const posicao=
 diasSelecionados.indexOf(dia);
@@ -1189,7 +1398,7 @@ area.innerHTML+=html;
 
 
 /* =====================================================
-INICIAR
+INICIAR PLANO
 ===================================================== */
 
 function iniciarPlanoOficial(){
@@ -1223,6 +1432,19 @@ return;
 
 }
 
+const confirmar=
+confirm(
+"Confirmar início oficial do plano?\n\n"+
+"Data: "+data+"\n"+
+"Dias: "+
+diasSelecionados
+.map(d=>nomesDias[d])
+.join(", ")
+);
+
+if(!confirmar)
+return;
+
 dados.dataInicio=data;
 
 dados.diasTreino=[
@@ -1231,7 +1453,15 @@ dados.diasTreino=[
 
 dados.treinos=0;
 
-dados.proximoTreino="A";
+dados.proximoTreino=
+treinoNaSemana(
+1,
+dados.diasTreino[0]
+)==="A"
+?
+"A"
+:
+"B";
 
 dados.historicoTreinos=[];
 
@@ -1254,11 +1484,8 @@ SEMANA
 
 function calcularSemana(){
 
-if(!dados.dataInicio){
-
+if(!dados.dataInicio)
 return null;
-
-}
 
 const inicio=
 new Date(
@@ -1308,6 +1535,52 @@ semana<=fase.fim
 
 
 /* =====================================================
+PRÓXIMO TREINO BASEADO NO HISTÓRICO
+===================================================== */
+
+function obterProximoTreino(){
+
+if(
+dados.historicoTreinos.length===0
+){
+
+const semana=
+calcularSemana() || 1;
+
+const diaHoje=
+new Date().getDay();
+
+const tipo=
+treinoNaSemana(
+semana,
+diaHoje
+);
+
+if(
+tipo==="A" ||
+tipo==="B"
+)
+return tipo;
+
+return dados.proximoTreino || "A";
+
+}
+
+const ultimo=
+dados.historicoTreinos[
+dados.historicoTreinos.length-1
+];
+
+return ultimo.treino==="A"
+?
+"B"
+:
+"A";
+
+}
+
+
+/* =====================================================
 TREINO HOJE
 ===================================================== */
 
@@ -1324,19 +1597,39 @@ new Date().getDay();
 
 if(
 !dados.diasTreino.includes(dia)
-){
-
+)
 return "Descanso";
 
-}
-
-return dados.proximoTreino;
+return obterProximoTreino();
 
 }
 
 
 /* =====================================================
-CRIAR TREINO
+FAIXA DE REPETIÇÕES
+===================================================== */
+
+function limitesReps(texto){
+
+const numeros=
+texto.match(/\d+/g);
+
+if(!numeros)
+return {
+min:0,
+max:0
+};
+
+return {
+min:parseInt(numeros[0]),
+max:parseInt(numeros[1] || numeros[0])
+};
+
+}
+
+
+/* =====================================================
+MONTAR TREINO
 ===================================================== */
 
 function montarTreino(tipo){
@@ -1360,6 +1653,15 @@ exercicios.forEach(
 
 let seriesHTML="";
 
+let todasNoTopo=true;
+
+let algumaSerie=false;
+
+const limites=
+limitesReps(
+exercicio.reps
+);
+
 for(
 let s=1;
 s<=exercicio.series;
@@ -1372,36 +1674,79 @@ tipo+"_"+index+"_"+s;
 const anterior=
 dados.cargas[chave] || {};
 
+if(
+!anterior.carga ||
+!anterior.reps
+){
+
+todasNoTopo=false;
+
+}else{
+
+algumaSerie=true;
+
+if(
+anterior.reps<limites.max
+)
+todasNoTopo=false;
+
+}
+
 seriesHTML+=
 `
-<div class="series">
+<div class="series"
+id="serie_${index}_${s}"
+>
 
 <div class="series-title">
 Série ${s}
-${anterior.carga ?
-" • Última: "+anterior.carga+" kg / "+anterior.reps+" reps"
-:
-""}
 </div>
+
+${
+anterior.carga
+?
+`
+<div class="last-performance">
+📋 Última vez:
+<strong>
+${anterior.carga} kg
+</strong>
+×
+<strong>
+${anterior.reps || "--"} reps
+</strong>
+</div>
+`
+:
+`
+<div class="last-performance">
+📋 Ainda não há registro anterior.
+</div>
+`
+}
 
 <div class="inputs">
 
 <input
 type="number"
 step="0.5"
+min="0"
 placeholder="Carga kg"
 class="carga"
 data-exercicio="${index}"
 data-serie="${s}"
-value="${anterior.carga||""}"
+data-tipo="${tipo}"
+value=""
 >
 
 <input
 type="number"
+min="0"
 placeholder="Reps"
 class="reps"
 data-exercicio="${index}"
 data-serie="${s}"
+data-tipo="${tipo}"
 value=""
 >
 
@@ -1412,9 +1757,41 @@ value=""
 
 }
 
+let mensagemProgressao="";
+
+if(
+algumaSerie &&
+todasNoTopo
+){
+
+mensagemProgressao=
+`
+<div class="progression ready">
+🎯 <strong>Meta atingida!</strong><br>
+Você chegou ao topo da faixa de repetições nas séries registradas.
+Se a execução estiver boa, considere aumentar um pouco a carga no próximo treino.
+</div>
+`;
+
+}else{
+
+mensagemProgressao=
+`
+<div class="progression">
+📈 <strong>Progressão:</strong><br>
+Quando conseguir atingir o topo da faixa
+(${limites.max} reps) em todas as séries com boa técnica,
+considere aumentar um pouco a carga.
+</div>
+`;
+
+}
+
 lista.innerHTML+=
 `
-<div class="exercise">
+<div class="exercise"
+data-exercicio-index="${index}"
+>
 
 <div class="exercise-name">
 ${exercicio.nome}
@@ -1431,6 +1808,8 @@ repetições •
 <div class="exercise-note">
 💡 ${exercicio.nota}
 </div>
+
+${mensagemProgressao}
 
 ${seriesHTML}
 
@@ -1455,6 +1834,62 @@ document.getElementById(
 "treinoBadge"
 ).textContent=
 tipo;
+
+document.getElementById(
+"observacaoTreino"
+).value="";
+
+adicionarEventosSeries();
+
+}
+
+
+/* =====================================================
+EVENTOS DAS SÉRIES
+===================================================== */
+
+function adicionarEventosSeries(){
+
+document
+.querySelectorAll(".carga,.reps")
+.forEach(
+(input)=>{
+
+input.addEventListener(
+"input",
+function(){
+
+const serie=
+document.getElementById(
+"serie_"+
+this.dataset.exercicio+
+"_"+this.dataset.serie
+);
+
+const carga=
+serie.querySelector(".carga");
+
+const reps=
+serie.querySelector(".reps");
+
+if(
+carga.value &&
+reps.value
+){
+
+serie.classList.add("done");
+
+}else{
+
+serie.classList.remove("done");
+
+}
+
+}
+
+);
+
+});
 
 }
 
@@ -1492,13 +1927,190 @@ return;
 
 }
 
-montarTreino(
-dados.proximoTreino
+montarTreino(tipo);
+
+abrirTela("treino");
+
+}
+
+
+/* =====================================================
+CRONÔMETRO
+===================================================== */
+
+function iniciarCronometro(segundos){
+
+clearInterval(timerInterval);
+
+tempoRestante=
+segundos;
+
+document
+.getElementById(
+"cronometroContainer"
+)
+.classList
+.remove("hidden");
+
+atualizarDisplayTimer();
+
+timerInterval=
+setInterval(
+()=>{
+
+tempoRestante--;
+
+if(
+tempoRestante<=0
+){
+
+tempoRestante=0;
+
+clearInterval(
+timerInterval
 );
 
-abrirTela(
-"treino"
+atualizarDisplayTimer();
+
+navigator.vibrate?.(
+[200,100,200]
 );
+
+alert(
+"⏱️ Descanso concluído! Pode voltar à série."
+);
+
+return;
+
+}
+
+atualizarDisplayTimer();
+
+},
+1000
+);
+
+}
+
+
+function atualizarDisplayTimer(){
+
+const minutos=
+Math.floor(
+tempoRestante/60
+);
+
+const segundos=
+tempoRestante%60;
+
+document.getElementById(
+"tempoRestante"
+).textContent=
+String(minutos).padStart(2,"0")+
+":"+
+String(segundos).padStart(2,"0");
+
+}
+
+
+function pausarCronometro(){
+
+clearInterval(
+timerInterval
+);
+
+}
+
+
+function reiniciarCronometro(){
+
+if(
+!treinoEmEdicao
+)
+return;
+
+const exercicios=
+treinoEmEdicao==="A"
+?
+treinoA
+:
+treinoB;
+
+const ultimo=
+exercicios[
+exercicios.length-1
+];
+
+iniciarCronometro(
+ultimo.segundos
+);
+
+}
+
+
+/* =====================================================
+BOTÃO DE DESCANSO POR EXERCÍCIO
+===================================================== */
+
+function descansarExercicio(index){
+
+if(!treinoEmEdicao)
+return;
+
+const exercicios=
+treinoEmEdicao==="A"
+?
+treinoA
+:
+treinoB;
+
+const exercicio=
+exercicios[index];
+
+iniciarCronometro(
+exercicio.segundos
+);
+
+}
+
+
+/* =====================================================
+ADICIONAR BOTÃO DE DESCANSO
+===================================================== */
+
+function adicionarBotoesDescanso(){
+
+document
+.querySelectorAll(".exercise")
+.forEach(
+(div,index)=>{
+
+if(
+div.querySelector(".rest-button")
+)
+return;
+
+const botao=
+document.createElement("button");
+
+botao.className=
+"secondary rest-button";
+
+botao.style.marginTop=
+"10px";
+
+botao.textContent=
+"⏱️ Iniciar descanso";
+
+botao.onclick=function(){
+
+descansarExercicio(index);
+
+};
+
+div.appendChild(botao);
+
+});
 
 }
 
@@ -1528,6 +2140,8 @@ treinoB;
 
 const registros=[];
 
+let seriesVazias=0;
+
 document
 .querySelectorAll(".exercise")
 .forEach(
@@ -1547,10 +2161,14 @@ cargas.forEach(
 (carga,i)=>{
 
 const cargaValor=
-parseFloat(carga.value);
+parseFloat(
+carga.value
+);
 
 const repsValor=
-parseInt(reps[i].value);
+parseInt(
+reps[i].value
+);
 
 if(
 !isNaN(cargaValor) ||
@@ -1596,6 +2214,10 @@ repsValor
 
 }
 
+}else{
+
+seriesVazias++;
+
 }
 
 });
@@ -1612,8 +2234,32 @@ series:series
 });
 
 
+if(seriesVazias>0){
+
+const continuar=
+confirm(
+"Existem "+seriesVazias+
+" série(s) sem registro.\n\n"+
+"Você quer concluir mesmo assim?"
+);
+
+if(!continuar)
+return;
+
+}
+
+
 const semana=
 calcularSemana();
+
+const observacao=
+document
+.getElementById(
+"observacaoTreino"
+)
+.value
+.trim();
+
 
 const registro={
 
@@ -1621,7 +2267,9 @@ id:Date.now(),
 
 data:
 new Date()
-.toLocaleDateString("pt-BR"),
+.toLocaleDateString(
+"pt-BR"
+),
 
 hora:
 new Date()
@@ -1633,13 +2281,20 @@ minute:"2-digit"
 }
 ),
 
-treino:treinoEmEdicao,
+treino:
+treinoEmEdicao,
 
-semana:semana,
+semana:
+semana,
 
-exercicios:registros
+observacao:
+observacao,
+
+exercicios:
+registros
 
 };
+
 
 dados.historicoTreinos.push(
 registro
@@ -1657,8 +2312,22 @@ treinoEmEdicao==="A"
 
 salvar();
 
+clearInterval(
+timerInterval
+);
+
+tempoRestante=0;
+
+document
+.getElementById(
+"cronometroContainer"
+)
+.classList
+.add("hidden");
+
 alert(
-"Treino "+treinoEmEdicao+
+"Treino "+
+treinoEmEdicao+
 " registrado com sucesso! 💪"
 );
 
@@ -1685,7 +2354,9 @@ document.getElementById(
 );
 
 const peso=
-parseFloat(campo.value);
+parseFloat(
+campo.value
+);
 
 if(
 !peso ||
@@ -1708,7 +2379,9 @@ peso:peso,
 
 data:
 new Date()
-.toLocaleDateString("pt-BR")
+.toLocaleDateString(
+"pt-BR"
+)
 
 });
 
@@ -1781,6 +2454,21 @@ ${registro.data} • ${registro.hora}
 </div>
 `;
 
+
+if(
+registro.observacao
+){
+
+html+=
+`
+<div class="note-history">
+📝 ${registro.observacao}
+</div>
+`;
+
+}
+
+
 registro.exercicios.forEach(
 (exercicio)=>{
 
@@ -1809,15 +2497,21 @@ exercicio.series.forEach(
 html+=
 `
 Série ${i+1}:
-${serie.carga!==null ?
+${
+serie.carga!==null
+?
 serie.carga+" kg"
 :
-"--"}
+"--"
+}
 •
-${serie.reps!==null ?
+${
+serie.reps!==null
+?
 serie.reps+" reps"
 :
-"--"}
+"--"
+}
 <br>
 `;
 
@@ -1899,16 +2593,167 @@ ${item.peso} kg
 
 
 /* =====================================================
+CALENDÁRIO
+===================================================== */
+
+function montarCalendario(){
+
+const area=
+document.getElementById(
+"calendarioTreinos"
+);
+
+if(
+!dados.dataInicio
+){
+
+area.innerHTML=
+`
+<p class="muted">
+Inicie o plano para visualizar o calendário.
+</p>
+`;
+
+return;
+
+}
+
+const inicio=
+new Date(
+dados.dataInicio+"T00:00:00"
+);
+
+const realizados=
+dados.historicoTreinos || [];
+
+let html="";
+
+for(
+let semana=1;
+semana<=8;
+semana++
+){
+
+const inicioSemana=
+new Date(inicio);
+
+inicioSemana.setDate(
+inicioSemana.getDate()+
+((semana-1)*7)
+);
+
+html+=
+`
+<div class="preview">
+
+<div class="week-title">
+Semana ${semana}
+</div>
+
+<div class="calendar">
+`;
+
+for(
+let d=0;
+d<7;
+d++
+){
+
+const data=
+new Date(inicioSemana);
+
+data.setDate(
+inicioSemana.getDate()+d
+);
+
+const dataString=
+data.toLocaleDateString(
+"pt-BR"
+);
+
+const diaSemana=
+data.getDay();
+
+const treinoPlanejado=
+treinoNaSemana(
+semana,
+diaSemana
+);
+
+const realizado=
+realizados.find(
+r=>
+r.data===dataString &&
+r.semana===semana
+);
+
+let classe="";
+
+if(
+treinoPlanejado!=="Descanso"
+)
+classe="planned";
+
+if(realizado)
+classe="done";
+
+html+=
+`
+<div class="calendar-day ${classe}">
+
+${nomesDias[diaSemana]}
+
+<strong>
+${
+realizado
+?
+"✓ "+realizado.treino
+:
+treinoPlanejado==="Descanso"
+?
+"•"
+:
+treinoPlanejado
+}
+</strong>
+
+<div>
+${data.getDate()}/${data.getMonth()+1}
+</div>
+
+</div>
+`;
+
+}
+
+html+=
+`
+</div>
+</div>
+`;
+
+}
+
+area.innerHTML=html;
+
+}
+
+
+/* =====================================================
 BACKUP EXPORTAR
 ===================================================== */
 
 function exportarBackup(){
 
 const backup={
-versao:"V3",
+
+versao:"V4.1",
+
 exportadoEm:
 new Date().toISOString(),
+
 dados:dados
+
 };
 
 const blob=
@@ -1936,11 +2781,13 @@ document.createElement("a");
 link.href=url;
 
 link.download=
-"meu-treino-backup.json";
+"meu-treino-backup-V4.1.json";
 
 link.click();
 
-URL.revokeObjectURL(url);
+URL.revokeObjectURL(
+url
+);
 
 }
 
@@ -1981,6 +2828,18 @@ throw new Error(
 
 dados=backup.dados;
 
+if(!dados.historicoTreinos)
+dados.historicoTreinos=[];
+
+if(!dados.historicoPeso)
+dados.historicoPeso=[];
+
+if(!dados.cargas)
+dados.cargas={};
+
+if(!dados.diasTreino)
+dados.diasTreino=[];
+
 salvar();
 
 alert(
@@ -2015,17 +2874,17 @@ function atualizar(){
 document.getElementById(
 "totalTreinos"
 ).textContent=
-dados.treinos;
+dados.treinos || 0;
 
 document.getElementById(
 "totalTreinosInicio"
 ).textContent=
-dados.treinos;
+dados.treinos || 0;
 
 document.getElementById(
 "totalTreinos2"
 ).textContent=
-dados.treinos;
+dados.treinos || 0;
 
 document.getElementById(
 "pesoAtual"
@@ -2036,9 +2895,12 @@ dados.peso+" kg"
 :
 "-- kg";
 
+
 montarHistorico();
 
 montarHistoricoPeso();
+
+montarCalendario();
 
 
 if(!dados.dataInicio){
@@ -2102,6 +2964,7 @@ obterFase(semana);
 const hoje=
 treinoHoje();
 
+
 document.getElementById(
 "semanaBadge"
 ).textContent=
@@ -2137,6 +3000,7 @@ document.getElementById(
 "hidden"
 );
 
+
 document.getElementById(
 "semanaAtual"
 ).textContent=
@@ -2171,6 +3035,7 @@ document.getElementById(
 "faseObservacao"
 ).textContent=
 fase.observacao;
+
 
 const percentual=
 Math.round(
@@ -2216,7 +3081,7 @@ document.getElementById(
 "orientacaoHoje"
 ).textContent=
 "Hoje é descanso. Próximo treino: "+
-dados.proximoTreino+".";
+obterProximoTreino()+".";
 
 }else{
 
@@ -2224,7 +3089,7 @@ document.getElementById(
 "tituloHoje"
 ).textContent=
 "🏋️ Treino "+
-dados.proximoTreino;
+hoje;
 
 document.getElementById(
 "subtituloHoje"
@@ -2234,7 +3099,7 @@ document.getElementById(
 document.getElementById(
 "badgeHoje"
 ).textContent=
-dados.proximoTreino;
+hoje;
 
 document.getElementById(
 "orientacaoHoje"
@@ -2331,10 +3196,16 @@ return;
 }
 
 montarTreino(
-dados.proximoTreino
+treinoHoje()
+);
+
+setTimeout(
+adicionarBotoesDescanso,
+50
 );
 
 }
+
 
 if(
 tela==="progresso"
@@ -2343,6 +3214,8 @@ tela==="progresso"
 montarHistorico();
 
 montarHistoricoPeso();
+
+montarCalendario();
 
 }
 
