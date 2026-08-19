@@ -4,10 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#111827">
-<title>Meu Treino V4.1</title>
+<title>Meu Treino V4</title>
 
 <style>
-*{box-sizing:border-box}
+
+*{
+box-sizing:border-box
+}
 
 body{
 margin:0;
@@ -25,8 +28,16 @@ top:0;
 z-index:10
 }
 
-header h1{margin:0;font-size:24px}
-header p{margin:6px 0 0;color:#cbd5e1;font-size:13px}
+header h1{
+margin:0;
+font-size:24px
+}
+
+header p{
+margin:6px 0 0;
+color:#cbd5e1;
+font-size:13px
+}
 
 main{
 max-width:760px;
@@ -55,7 +66,9 @@ font-size:13px;
 line-height:1.5
 }
 
-.small{font-size:11px}
+.small{
+font-size:11px
+}
 
 .badge{
 background:#e5e7eb;
@@ -113,28 +126,26 @@ cursor:pointer;
 font-size:14px
 }
 
-button.green{background:#166534}
-button.secondary{background:#e5e7eb;color:#111827}
-button.red{background:#991b1b}
-button.blue{background:#1d4ed8}
-
-button:disabled{
-opacity:.5;
-cursor:not-allowed
+button.green{
+background:#166534
 }
 
-input,textarea{
+button.secondary{
+background:#e5e7eb;
+color:#111827
+}
+
+button.red{
+background:#991b1b
+}
+
+input{
 width:100%;
 padding:11px;
 border:1px solid #cbd5e1;
 border-radius:10px;
 font-size:14px;
 background:white
-}
-
-textarea{
-min-height:80px;
-resize:vertical
 }
 
 .inputs{
@@ -178,7 +189,9 @@ border-top:1px solid #e5e7eb;
 padding:13px 0
 }
 
-.preview:first-child{border-top:0}
+.preview:first-child{
+border-top:0
+}
 
 .week-title{
 font-weight:bold;
@@ -205,9 +218,17 @@ font-size:12px;
 margin-top:4px
 }
 
-.week-day.a{background:#e5e7eb}
-.week-day.b{background:#dbeafe}
-.week-day.rest{color:#94a3b8}
+.week-day.a{
+background:#e5e7eb
+}
+
+.week-day.b{
+background:#dbeafe
+}
+
+.week-day.rest{
+color:#94a3b8
+}
 
 .phase{
 border-left:5px solid #111827;
@@ -219,7 +240,9 @@ padding:16px 0;
 border-top:1px solid #e5e7eb
 }
 
-.exercise:first-child{border-top:0}
+.exercise:first-child{
+border-top:0
+}
 
 .exercise-name{
 font-weight:bold;
@@ -246,56 +269,10 @@ background:#f8fafc;
 border-radius:10px
 }
 
-.series.done{
-border-left:4px solid #166534;
-background:#f0fdf4
-}
-
 .series-title{
 font-size:12px;
 font-weight:bold;
 margin-bottom:6px
-}
-
-.last-performance{
-font-size:11px;
-color:#64748b;
-margin-top:5px
-}
-
-.progression{
-margin-top:10px;
-padding:10px;
-border-radius:10px;
-background:#eff6ff;
-border:1px solid #bfdbfe;
-font-size:12px;
-line-height:1.4
-}
-
-.progression.ready{
-background:#f0fdf4;
-border-color:#bbf7d0
-}
-
-.rest-box{
-margin-top:12px;
-padding:14px;
-border-radius:14px;
-background:#111827;
-color:white;
-text-align:center
-}
-
-.rest-time{
-font-size:32px;
-font-weight:bold;
-margin:8px 0
-}
-
-.rest-label{
-font-size:11px;
-color:#cbd5e1
 }
 
 .history{
@@ -303,54 +280,18 @@ padding:12px 0;
 border-top:1px solid #e5e7eb
 }
 
-.history:first-child{border-top:0}
+.history:first-child{
+border-top:0
+}
 
 .history-exercise{
 padding:8px 0;
 font-size:12px
 }
 
-.note-history{
-background:#f8fafc;
-padding:10px;
-border-radius:10px;
-font-size:12px;
-margin-top:8px;
-line-height:1.4
+.hidden{
+display:none!important
 }
-
-.calendar{
-display:grid;
-grid-template-columns:repeat(7,1fr);
-gap:5px;
-margin-top:12px
-}
-
-.calendar-day{
-min-height:48px;
-background:#f8fafc;
-border-radius:9px;
-padding:5px;
-font-size:10px;
-text-align:center
-}
-
-.calendar-day.done{
-background:#dcfce7;
-border:1px solid #86efac
-}
-
-.calendar-day.planned{
-border:1px dashed #94a3b8
-}
-
-.calendar-day strong{
-display:block;
-font-size:12px;
-margin-top:3px
-}
-
-.hidden{display:none!important}
 
 nav{
 position:fixed;
@@ -404,91 +345,117 @@ font-size:12px;
 line-height:1.5
 }
 
-.danger{
-background:#fef2f2;
-border:1px solid #fecaca;
-border-radius:12px;
-padding:12px;
-font-size:12px
-}
-
-.timer-buttons{
-display:flex;
-gap:8px;
-justify-content:center;
-flex-wrap:wrap
-}
-
-.timer-buttons button{
-padding:9px 12px
-}
-
-@media(max-width:500px){
-main{padding-left:10px;padding-right:10px}
-.card{padding:15px}
-.grid{grid-template-columns:1fr 1fr}
-}
 </style>
 </head>
 
 <body>
 
 <header>
+
 <h1>💪 Meu Treino</h1>
-<p>Plano de hipertrofia • 52 semanas • V4.1</p>
+
+<p>
+Plano de hipertrofia • 52 semanas • V4
+</p>
+
 </header>
 
 <main>
-
-<!-- ================= INÍCIO ================= -->
 
 <section id="inicio">
 
 <div class="card">
 
 <div class="row">
+
 <div>
+
 <strong>Status do plano</strong>
-<div class="muted" id="statusPlano">Planejamento</div>
+
+<div
+class="muted"
+id="statusPlano"
+>
+Planejamento
 </div>
 
-<span class="badge" id="semanaBadge">Sem data</span>
+</div>
+
+<span
+class="badge"
+id="semanaBadge"
+>
+Sem data
+</span>
+
 </div>
 
 <div id="planejamento">
 
 <p class="muted">
-Escolha quando pretende começar e quais dias da semana serão seus treinos.
+Escolha a data em que pretende começar e selecione exatamente 3 dias da semana para treinar.
 </p>
 
-<label class="small">📅 Data pretendida de início</label>
+<label class="small">
+📅 Data pretendida de início
+</label>
 
 <br><br>
 
-<input type="date" id="dataPlanejamento">
+<input
+type="date"
+id="dataPlanejamento"
+>
 
 <br><br>
 
-<strong>🗓️ Dias de treino</strong>
+<strong>
+🗓️ Dias de treino
+</strong>
 
-<p class="muted">Escolha exatamente 3 dias.</p>
+<p class="muted">
+Escolha exatamente 3 dias.
+</p>
 
-<div class="day-grid" id="seletorDias"></div>
+<div
+class="day-grid"
+id="seletorDias"
+></div>
 
-<p class="muted" id="contadorDias">
+<p
+class="muted"
+id="contadorDias"
+>
 0 de 3 dias selecionados
 </p>
 
+<div
+class="info"
+id="mensagemPlanejamento"
+>
+💡 Escolha a data e os 3 dias. Depois confira a prévia antes de iniciar oficialmente.
 </div>
 
 </div>
 
+</div>
 
-<div class="card" id="cardPreview">
+
+<div
+class="card"
+id="cardPreview"
+>
 
 <div class="row">
-<strong>👀 Prévia do calendário</strong>
-<span class="badge">Simulação</span>
+
+<strong>
+👀 Prévia do calendário
+</strong>
+
+<span class="badge">
+Simulação
+</span>
+
 </div>
 
 <p class="muted">
@@ -496,94 +463,181 @@ Veja como ficará a sequência A/B antes de iniciar.
 </p>
 
 <div id="previewCalendario">
+
 <p class="muted">
 Escolha a data e os 3 dias de treino para visualizar.
 </p>
-</div>
 
 </div>
 
+</div>
 
-<div class="card" id="cardConfirmacao">
 
-<strong>🚀 Quando estiver pronto</strong>
+<div
+class="card"
+id="cardConfirmacao"
+>
+
+<strong>
+🚀 Quando estiver pronto
+</strong>
 
 <p class="muted">
-A data e os dias escolhidos serão usadas para montar seu plano de 52 semanas.
+A configuração só será ativada quando você clicar no botão abaixo.
 </p>
 
-<button class="green" onclick="iniciarPlanoOficial()">
+<button
+class="green"
+onclick="iniciarPlanoOficial()"
+>
 🟢 Iniciar plano oficialmente
 </button>
 
 </div>
 
 
-<div class="card hidden" id="cardAtivo">
+<div
+class="card hidden"
+id="cardAtivo"
+>
 
 <div class="row">
 
 <div>
-<strong id="faseNome">-</strong>
-<div class="muted" id="focoFase">-</div>
+
+<strong id="faseNome">
+-
+</strong>
+
+<div
+class="muted"
+id="focoFase"
+>
+-
 </div>
 
-<span class="badge" id="esforco">-</span>
+</div>
+
+<span
+class="badge"
+id="esforco"
+>
+-
+</span>
 
 </div>
 
 <div class="progress">
-<div class="progress-bar" id="barra"></div>
+
+<div
+class="progress-bar"
+id="barra"
+></div>
+
 </div>
 
 <div class="grid">
 
 <div class="stat">
-<span>Semana</span>
-<strong id="semanaAtual">-</strong>
+
+<span>
+Semana
+</span>
+
+<strong id="semanaAtual">
+-
+</strong>
+
 </div>
 
 <div class="stat">
-<span>Treinos concluídos</span>
-<strong id="totalTreinosInicio">0</strong>
-</div>
+
+<span>
+Treinos concluídos
+</span>
+
+<strong id="totalTreinosInicio">
+0
+</strong>
 
 </div>
 
 </div>
 
+</div>
 
-<div class="card hidden" id="cardFase">
+
+<div
+class="card hidden"
+id="cardFase"
+>
 
 <div class="phase">
 
-<strong id="faseTitulo">-</strong>
+<strong id="faseTitulo">
+-
+</strong>
 
-<p class="muted" id="faseDescricao">-</p>
+<p
+class="muted"
+id="faseDescricao"
+>
+-
+</p>
 
-<p class="small" id="faseObservacao">-</p>
+<p
+class="small"
+id="faseObservacao"
+>
+-
+</p>
 
 </div>
 
 </div>
 
 
-<div class="card hidden" id="cardHoje">
+<div
+class="card hidden"
+id="cardHoje"
+>
 
 <div class="row">
 
 <div>
-<strong id="tituloHoje">Hoje</strong>
-<div class="muted" id="subtituloHoje">-</div>
+
+<strong id="tituloHoje">
+Hoje
+</strong>
+
+<div
+class="muted"
+id="subtituloHoje"
+>
+-
 </div>
 
-<span class="badge" id="badgeHoje">-</span>
+</div>
+
+<span
+class="badge"
+id="badgeHoje"
+>
+-
+</span>
 
 </div>
 
-<p class="muted" id="orientacaoHoje">-</p>
+<p
+class="muted"
+id="orientacaoHoje"
+>
+-
+</p>
 
-<button onclick="abrirTreinoAtual()">
+<button
+onclick="abrirTreinoAtual()"
+>
 Abrir treino →
 </button>
 
@@ -595,13 +649,27 @@ Abrir treino →
 <div class="grid">
 
 <div class="stat">
-<span>🏋️ Treinos concluídos</span>
-<strong id="totalTreinos">0</strong>
+
+<span>
+🏋️ Treinos concluídos
+</span>
+
+<strong id="totalTreinos">
+0
+</strong>
+
 </div>
 
 <div class="stat">
-<span>⚖️ Peso atual</span>
-<strong id="pesoAtual">-- kg</strong>
+
+<span>
+⚖️ Peso atual
+</span>
+
+<strong id="pesoAtual">
+-- kg
+</strong>
+
 </div>
 
 </div>
@@ -611,9 +679,10 @@ Abrir treino →
 </section>
 
 
-<!-- ================= TREINO ================= -->
-
-<section id="treino" class="hidden">
+<section
+id="treino"
+class="hidden"
+>
 
 <div class="card">
 
@@ -621,64 +690,29 @@ Abrir treino →
 
 <div>
 
-<strong id="treinoTitulo">Treino</strong>
+<strong id="treinoTitulo">
+Treino
+</strong>
 
-<div class="muted" id="treinoSubtitulo">-</div>
+<div
+class="muted"
+id="treinoSubtitulo"
+>
+-
+</div>
 
 </div>
 
-<span class="badge" id="treinoBadge">-</span>
+<span
+class="badge"
+id="treinoBadge"
+>
+-
+</span>
 
 </div>
 
 <div id="listaExercicios"></div>
-
-<div id="cronometroContainer" class="hidden">
-
-<div class="rest-box">
-
-<div class="rest-label">
-⏱️ DESCANSO
-</div>
-
-<div class="rest-time" id="tempoRestante">
-00:00
-</div>
-
-<div class="timer-buttons">
-
-<button class="secondary" onclick="pausarCronometro()">
-⏸ Pausar
-</button>
-
-<button class="secondary" onclick="reiniciarCronometro()">
-↻ Reiniciar
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<br>
-
-<div id="observacaoTreinoBox">
-
-<strong>📝 Observação do treino</strong>
-
-<p class="muted">
-Anote como foi o treino, dificuldades, cargas ou qualquer informação importante.
-</p>
-
-<textarea
-id="observacaoTreino"
-placeholder="Ex.: Treino tranquilo. Posso aumentar a carga no leg press..."
-></textarea>
-
-</div>
-
-<br>
 
 <div class="warning">
 
@@ -689,7 +723,10 @@ confira se todas as séries realizadas estão registradas.
 
 <br>
 
-<button class="green" onclick="concluirTreino()">
+<button
+class="green"
+onclick="concluirTreino()"
+>
 ✓ Concluir treino
 </button>
 
@@ -698,13 +735,16 @@ confira se todas as séries realizadas estão registradas.
 </section>
 
 
-<!-- ================= PROGRESSO ================= -->
-
-<section id="progresso" class="hidden">
+<section
+id="progresso"
+class="hidden"
+>
 
 <div class="card">
 
-<strong>⚖️ Registrar peso</strong>
+<strong>
+⚖️ Registrar peso
+</strong>
 
 <p class="muted">
 Acompanhe sua evolução corporal.
@@ -719,7 +759,9 @@ placeholder="Peso em kg"
 step="0.1"
 >
 
-<button onclick="salvarPeso()">
+<button
+onclick="salvarPeso()"
+>
 Salvar
 </button>
 
@@ -732,18 +774,34 @@ Salvar
 
 <div class="card">
 
-<strong>📊 Resumo</strong>
+<strong>
+📊 Resumo
+</strong>
 
 <div class="grid">
 
 <div class="stat">
-<span>Treinos</span>
-<strong id="totalTreinos2">0</strong>
+
+<span>
+Treinos
+</span>
+
+<strong id="totalTreinos2">
+0
+</strong>
+
 </div>
 
 <div class="stat">
-<span>Plano</span>
-<strong id="progressoPercentual">0%</strong>
+
+<span>
+Plano
+</span>
+
+<strong id="progressoPercentual">
+0%
+</strong>
+
 </div>
 
 </div>
@@ -759,30 +817,14 @@ Semana <strong id="progressoSemana">-</strong>
 
 <div class="row">
 
-<strong>📅 Calendário de treinos</strong>
+<strong>
+📚 Histórico de treinos
+</strong>
 
-<span class="badge">Realizados</span>
-
-</div>
-
-<div id="calendarioTreinos">
-
-<p class="muted">
-Inicie o plano para visualizar o calendário.
-</p>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="row">
-
-<strong>📚 Histórico de treinos</strong>
-
-<span class="badge" id="historicoQuantidade">
+<span
+class="badge"
+id="historicoQuantidade"
+>
 0
 </span>
 
@@ -801,13 +843,17 @@ Nenhum treino concluído ainda.
 
 <div class="card">
 
-<strong>🛡️ Backup dos dados</strong>
+<strong>
+🛡️ Backup dos dados
+</strong>
 
 <p class="muted">
 Exporte seus dados para guardar uma cópia do histórico.
 </p>
 
-<button onclick="exportarBackup()">
+<button
+onclick="exportarBackup()"
+>
 ⬇️ Exportar backup
 </button>
 
@@ -858,22 +904,25 @@ onclick="abrirTela('progresso')"
 </button>
 
 </nav>
-
-
 <script>
 
 /* =====================================================
-TREINO A
+   MEU TREINO V4
+   BLOCO 2 - DADOS E LÓGICA
 ===================================================== */
 
-const treinoA=[
+
+/* =====================================================
+   TREINO A
+===================================================== */
+
+const treinoA = [
 
 {
 nome:"Leg press",
 series:3,
 reps:"8–12",
 descanso:"2 min",
-segundos:120,
 nota:"Ao fazer 12 reps nas 3 séries com boa técnica, aumente um pouco a carga."
 },
 
@@ -882,7 +931,6 @@ nome:"Supino máquina ou barra",
 series:3,
 reps:"8–12",
 descanso:"2 min",
-segundos:120,
 nota:"Mesma regra."
 },
 
@@ -891,7 +939,6 @@ nome:"Remada baixa",
 series:3,
 reps:"8–12",
 descanso:"2 min",
-segundos:120,
 nota:"Movimento controlado, sem puxar com o corpo."
 },
 
@@ -900,7 +947,6 @@ nome:"Elevação lateral",
 series:3,
 reps:"12–15",
 descanso:"60–90 s",
-segundos:75,
 nota:"Aumente a carga mantendo controle."
 },
 
@@ -909,7 +955,6 @@ nome:"Mesa flexora",
 series:2,
 reps:"10–15",
 descanso:"90 s",
-segundos:90,
 nota:"Controle a volta do movimento."
 },
 
@@ -918,7 +963,6 @@ nome:"Rosca bíceps",
 series:2,
 reps:"10–15",
 descanso:"60–90 s",
-segundos:75,
 nota:"Evite balançar o tronco."
 },
 
@@ -927,7 +971,6 @@ nome:"Tríceps na polia",
 series:2,
 reps:"10–15",
 descanso:"60–90 s",
-segundos:75,
 nota:"Movimento controlado."
 }
 
@@ -935,17 +978,16 @@ nota:"Movimento controlado."
 
 
 /* =====================================================
-TREINO B
+   TREINO B
 ===================================================== */
 
-const treinoB=[
+const treinoB = [
 
 {
 nome:"Agachamento guiado ou leg press",
 series:3,
 reps:"8–12",
 descanso:"2 min",
-segundos:120,
 nota:"Priorize técnica e amplitude confortável."
 },
 
@@ -954,7 +996,6 @@ nome:"Supino inclinado",
 series:3,
 reps:"8–12",
 descanso:"2 min",
-segundos:120,
 nota:"Controle a descida."
 },
 
@@ -963,7 +1004,6 @@ nome:"Puxada alta",
 series:3,
 reps:"8–12",
 descanso:"2 min",
-segundos:120,
 nota:"Puxe em direção ao alto do peito."
 },
 
@@ -972,7 +1012,6 @@ nome:"Desenvolvimento de ombros máquina",
 series:2,
 reps:"8–12",
 descanso:"2 min",
-segundos:120,
 nota:"Movimento controlado."
 },
 
@@ -981,7 +1020,6 @@ nome:"Cadeira extensora",
 series:2,
 reps:"10–15",
 descanso:"90 s",
-segundos:90,
 nota:"Controle subida e descida."
 },
 
@@ -990,7 +1028,6 @@ nome:"Rosca bíceps",
 series:2,
 reps:"10–15",
 descanso:"60–90 s",
-segundos:75,
 nota:"Sem balanço."
 },
 
@@ -999,7 +1036,6 @@ nome:"Tríceps na polia",
 series:2,
 reps:"10–15",
 descanso:"60–90 s",
-segundos:75,
 nota:"Controle o movimento."
 }
 
@@ -1007,10 +1043,10 @@ nota:"Controle o movimento."
 
 
 /* =====================================================
-FASES
+   FASES
 ===================================================== */
 
-const fases=[
+const fases = [
 
 {
 inicio:1,
@@ -1060,7 +1096,11 @@ observacao:"Ajuste alimentação conforme evolução."
 ];
 
 
-const nomesDias=[
+/* =====================================================
+   DIAS
+===================================================== */
+
+const nomesDias = [
 "Dom",
 "Seg",
 "Ter",
@@ -1072,63 +1112,189 @@ const nomesDias=[
 
 
 /* =====================================================
-DADOS
-Mantém compatibilidade com V3
+   CARREGAMENTO DOS DADOS
 ===================================================== */
 
-let dados=JSON.parse(
-localStorage.getItem("meuTreino12MesesV3")
-) || {
+const CHAVE_V4 = "meuTreino12MesesV4";
+const CHAVE_V3 = "meuTreino12MesesV3";
+
+
+const dadosPadrao = {
 
 dataInicio:null,
+
 diasTreino:[],
+
 treinos:0,
+
 peso:null,
+
 historicoPeso:[],
+
 proximoTreino:"A",
+
 historicoTreinos:[],
+
 cargas:{}
 
 };
 
 
-/* Compatibilidade com versões anteriores */
+/* =====================================================
+   FUNÇÃO DE CÓPIA SEGURA
+===================================================== */
 
-if(!dados.historicoTreinos)
-dados.historicoTreinos=[];
+function copiarDados(obj){
 
-if(!dados.historicoPeso)
-dados.historicoPeso=[];
+return {
 
-if(!dados.cargas)
-dados.cargas={};
+dataInicio:
+obj.dataInicio || null,
 
-if(!dados.diasTreino)
-dados.diasTreino=[];
+diasTreino:
+Array.isArray(obj.diasTreino)
+?
+obj.diasTreino.map(Number)
+:
+[],
 
-if(!dados.proximoTreino)
-dados.proximoTreino="A";
+treinos:
+Number(obj.treinos) || 0,
 
+peso:
+obj.peso || null,
 
-let diasSelecionados=[
-...(dados.diasTreino || [])
-];
+historicoPeso:
+Array.isArray(obj.historicoPeso)
+?
+obj.historicoPeso
+:
+[],
 
-let treinoEmEdicao=null;
+proximoTreino:
+obj.proximoTreino==="B"
+?
+"B"
+:
+"A",
 
-let timerInterval=null;
+historicoTreinos:
+Array.isArray(obj.historicoTreinos)
+?
+obj.historicoTreinos
+:
+[],
 
-let tempoRestante=0;
+cargas:
+obj.cargas &&
+typeof obj.cargas==="object"
+?
+obj.cargas
+:
+{}
+
+};
+
+}
 
 
 /* =====================================================
-SALVAR
+   CARREGAR V4
+===================================================== */
+
+function carregarDados(){
+
+try{
+
+const salvoV4 =
+localStorage.getItem(CHAVE_V4);
+
+if(salvoV4){
+
+return copiarDados(
+JSON.parse(salvoV4)
+);
+
+}
+
+
+/*
+   Se não existir V4, tenta recuperar
+   automaticamente os dados da V3.
+*/
+
+const salvoV3 =
+localStorage.getItem(CHAVE_V3);
+
+if(salvoV3){
+
+const dadosV3 =
+copiarDados(
+JSON.parse(salvoV3)
+);
+
+
+/*
+   Cria imediatamente uma cópia V4.
+*/
+
+localStorage.setItem(
+CHAVE_V4,
+JSON.stringify(dadosV3)
+);
+
+return dadosV3;
+
+}
+
+}catch(erro){
+
+console.error(
+"Erro ao carregar dados:",
+erro
+);
+
+}
+
+return copiarDados(
+dadosPadrao
+);
+
+}
+
+
+let dados = carregarDados();
+
+
+let diasSelecionados = [];
+
+
+/*
+   Se já houver dias salvos,
+   eles aparecem selecionados.
+*/
+
+if(
+Array.isArray(dados.diasTreino)
+){
+
+diasSelecionados =
+dados.diasTreino.map(Number);
+
+}
+
+
+let treinoEmEdicao = null;
+
+
+/* =====================================================
+   SALVAR
 ===================================================== */
 
 function salvar(){
 
 localStorage.setItem(
-"meuTreino12MesesV3",
+CHAVE_V4,
 JSON.stringify(dados)
 );
 
@@ -1136,66 +1302,170 @@ JSON.stringify(dados)
 
 
 /* =====================================================
-DATA
+   DATA DO PLANEJAMENTO
 ===================================================== */
 
 function obterDataPlanejamento(){
 
-const campo=
+const campo =
 document.getElementById(
 "dataPlanejamento"
 );
 
-if(!campo.value)
+if(
+!campo ||
+!campo.value
+){
+
 return null;
 
-return new Date(
+}
+
+const data =
+new Date(
 campo.value+"T00:00:00"
 );
+
+if(
+isNaN(data.getTime())
+){
+
+return null;
+
+}
+
+return data;
 
 }
 
 
 /* =====================================================
-SELETOR
+   MOSTRAR DADOS SALVOS NO PLANEJAMENTO
+===================================================== */
+
+function carregarPlanejamentoNaTela(){
+
+const campo =
+document.getElementById(
+"dataPlanejamento"
+);
+
+
+/*
+   Só preenche o campo se houver
+   uma data realmente salva.
+*/
+
+if(
+dados.dataInicio &&
+campo
+){
+
+campo.value =
+dados.dataInicio;
+
+}
+
+
+/*
+   Mantém os três dias salvos
+   na seleção visual.
+*/
+
+diasSelecionados =
+Array.isArray(dados.diasTreino)
+?
+dados.diasTreino.map(Number)
+:
+[];
+
+criarSeletorDias();
+
+}
+
+
+/* =====================================================
+   SELETOR DOS 3 DIAS
 ===================================================== */
 
 function criarSeletorDias(){
 
-const area=
+const area =
 document.getElementById(
 "seletorDias"
 );
 
-area.innerHTML="";
+if(!area)
+return;
 
-for(let i=0;i<7;i++){
+area.innerHTML = "";
 
-const div=
-document.createElement("div");
 
-div.className="day";
+for(
+let i=0;
+i<7;
+i++
+){
 
-if(
-diasSelecionados.includes(i)
-)
-div.classList.add("selected");
+const div =
+document.createElement(
+"div"
+);
 
-div.innerHTML=
-`
-${nomesDias[i]}
-<small>
-${diasSelecionados.includes(i)?"✓":""}
-</small>
-`;
+div.className =
+"day";
 
-div.onclick=function(){
 
 if(
 diasSelecionados.includes(i)
 ){
 
-diasSelecionados=
+div.classList.add(
+"selected"
+);
+
+}
+
+
+div.innerHTML = `
+${nomesDias[i]}
+<small>
+${
+diasSelecionados.includes(i)
+?
+"✓"
+:
+""
+}
+</small>
+`;
+
+
+div.onclick = function(){
+
+/*
+   Não permite alterar os dias
+   enquanto o plano estiver ativo.
+*/
+
+if(
+dados.dataInicio
+){
+
+alert(
+"O plano já foi iniciado. Os dias de treino não podem ser alterados nesta versão."
+);
+
+return;
+
+}
+
+
+if(
+diasSelecionados.includes(i)
+){
+
+diasSelecionados =
 diasSelecionados.filter(
 d=>d!==i
 );
@@ -1218,15 +1488,18 @@ diasSelecionados.push(i);
 
 }
 
+
 diasSelecionados.sort(
 (a,b)=>a-b
 );
 
+
 document.getElementById(
 "contadorDias"
-).textContent=
+).textContent =
 diasSelecionados.length+
 " de 3 dias selecionados";
+
 
 criarSeletorDias();
 
@@ -1234,13 +1507,15 @@ atualizarPlanejamento();
 
 };
 
+
 area.appendChild(div);
 
 }
 
+
 document.getElementById(
 "contadorDias"
-).textContent=
+).textContent =
 diasSelecionados.length+
 " de 3 dias selecionados";
 
@@ -1248,7 +1523,7 @@ diasSelecionados.length+
 
 
 /* =====================================================
-TREINO NA SEMANA
+   TREINO NA SEMANA
 ===================================================== */
 
 function treinoNaSemana(
@@ -1258,17 +1533,30 @@ dia
 
 if(
 !diasSelecionados.includes(dia)
-)
-return "Descanso";
-
-const posicao=
-diasSelecionados.indexOf(dia);
-
-if(
-semana%2===1
 ){
 
-return posicao%2===0
+return "Descanso";
+
+}
+
+
+const posicao =
+diasSelecionados.indexOf(dia);
+
+
+/*
+   Semanas ímpares:
+   A B A
+
+   Semanas pares:
+   B A B
+*/
+
+if(
+semana % 2 === 1
+){
+
+return posicao % 2 === 0
 ?
 "A"
 :
@@ -1276,7 +1564,8 @@ return posicao%2===0
 
 }
 
-return posicao%2===0
+
+return posicao % 2 === 0
 ?
 "B"
 :
@@ -1286,15 +1575,15 @@ return posicao%2===0
 
 
 /* =====================================================
-PRÉVIA
+   PRÉVIA
 ===================================================== */
 
 function atualizarPlanejamento(){
 
-const data=
+const data =
 obterDataPlanejamento();
 
-const area=
+const area =
 document.getElementById(
 "previewCalendario"
 );
@@ -1304,8 +1593,7 @@ if(
 diasSelecionados.length!==3
 ){
 
-area.innerHTML=
-`
+area.innerHTML = `
 <p class="muted">
 Escolha a data e os 3 dias de treino para visualizar.
 </p>
@@ -1315,7 +1603,9 @@ return;
 
 }
 
-area.innerHTML="";
+
+area.innerHTML = "";
+
 
 for(
 let semana=1;
@@ -1323,7 +1613,7 @@ semana<=8;
 semana++
 ){
 
-const inicio=
+const inicio =
 new Date(data);
 
 inicio.setDate(
@@ -1331,8 +1621,8 @@ inicio.getDate()+
 ((semana-1)*7)
 );
 
-let html=
-`
+
+let html = `
 <div class="preview">
 
 <div class="week-title">
@@ -1342,55 +1632,81 @@ Semana ${semana}
 <div class="week-days">
 `;
 
+
 for(
 let dia=0;
 dia<7;
 dia++
 ){
 
-const dataDia=
+const dataDia =
 new Date(inicio);
 
 dataDia.setDate(
 inicio.getDate()+dia
 );
 
-const diaSemana=
+
+const diaSemana =
 dataDia.getDay();
 
-const treino=
+
+/*
+   Aqui usamos os dias escolhidos
+   pelo usuário, não dias fixos.
+*/
+
+const treino =
 treinoNaSemana(
 semana,
 diaSemana
 );
 
-let classe="rest";
 
-if(treino==="A")
+let classe =
+"rest";
+
+
+if(
+treino==="A"
+)
 classe="a";
 
-if(treino==="B")
+
+if(
+treino==="B"
+)
 classe="b";
 
-html+=
-`
+
+html += `
 <div class="week-day ${classe}">
+
 ${nomesDias[diaSemana]}
+
 <strong>
-${treino==="Descanso"?"•":treino}
+${
+treino==="Descanso"
+?
+"•"
+:
+treino
+}
 </strong>
+
 </div>
 `;
 
 }
 
-html+=
-`
+
+html += `
 </div>
 </div>
 `;
 
-area.innerHTML+=html;
+
+area.innerHTML += html;
 
 }
 
@@ -1398,80 +1714,157 @@ area.innerHTML+=html;
 
 
 /* =====================================================
-INICIAR PLANO
+   DATA + EVENTO
+===================================================== */
+
+function registrarDataPlanejamento(){
+
+/*
+   Antes do plano ser iniciado,
+   a data fica somente no planejamento.
+*/
+
+if(
+dados.dataInicio
+){
+
+return;
+
+}
+
+atualizarPlanejamento();
+
+}
+
+
+/* =====================================================
+   INICIAR PLANO OFICIAL
 ===================================================== */
 
 function iniciarPlanoOficial(){
 
-const campo=
+const campo =
 document.getElementById(
 "dataPlanejamento"
 );
 
-const data=campo.value;
+const data =
+campo.value;
+
 
 if(!data){
 
 alert(
-"Escolha a data de início."
+"📅 Escolha a data de início antes de iniciar o plano."
 );
 
 return;
 
 }
+
 
 if(
 diasSelecionados.length!==3
 ){
 
 alert(
-"Escolha exatamente 3 dias de treino."
+"🗓️ Escolha exatamente 3 dias de treino."
 );
 
 return;
 
 }
 
-const confirmar=
+
+/*
+   CONFIRMAÇÃO FINAL
+*/
+
+const confirmacao =
 confirm(
-"Confirmar início oficial do plano?\n\n"+
-"Data: "+data+"\n"+
+"🚀 Iniciar oficialmente o plano?\n\n"+
+"Data: "+
+new Date(
+data+"T00:00:00"
+).toLocaleDateString("pt-BR")+
+"\n"+
 "Dias: "+
 diasSelecionados
 .map(d=>nomesDias[d])
-.join(", ")
+.join(", ")+
+"\n\n"+
+"Depois de iniciado, a data e os dias não poderão ser alterados nesta versão."
 );
 
-if(!confirmar)
+
+if(!confirmacao){
+
 return;
 
-dados.dataInicio=data;
+}
 
-dados.diasTreino=[
-...diasSelecionados
-];
 
-dados.treinos=0;
+/*
+   Agora sim o plano é ativado.
+*/
 
-dados.proximoTreino=
-treinoNaSemana(
-1,
-dados.diasTreino[0]
-)==="A"
-?
-"A"
-:
-"B";
+dados.dataInicio =
+data;
+
+dados.diasTreino =
+[...diasSelecionados];
+
+
+/*
+   Só zeramos o histórico se
+   realmente não houver plano anterior.
+*/
+
+if(
+!dados.historicoTreinos
+){
 
 dados.historicoTreinos=[];
 
+}
+
+if(
+!dados.cargas
+){
+
 dados.cargas={};
+
+}
+
+if(
+!dados.treinos
+){
+
+dados.treinos =
+dados.historicoTreinos.length;
+
+}
+
+
+/*
+   Primeiro treino sempre começa em A.
+*/
+
+dados.proximoTreino="A";
+
 
 salvar();
 
+
 alert(
-"Plano iniciado oficialmente! 🚀💪"
+"Plano iniciado oficialmente! 🚀💪\n\n"+
+"Agora a aba Treino está liberada."
 );
+
+
+/*
+   Atualiza toda a interface.
+*/
 
 atualizar();
 
@@ -1479,40 +1872,69 @@ atualizar();
 
 
 /* =====================================================
-SEMANA
+   SEMANA ATUAL
 ===================================================== */
 
 function calcularSemana(){
 
-if(!dados.dataInicio)
+if(
+!dados.dataInicio
+){
+
 return null;
 
-const inicio=
+}
+
+
+const inicio =
 new Date(
-dados.dataInicio+"T00:00:00"
+dados.dataInicio+
+"T00:00:00"
 );
 
-const hoje=
+
+const hoje =
 new Date();
 
-const diferenca=
+hoje.setHours(
+0,0,0,0
+);
+
+
+const diferenca =
 hoje.getTime()-
 inicio.getTime();
 
-const dias=
+
+/*
+   Se ainda não chegou a data,
+   mostramos planejamento.
+*/
+
+if(
+diferenca<0
+){
+
+return 0;
+
+}
+
+
+let semana =
 Math.floor(
 diferenca/
-(1000*60*60*24)
-);
+(1000*60*60*24*7)
+)+1;
 
-if(dias<0)
-return 1;
 
-let semana=
-Math.floor(dias/7)+1;
+if(
+semana>52
+){
 
-if(semana>52)
 semana=52;
+
+}
+
 
 return semana;
 
@@ -1520,7 +1942,7 @@ return semana;
 
 
 /* =====================================================
-FASE
+   FASE
 ===================================================== */
 
 function obterFase(semana){
@@ -1535,178 +1957,110 @@ semana<=fase.fim
 
 
 /* =====================================================
-PRÓXIMO TREINO BASEADO NO HISTÓRICO
-===================================================== */
-
-function obterProximoTreino(){
-
-if(
-dados.historicoTreinos.length===0
-){
-
-const semana=
-calcularSemana() || 1;
-
-const diaHoje=
-new Date().getDay();
-
-const tipo=
-treinoNaSemana(
-semana,
-diaHoje
-);
-
-if(
-tipo==="A" ||
-tipo==="B"
-)
-return tipo;
-
-return dados.proximoTreino || "A";
-
-}
-
-const ultimo=
-dados.historicoTreinos[
-dados.historicoTreinos.length-1
-];
-
-return ultimo.treino==="A"
-?
-"B"
-:
-"A";
-
-}
-
-/* =====================================================
-TREINO HOJE V4
+   TREINO DE HOJE
 ===================================================== */
 
 function treinoHoje(){
 
-    /* Não existe plano */
+if(
+!dados.dataInicio
+){
 
-    if(!dados || !dados.dataInicio){
+return "Descanso";
 
-        return "Descanso";
-
-    }
-
-
-    /* Não existem dias configurados */
-
-    if(
-        !Array.isArray(dados.diasTreino) ||
-        dados.diasTreino.length !== 3
-    ){
-
-        return "Descanso";
-
-    }
+}
 
 
-    const semana =
-        calcularSemana();
+const semana =
+calcularSemana();
 
 
-    if(!semana){
+/*
+   Se ainda não chegou na data
+   de início, não há treino.
+*/
 
-        return "Descanso";
+if(
+!semana ||
+semana<1
+){
 
-    }
+return "Descanso";
 
-
-    const hoje =
-        new Date().getDay();
-
-
-    /* Hoje não é um dos dias escolhidos */
-
-    if(
-        !dados.diasTreino.includes(hoje)
-    ){
-
-        return "Descanso";
-
-    }
+}
 
 
-    /* Garante A ou B */
-
-    if(
-        dados.proximoTreino !== "A" &&
-        dados.proximoTreino !== "B"
-    ){
-
-        dados.proximoTreino = "A";
-
-        salvar();
-
-    }
+const dia =
+new Date().getDay();
 
 
-    return dados.proximoTreino;
+if(
+!dados.diasTreino.includes(dia)
+){
+
+return "Descanso";
+
+}
+
+
+/*
+   Determina o treino com base
+   na posição do dia escolhido
+   dentro da semana.
+*/
+
+return treinoNaSemana(
+semana,
+dia
+);
 
 }
 
 
 /* =====================================================
-FAIXA DE REPETIÇÕES
+   FIM DO BLOCO 2
 ===================================================== */
 
-function limitesReps(texto){
+</script>
+<script>
 
-const numeros=
-texto.match(/\d+/g);
-
-if(!numeros)
-return {
-min:0,
-max:0
-};
-
-return {
-min:parseInt(numeros[0]),
-max:parseInt(numeros[1] || numeros[0])
-};
-
-}
+/* =====================================================
+   MEU TREINO V4
+   BLOCO 3 - TREINO, PROGRESSO E NAVEGAÇÃO
+===================================================== */
 
 
 /* =====================================================
-MONTAR TREINO
+   MONTAR TREINO
 ===================================================== */
 
 function montarTreino(tipo){
 
-const lista=
+const lista =
 document.getElementById(
 "listaExercicios"
 );
 
-const exercicios=
+if(!lista)
+return;
+
+
+const exercicios =
 tipo==="A"
 ?
 treinoA
 :
 treinoB;
 
+
 lista.innerHTML="";
+
 
 exercicios.forEach(
 (exercicio,index)=>{
 
 let seriesHTML="";
 
-let todasNoTopo=true;
-
-let algumaSerie=false;
-
-const limites=
-limitesReps(
-exercicio.reps
-);
 
 for(
 let s=1;
@@ -1714,234 +2068,137 @@ s<=exercicio.series;
 s++
 ){
 
-const chave=
-tipo+"_"+index+"_"+s;
+const chave =
+tipo+
+"_"+index+
+"_"+s;
 
-const anterior=
-dados.cargas[chave] || {};
 
-if(
-!anterior.carga ||
-!anterior.reps
-){
+const anterior =
+dados.cargas[chave] ||
+{};
 
-todasNoTopo=false;
 
-}else{
+seriesHTML += `
 
-algumaSerie=true;
-
-if(
-anterior.reps<limites.max
-)
-todasNoTopo=false;
-
-}
-
-seriesHTML+=
-`
-<div class="series"
-id="serie_${index}_${s}"
->
+<div class="series">
 
 <div class="series-title">
+
 Série ${s}
-</div>
 
 ${
-anterior.carga
+anterior.carga !== undefined &&
+anterior.carga !== null
 ?
-`
-<div class="last-performance">
-📋 Última vez:
-<strong>
-${anterior.carga} kg
-</strong>
-×
-<strong>
-${anterior.reps || "--"} reps
-</strong>
-</div>
-`
+" • Última: "+
+anterior.carga+
+" kg / "+
+(anterior.reps || "--")+
+" reps"
 :
-`
-<div class="last-performance">
-📋 Ainda não há registro anterior.
-</div>
-`
+""
 }
+
+</div>
+
 
 <div class="inputs">
 
 <input
 type="number"
 step="0.5"
-min="0"
 placeholder="Carga kg"
 class="carga"
 data-exercicio="${index}"
 data-serie="${s}"
-data-tipo="${tipo}"
-value=""
+value="${
+anterior.carga !== undefined &&
+anterior.carga !== null
+?
+anterior.carga
+:
+""
+}"
 >
+
 
 <input
 type="number"
-min="0"
 placeholder="Reps"
 class="reps"
 data-exercicio="${index}"
 data-serie="${s}"
-data-tipo="${tipo}"
 value=""
 >
 
 </div>
 
 </div>
+
 `;
 
 }
 
-let mensagemProgressao="";
 
-if(
-algumaSerie &&
-todasNoTopo
-){
+lista.innerHTML += `
 
-mensagemProgressao=
-`
-<div class="progression ready">
-🎯 <strong>Meta atingida!</strong><br>
-Você chegou ao topo da faixa de repetições nas séries registradas.
-Se a execução estiver boa, considere aumentar um pouco a carga no próximo treino.
-</div>
-`;
-
-}else{
-
-mensagemProgressao=
-`
-<div class="progression">
-📈 <strong>Progressão:</strong><br>
-Quando conseguir atingir o topo da faixa
-(${limites.max} reps) em todas as séries com boa técnica,
-considere aumentar um pouco a carga.
-</div>
-`;
-
-}
-
-lista.innerHTML+=
-`
-<div class="exercise"
-data-exercicio-index="${index}"
->
+<div class="exercise">
 
 <div class="exercise-name">
 ${exercicio.nome}
 </div>
 
 <div class="exercise-info">
+
 ${exercicio.series}
 séries •
+
 ${exercicio.reps}
 repetições •
+
 ⏱️ ${exercicio.descanso}
+
 </div>
 
 <div class="exercise-note">
 💡 ${exercicio.nota}
 </div>
 
-${mensagemProgressao}
-
 ${seriesHTML}
 
 </div>
+
 `;
 
 });
 
+
 treinoEmEdicao=tipo;
+
 
 document.getElementById(
 "treinoTitulo"
-).textContent=
+).textContent =
 "🏋️ Treino "+tipo;
+
 
 document.getElementById(
 "treinoSubtitulo"
-).textContent=
+).textContent =
 "Registre carga e repetições";
+
 
 document.getElementById(
 "treinoBadge"
-).textContent=
+).textContent =
 tipo;
 
-document.getElementById(
-"observacaoTreino"
-).value="";
-
-adicionarEventosSeries();
-
 }
 
 
 /* =====================================================
-EVENTOS DAS SÉRIES
-===================================================== */
-
-function adicionarEventosSeries(){
-
-document
-.querySelectorAll(".carga,.reps")
-.forEach(
-(input)=>{
-
-input.addEventListener(
-"input",
-function(){
-
-const serie=
-document.getElementById(
-"serie_"+
-this.dataset.exercicio+
-"_"+this.dataset.serie
-);
-
-const carga=
-serie.querySelector(".carga");
-
-const reps=
-serie.querySelector(".reps");
-
-if(
-carga.value &&
-reps.value
-){
-
-serie.classList.add("done");
-
-}else{
-
-serie.classList.remove("done");
-
-}
-
-}
-
-);
-
-});
-
-}
-
-
-/* =====================================================
-ABRIR TREINO
+   ABRIR TREINO ATUAL
 ===================================================== */
 
 function abrirTreinoAtual(){
@@ -1951,27 +2208,57 @@ if(
 ){
 
 alert(
-"O plano ainda não foi iniciado."
+"📅 O plano ainda não foi iniciado.\n\n"+
+"Escolha a data e os 3 dias na página inicial."
+);
+
+abrirTela("inicio");
+
+return;
+
+}
+
+
+const semana =
+calcularSemana();
+
+
+/*
+   Se a data ainda estiver no futuro.
+*/
+
+if(
+semana===0
+){
+
+alert(
+"⏳ O plano ainda não começou.\n\n"+
+"A data escolhida ainda não chegou."
 );
 
 return;
 
 }
 
-const tipo=
+
+const tipo =
 treinoHoje();
+
 
 if(
 tipo==="Descanso"
 ){
 
 alert(
-"Hoje é dia de descanso. 😴"
+"😴 Hoje é dia de descanso.\n\n"+
+"Próximo treino: "+
+dados.proximoTreino+"."
 );
 
 return;
 
 }
+
 
 montarTreino(tipo);
 
@@ -1981,193 +2268,14 @@ abrirTela("treino");
 
 
 /* =====================================================
-CRONÔMETRO
-===================================================== */
-
-function iniciarCronometro(segundos){
-
-clearInterval(timerInterval);
-
-tempoRestante=
-segundos;
-
-document
-.getElementById(
-"cronometroContainer"
-)
-.classList
-.remove("hidden");
-
-atualizarDisplayTimer();
-
-timerInterval=
-setInterval(
-()=>{
-
-tempoRestante--;
-
-if(
-tempoRestante<=0
-){
-
-tempoRestante=0;
-
-clearInterval(
-timerInterval
-);
-
-atualizarDisplayTimer();
-
-navigator.vibrate?.(
-[200,100,200]
-);
-
-alert(
-"⏱️ Descanso concluído! Pode voltar à série."
-);
-
-return;
-
-}
-
-atualizarDisplayTimer();
-
-},
-1000
-);
-
-}
-
-
-function atualizarDisplayTimer(){
-
-const minutos=
-Math.floor(
-tempoRestante/60
-);
-
-const segundos=
-tempoRestante%60;
-
-document.getElementById(
-"tempoRestante"
-).textContent=
-String(minutos).padStart(2,"0")+
-":"+
-String(segundos).padStart(2,"0");
-
-}
-
-
-function pausarCronometro(){
-
-clearInterval(
-timerInterval
-);
-
-}
-
-
-function reiniciarCronometro(){
-
-if(
-!treinoEmEdicao
-)
-return;
-
-const exercicios=
-treinoEmEdicao==="A"
-?
-treinoA
-:
-treinoB;
-
-const ultimo=
-exercicios[
-exercicios.length-1
-];
-
-iniciarCronometro(
-ultimo.segundos
-);
-
-}
-
-
-/* =====================================================
-BOTÃO DE DESCANSO POR EXERCÍCIO
-===================================================== */
-
-function descansarExercicio(index){
-
-if(!treinoEmEdicao)
-return;
-
-const exercicios=
-treinoEmEdicao==="A"
-?
-treinoA
-:
-treinoB;
-
-const exercicio=
-exercicios[index];
-
-iniciarCronometro(
-exercicio.segundos
-);
-
-}
-
-
-/* =====================================================
-ADICIONAR BOTÃO DE DESCANSO
-===================================================== */
-
-function adicionarBotoesDescanso(){
-
-document
-.querySelectorAll(".exercise")
-.forEach(
-(div,index)=>{
-
-if(
-div.querySelector(".rest-button")
-)
-return;
-
-const botao=
-document.createElement("button");
-
-botao.className=
-"secondary rest-button";
-
-botao.style.marginTop=
-"10px";
-
-botao.textContent=
-"⏱️ Iniciar descanso";
-
-botao.onclick=function(){
-
-descansarExercicio(index);
-
-};
-
-div.appendChild(botao);
-
-});
-
-}
-
-
-/* =====================================================
-CONCLUIR TREINO
+   CONCLUIR TREINO
 ===================================================== */
 
 function concluirTreino(){
 
-if(!treinoEmEdicao){
+if(
+!treinoEmEdicao
+){
 
 alert(
 "Abra um treino primeiro."
@@ -2177,44 +2285,59 @@ return;
 
 }
 
-const exercicios=
+
+const exercicios =
 treinoEmEdicao==="A"
 ?
 treinoA
 :
 treinoB;
 
+
 const registros=[];
 
-let seriesVazias=0;
+
+/*
+   Percorre cada exercício.
+*/
 
 document
 .querySelectorAll(".exercise")
 .forEach(
 (exercicioDiv,index)=>{
 
-const cargas=
+const cargas =
 exercicioDiv
 .querySelectorAll(".carga");
 
-const reps=
+
+const reps =
 exercicioDiv
 .querySelectorAll(".reps");
 
+
 const series=[];
+
 
 cargas.forEach(
 (carga,i)=>{
 
-const cargaValor=
+const cargaValor =
 parseFloat(
 carga.value
 );
 
-const repsValor=
+
+const repsValor =
 parseInt(
 reps[i].value
 );
+
+
+/*
+   Só registra uma série
+   quando houver algum valor.
+*/
 
 if(
 !isNaN(cargaValor) ||
@@ -2239,34 +2362,41 @@ repsValor
 
 });
 
+
+/*
+   Guarda a última carga
+   para aparecer no próximo treino.
+*/
+
 if(
 !isNaN(cargaValor)
 ){
 
-const chave=
+const chave =
 treinoEmEdicao+
 "_"+index+
 "_"+(i+1);
 
+
 dados.cargas[chave]={
+
 carga:cargaValor,
+
 reps:
 isNaN(repsValor)
 ?
 null
 :
 repsValor
+
 };
 
 }
 
-}else{
-
-seriesVazias++;
-
 }
 
 });
+
 
 registros.push({
 
@@ -2280,31 +2410,31 @@ series:series
 });
 
 
-if(seriesVazias>0){
+/*
+   Confirmação antes de registrar.
+*/
 
-const continuar=
+const confirmacao =
 confirm(
-"Existem "+seriesVazias+
-" série(s) sem registro.\n\n"+
-"Você quer concluir mesmo assim?"
+"✓ Registrar o Treino "+
+treinoEmEdicao+
+" como concluído?"
 );
 
-if(!continuar)
+
+if(!confirmacao){
+
 return;
 
 }
 
 
-const semana=
-calcularSemana();
+const agora =
+new Date();
 
-const observacao=
-document
-.getElementById(
-"observacaoTreino"
-)
-.value
-.trim();
+
+const semana =
+calcularSemana();
 
 
 const registro={
@@ -2312,14 +2442,12 @@ const registro={
 id:Date.now(),
 
 data:
-new Date()
-.toLocaleDateString(
+agora.toLocaleDateString(
 "pt-BR"
 ),
 
 hora:
-new Date()
-.toLocaleTimeString(
+agora.toLocaleTimeString(
 "pt-BR",
 {
 hour:"2-digit",
@@ -2333,9 +2461,6 @@ treinoEmEdicao,
 semana:
 semana,
 
-observacao:
-observacao,
-
 exercicios:
 registros
 
@@ -2346,42 +2471,44 @@ dados.historicoTreinos.push(
 registro
 );
 
-dados.treinos=
+
+dados.treinos =
 dados.historicoTreinos.length;
 
-dados.proximoTreino=
+
+/*
+   Alterna A ↔ B.
+*/
+
+dados.proximoTreino =
 treinoEmEdicao==="A"
 ?
 "B"
 :
 "A";
 
+
 salvar();
 
-clearInterval(
-timerInterval
-);
-
-tempoRestante=0;
-
-document
-.getElementById(
-"cronometroContainer"
-)
-.classList
-.add("hidden");
 
 alert(
 "Treino "+
 treinoEmEdicao+
-" registrado com sucesso! 💪"
+" registrado com sucesso! 💪🔥"
 );
 
+
 treinoEmEdicao=null;
+
+
+/*
+   Vai diretamente para Progresso.
+*/
 
 abrirTela(
 "progresso"
 );
+
 
 atualizar();
 
@@ -2389,35 +2516,50 @@ atualizar();
 
 
 /* =====================================================
-PESO
+   SALVAR PESO
 ===================================================== */
 
 function salvarPeso(){
 
-const campo=
+const campo =
 document.getElementById(
 "campoPeso"
 );
 
-const peso=
+
+const peso =
 parseFloat(
 campo.value
 );
 
+
 if(
-!peso ||
+isNaN(peso) ||
 peso<=0
 ){
 
 alert(
-"Digite um peso válido."
+"⚖️ Digite um peso válido."
 );
 
 return;
 
 }
 
+
 dados.peso=peso;
+
+
+if(
+!Array.isArray(
+dados.historicoPeso
+)
+){
+
+dados.historicoPeso=[];
+
+}
+
 
 dados.historicoPeso.push({
 
@@ -2431,56 +2573,85 @@ new Date()
 
 });
 
+
 campo.value="";
+
 
 salvar();
 
+
 atualizar();
+
+
+alert(
+"Peso registrado! ⚖️"
+);
 
 }
 
 
 /* =====================================================
-HISTÓRICO
+   HISTÓRICO DE TREINOS
 ===================================================== */
 
 function montarHistorico(){
 
-const area=
+const area =
 document.getElementById(
 "historicoTreinos"
 );
 
+
+const contador =
 document.getElementById(
 "historicoQuantidade"
-).textContent=
+);
+
+
+if(!area)
+return;
+
+
+const quantidade =
 dados.historicoTreinos.length;
 
+
+if(contador){
+
+contador.textContent =
+quantidade;
+
+}
+
+
 if(
-dados.historicoTreinos.length===0
+quantidade===0
 ){
 
-area.innerHTML=
-`
+area.innerHTML=`
+
 <p class="muted">
 Nenhum treino concluído ainda.
 </p>
+
 `;
 
 return;
 
 }
 
+
 area.innerHTML="";
+
 
 dados.historicoTreinos
 .slice()
 .reverse()
 .forEach(
-(registro)=>{
+registro=>{
 
-let html=
-`
+let html=`
+
 <div class="history">
 
 <div class="row">
@@ -2496,53 +2667,47 @@ Semana ${registro.semana}
 </div>
 
 <div class="muted">
-${registro.data} • ${registro.hora}
+${registro.data}
+•
+${registro.hora}
 </div>
+
 `;
-
-
-if(
-registro.observacao
-){
-
-html+=
-`
-<div class="note-history">
-📝 ${registro.observacao}
-</div>
-`;
-
-}
 
 
 registro.exercicios.forEach(
-(exercicio)=>{
+exercicio=>{
 
-html+=
-`
+html += `
+
 <div class="history-exercise">
 
 <strong>
 ${exercicio.exercicio}
 </strong>
+
 <br>
+
 `;
 
+
 if(
+!exercicio.series ||
 exercicio.series.length===0
 ){
 
-html+=
-`Nenhuma série registrada`;
+html +=
+"Nenhuma série registrada";
 
 }else{
 
 exercicio.series.forEach(
 (serie,i)=>{
 
-html+=
-`
+html += `
+
 Série ${i+1}:
+
 ${
 serie.carga!==null
 ?
@@ -2550,7 +2715,9 @@ serie.carga+" kg"
 :
 "--"
 }
+
 •
+
 ${
 serie.reps!==null
 ?
@@ -2558,26 +2725,34 @@ serie.reps+" reps"
 :
 "--"
 }
+
 <br>
+
 `;
 
 });
 
 }
 
-html+=
-`
+
+html += `
+
 </div>
+
 `;
 
 });
 
-html+=
-`
+
+html += `
+
 </div>
+
 `;
 
-area.innerHTML+=html;
+
+area.innerHTML +=
+html;
 
 });
 
@@ -2585,41 +2760,50 @@ area.innerHTML+=html;
 
 
 /* =====================================================
-HISTÓRICO PESO
+   HISTÓRICO DE PESO
 ===================================================== */
 
 function montarHistoricoPeso(){
 
-const area=
+const area =
 document.getElementById(
 "historicoPeso"
 );
 
+
+if(!area)
+return;
+
+
 if(
+!dados.historicoPeso ||
 dados.historicoPeso.length===0
 ){
 
-area.innerHTML=
-`
+area.innerHTML=`
+
 <p class="muted">
 Nenhum registro ainda.
 </p>
+
 `;
 
 return;
 
 }
 
+
 area.innerHTML="";
+
 
 dados.historicoPeso
 .slice()
 .reverse()
 .forEach(
-(item)=>{
+item=>{
 
-area.innerHTML+=
-`
+area.innerHTML += `
+
 <div class="history">
 
 <div class="muted">
@@ -2631,6 +2815,7 @@ ${item.peso} kg
 </strong>
 
 </div>
+
 `;
 
 });
@@ -2639,161 +2824,14 @@ ${item.peso} kg
 
 
 /* =====================================================
-CALENDÁRIO
-===================================================== */
-
-function montarCalendario(){
-
-const area=
-document.getElementById(
-"calendarioTreinos"
-);
-
-if(
-!dados.dataInicio
-){
-
-area.innerHTML=
-`
-<p class="muted">
-Inicie o plano para visualizar o calendário.
-</p>
-`;
-
-return;
-
-}
-
-const inicio=
-new Date(
-dados.dataInicio+"T00:00:00"
-);
-
-const realizados=
-dados.historicoTreinos || [];
-
-let html="";
-
-for(
-let semana=1;
-semana<=8;
-semana++
-){
-
-const inicioSemana=
-new Date(inicio);
-
-inicioSemana.setDate(
-inicioSemana.getDate()+
-((semana-1)*7)
-);
-
-html+=
-`
-<div class="preview">
-
-<div class="week-title">
-Semana ${semana}
-</div>
-
-<div class="calendar">
-`;
-
-for(
-let d=0;
-d<7;
-d++
-){
-
-const data=
-new Date(inicioSemana);
-
-data.setDate(
-inicioSemana.getDate()+d
-);
-
-const dataString=
-data.toLocaleDateString(
-"pt-BR"
-);
-
-const diaSemana=
-data.getDay();
-
-const treinoPlanejado=
-treinoNaSemana(
-semana,
-diaSemana
-);
-
-const realizado=
-realizados.find(
-r=>
-r.data===dataString &&
-r.semana===semana
-);
-
-let classe="";
-
-if(
-treinoPlanejado!=="Descanso"
-)
-classe="planned";
-
-if(realizado)
-classe="done";
-
-html+=
-`
-<div class="calendar-day ${classe}">
-
-${nomesDias[diaSemana]}
-
-<strong>
-${
-realizado
-?
-"✓ "+realizado.treino
-:
-treinoPlanejado==="Descanso"
-?
-"•"
-:
-treinoPlanejado
-}
-</strong>
-
-<div>
-${data.getDate()}/${data.getMonth()+1}
-</div>
-
-</div>
-`;
-
-}
-
-html+=
-`
-</div>
-</div>
-`;
-
-}
-
-area.innerHTML=html;
-
-}
-
-
-/* =====================================================
-BACKUP EXPORTAR
+   BACKUP
 ===================================================== */
 
 function exportarBackup(){
 
 const backup={
 
-versao:"V4.1",
+versao:"V4",
 
 exportadoEm:
 new Date().toISOString(),
@@ -2802,7 +2840,8 @@ dados:dados
 
 };
 
-const blob=
+
+const blob =
 new Blob(
 [
 JSON.stringify(
@@ -2816,53 +2855,79 @@ type:"application/json"
 }
 );
 
-const url=
+
+const url =
 URL.createObjectURL(
 blob
 );
 
-const link=
-document.createElement("a");
+
+const link =
+document.createElement(
+"a"
+);
+
 
 link.href=url;
 
-link.download=
-"meu-treino-backup-V4.1.json";
+link.download =
+"meu-treino-V4-backup.json";
+
+
+document.body.appendChild(
+link
+);
 
 link.click();
 
-URL.revokeObjectURL(
-url
+
+document.body.removeChild(
+link
 );
+
+
+setTimeout(
+()=>{
+URL.revokeObjectURL(url);
+},
+1000
+);
+
 
 }
 
 
 /* =====================================================
-BACKUP IMPORTAR
+   IMPORTAR BACKUP
 ===================================================== */
 
 function importarBackup(event){
 
-const arquivo=
+const arquivo =
 event.target.files[0];
+
 
 if(!arquivo)
 return;
 
-const leitor=
+
+const leitor =
 new FileReader();
 
-leitor.onload=function(e){
+
+leitor.onload =
+function(e){
 
 try{
 
-const backup=
+const backup =
 JSON.parse(
 e.target.result
 );
 
+
 if(
+!backup ||
 !backup.dados
 ){
 
@@ -2872,37 +2937,66 @@ throw new Error(
 
 }
 
-dados=backup.dados;
 
-if(!dados.historicoTreinos)
-dados.historicoTreinos=[];
+const restaurado =
+copiarDados(
+backup.dados
+);
 
-if(!dados.historicoPeso)
-dados.historicoPeso=[];
 
-if(!dados.cargas)
-dados.cargas={};
+const confirmacao =
+confirm(
+"⚠️ Restaurar este backup?\n\n"+
+"Os dados atuais do aplicativo serão substituídos."
+);
 
-if(!dados.diasTreino)
-dados.diasTreino=[];
+
+if(!confirmacao){
+
+return;
+
+}
+
+
+dados =
+restaurado;
+
+
+diasSelecionados =
+Array.isArray(
+dados.diasTreino
+)
+?
+dados.diasTreino.map(Number)
+:
+[];
+
 
 salvar();
 
+
 alert(
-"Backup restaurado com sucesso! 🔐"
+"🔐 Backup restaurado com sucesso!"
 );
+
 
 location.reload();
 
+
 }catch(erro){
 
+console.error(
+erro
+);
+
 alert(
-"Não foi possível restaurar este backup."
+"❌ Não foi possível restaurar este backup."
 );
 
 }
 
 };
+
 
 leitor.readAsText(
 arquivo
@@ -2912,29 +3006,40 @@ arquivo
 
 
 /* =====================================================
-ATUALIZAR
+   ATUALIZAR INTERFACE
 ===================================================== */
 
 function atualizar(){
 
+/*
+   Estatísticas gerais.
+*/
+
+const total =
+dados.historicoTreinos.length;
+
+
 document.getElementById(
 "totalTreinos"
-).textContent=
-dados.treinos || 0;
+).textContent =
+total;
+
 
 document.getElementById(
 "totalTreinosInicio"
-).textContent=
-dados.treinos || 0;
+).textContent =
+total;
+
 
 document.getElementById(
 "totalTreinos2"
-).textContent=
-dados.treinos || 0;
+).textContent =
+total;
+
 
 document.getElementById(
 "pesoAtual"
-).textContent=
+).textContent =
 dados.peso
 ?
 dados.peso+" kg"
@@ -2942,167 +3047,288 @@ dados.peso+" kg"
 "-- kg";
 
 
+/*
+   Histórico.
+*/
+
 montarHistorico();
 
 montarHistoricoPeso();
 
-montarCalendario();
 
+/*
+   =================================================
+   PLANO NÃO INICIADO
+   =================================================
+*/
 
-if(!dados.dataInicio){
+if(
+!dados.dataInicio
+){
 
 document.getElementById(
 "statusPlano"
-).textContent=
+).textContent =
 "Planejamento";
+
 
 document.getElementById(
 "semanaBadge"
-).textContent=
+).textContent =
 "Sem data";
+
 
 document.getElementById(
 "planejamento"
-).classList.remove(
-"hidden"
-);
+).classList
+.remove("hidden");
+
 
 document.getElementById(
 "cardConfirmacao"
-).classList.remove(
-"hidden"
-);
+).classList
+.remove("hidden");
+
 
 document.getElementById(
 "cardAtivo"
-).classList.add(
-"hidden"
-);
+).classList
+.add("hidden");
+
 
 document.getElementById(
 "cardFase"
-).classList.add(
-"hidden"
-);
+).classList
+.add("hidden");
+
 
 document.getElementById(
 "cardHoje"
-).classList.add(
-"hidden"
-);
+).classList
+.add("hidden");
+
+
+/*
+   Libera novamente os dias.
+*/
+
+criarSeletorDias();
+
 
 return;
 
 }
 
 
+/*
+   =================================================
+   PLANO ATIVO
+   =================================================
+*/
+
 document.getElementById(
 "statusPlano"
-).textContent=
+).textContent =
 "Plano ativo";
 
-const semana=
+
+const semana =
 calcularSemana();
 
-const fase=
+
+/*
+   Se a data ainda estiver no futuro,
+   mantém como planejamento temporal.
+*/
+
+if(
+semana===0
+){
+
+document.getElementById(
+"semanaBadge"
+).textContent =
+"Aguardando início";
+
+
+document.getElementById(
+"planejamento"
+).classList
+.add("hidden");
+
+
+document.getElementById(
+"cardConfirmacao"
+).classList
+.add("hidden");
+
+
+document.getElementById(
+"cardAtivo"
+).classList
+.remove("hidden");
+
+
+document.getElementById(
+"cardFase"
+).classList
+.add("hidden");
+
+
+document.getElementById(
+"cardHoje"
+).classList
+.remove("hidden");
+
+
+document.getElementById(
+"tituloHoje"
+).textContent =
+"⏳ Plano agendado";
+
+
+document.getElementById(
+"subtituloHoje"
+).textContent =
+"O início ainda não chegou";
+
+
+document.getElementById(
+"badgeHoje"
+).textContent =
+"Agendado";
+
+
+document.getElementById(
+"orientacaoHoje"
+).textContent =
+"O plano começará na data escolhida.";
+
+
+return;
+
+}
+
+
+const fase =
 obterFase(semana);
 
-const hoje=
+
+const hoje =
 treinoHoje();
 
 
 document.getElementById(
 "semanaBadge"
-).textContent=
+).textContent =
 "Semana "+semana;
+
 
 document.getElementById(
 "planejamento"
-).classList.add(
-"hidden"
-);
+).classList
+.add("hidden");
+
 
 document.getElementById(
 "cardConfirmacao"
-).classList.add(
-"hidden"
-);
+).classList
+.add("hidden");
+
 
 document.getElementById(
 "cardAtivo"
-).classList.remove(
-"hidden"
-);
+).classList
+.remove("hidden");
+
 
 document.getElementById(
 "cardFase"
-).classList.remove(
-"hidden"
-);
+).classList
+.remove("hidden");
+
 
 document.getElementById(
 "cardHoje"
-).classList.remove(
-"hidden"
-);
+).classList
+.remove("hidden");
 
 
 document.getElementById(
 "semanaAtual"
-).textContent=
+).textContent =
 semana+" / 52";
+
+
+if(fase){
 
 document.getElementById(
 "faseNome"
-).textContent=
+).textContent =
 fase.nome;
+
 
 document.getElementById(
 "focoFase"
-).textContent=
+).textContent =
 fase.foco;
+
 
 document.getElementById(
 "esforco"
-).textContent=
+).textContent =
 fase.esforco;
+
 
 document.getElementById(
 "faseTitulo"
-).textContent=
+).textContent =
 fase.nome;
+
 
 document.getElementById(
 "faseDescricao"
-).textContent=
+).textContent =
 fase.foco;
+
 
 document.getElementById(
 "faseObservacao"
-).textContent=
+).textContent =
 fase.observacao;
 
+}
 
-const percentual=
+
+const percentual =
 Math.round(
 (semana/52)*100
 );
 
+
 document.getElementById(
 "barra"
-).style.width=
+).style.width =
 percentual+"%";
+
 
 document.getElementById(
 "progressoSemana"
-).textContent=
+).textContent =
 semana+" / 52";
+
 
 document.getElementById(
 "progressoPercentual"
-).textContent=
+).textContent =
 percentual+"%";
 
+
+/*
+   =================================================
+   HOJE
+   =================================================
+*/
 
 if(
 hoje==="Descanso"
@@ -3110,261 +3336,286 @@ hoje==="Descanso"
 
 document.getElementById(
 "tituloHoje"
-).textContent=
+).textContent =
 "😴 Descanso";
+
 
 document.getElementById(
 "subtituloHoje"
-).textContent=
+).textContent =
 "Dia sem treino";
+
 
 document.getElementById(
 "badgeHoje"
-).textContent=
+).textContent =
 "Descanso";
+
 
 document.getElementById(
 "orientacaoHoje"
-).textContent=
+).textContent =
 "Hoje é descanso. Próximo treino: "+
-obterProximoTreino()+".";
+dados.proximoTreino+".";
 
 }else{
 
 document.getElementById(
 "tituloHoje"
-).textContent=
-"🏋️ Treino "+
-hoje;
+).textContent =
+"🏋️ Treino "+hoje;
+
 
 document.getElementById(
 "subtituloHoje"
-).textContent=
+).textContent =
 "Hoje é dia de treino";
+
 
 document.getElementById(
 "badgeHoje"
-).textContent=
+).textContent =
 hoje;
+
 
 document.getElementById(
 "orientacaoHoje"
-).textContent=
+).textContent =
 "Registre suas cargas e repetições durante o treino.";
 
 }
 
 }
 
+
 /* =====================================================
-NAVEGAÇÃO V4 CORRIGIDA
+   NAVEGAÇÃO
 ===================================================== */
 
 function abrirTela(tela){
 
-    const telas = [
-        "inicio",
-        "treino",
-        "progresso"
-    ];
-
-    /* ---------------------------------------------
-       PROTEÇÃO DA TELA DE TREINO
-       --------------------------------------------- */
-
-    if(tela === "treino"){
-
-        /* Primeiro verifica se existe plano ativo */
-
-        if(!dados || !dados.dataInicio){
-
-            alert(
-                "O plano ainda não foi iniciado. 🗓️\n\n" +
-                "Escolha a data de início e os 3 dias de treino na página inicial."
-            );
-
-            tela = "inicio";
-
-        }else{
-
-            /* Existe plano. Agora verifica o dia */
-
-            const tipoHoje = treinoHoje();
-
-            if(tipoHoje === "Descanso"){
-
-                alert(
-                    "Hoje é dia de descanso. 😴\n\n" +
-                    "O próximo treino será o Treino " +
-                    dados.proximoTreino + "."
-                );
-
-                tela = "inicio";
-
-            }else{
-
-                /* É dia de treino */
-
-                montarTreino(tipoHoje);
-
-            }
-
-        }
-
-    }
+const telas = [
+"inicio",
+"treino",
+"progresso"
+];
 
 
-    /* ---------------------------------------------
-       MOSTRAR / ESCONDER TELAS
-       --------------------------------------------- */
+telas.forEach(
+nome=>{
 
-    telas.forEach(function(nome){
+const elemento =
+document.getElementById(
+nome
+);
 
-        const elemento =
-            document.getElementById(nome);
+if(elemento){
 
-        if(elemento){
-
-            elemento.classList.toggle(
-                "hidden",
-                nome !== tela
-            );
-
-        }
-
-    });
-
-
-    /* ---------------------------------------------
-       MENU INFERIOR
-       --------------------------------------------- */
-
-    const menus = [
-        "menuInicio",
-        "menuTreino",
-        "menuProgresso"
-    ];
-
-    menus.forEach(function(id){
-
-        const botao =
-            document.getElementById(id);
-
-        if(botao){
-
-            botao.classList.remove("active");
-
-        }
-
-    });
-
-
-    const idMenu =
-        "menu" +
-        tela.charAt(0).toUpperCase() +
-        tela.slice(1);
-
-    const menuAtual =
-        document.getElementById(idMenu);
-
-    if(menuAtual){
-
-        menuAtual.classList.add("active");
-
-    }
-
-
-    /* ---------------------------------------------
-       ATUALIZAÇÕES ESPECÍFICAS
-       --------------------------------------------- */
-
-    if(tela === "inicio"){
-
-        atualizar();
-
-    }
-
-
-    if(tela === "progresso"){
-
-        montarHistorico();
-
-        montarHistoricoPeso();
-
-    }
+elemento.classList.toggle(
+"hidden",
+nome!==tela
+);
 
 }
 
-
-/* =====================================================
-ABRIR TREINO ATUAL V4
-===================================================== */
-
-function abrirTreinoAtual(){
-
-    /* Sem plano */
-
-    if(!dados || !dados.dataInicio){
-
-        alert(
-            "O plano ainda não foi iniciado. 🗓️"
-        );
-
-        abrirTela("inicio");
-
-        return;
-
-    }
+});
 
 
-    const tipo =
-        treinoHoje();
+const menus = [
+"menuInicio",
+"menuTreino",
+"menuProgresso"
+];
 
 
-    /* Dia de descanso */
+menus.forEach(
+id=>{
 
-    if(tipo === "Descanso"){
+const menu =
+document.getElementById(
+id
+);
 
-        alert(
-            "Hoje é dia de descanso. 😴"
-        );
+if(menu){
 
-        return;
-
-    }
-
-
-    /* Dia de treino */
-
-    montarTreino(tipo);
-
-    abrirTela("treino");
+menu.classList.remove(
+"active"
+);
 
 }
 
-/* =====================================================
-EVENTOS
-===================================================== */
+});
 
-document
-.getElementById(
-"dataPlanejamento"
-)
-.addEventListener(
-"change",
-atualizarPlanejamento
+
+const idMenu =
+"menu"+
+tela.charAt(0).toUpperCase()+
+tela.slice(1);
+
+
+const menuSelecionado =
+document.getElementById(
+idMenu
 );
 
 
+if(menuSelecionado){
+
+menuSelecionado.classList.add(
+"active"
+);
+
+}
+
+
+/*
+   =================================================
+   ABA TREINO
+   =================================================
+*/
+
+if(
+tela==="treino"
+){
+
+if(
+!dados.dataInicio
+){
+
+alert(
+"📅 O plano ainda não foi iniciado.\n\n"+
+"Primeiro escolha a data e os 3 dias na página inicial."
+);
+
+abrirTela(
+"inicio"
+);
+
+return;
+
+}
+
+
+const semana =
+calcularSemana();
+
+
+if(
+semana===0
+){
+
+alert(
+"⏳ O plano ainda não começou.\n\n"+
+"A data escolhida ainda não chegou."
+);
+
+abrirTela(
+"inicio"
+);
+
+return;
+
+}
+
+
+const tipo =
+treinoHoje();
+
+
+if(
+tipo==="Descanso"
+){
+
+alert(
+"😴 Hoje é dia de descanso.\n\n"+
+"Próximo treino: "+
+dados.proximoTreino+"."
+);
+
+abrirTela(
+"inicio"
+);
+
+return;
+
+}
+
+
+montarTreino(
+tipo
+);
+
+}
+
+
+/*
+   =================================================
+   ABA PROGRESSO
+   =================================================
+*/
+
+if(
+tela==="progresso"
+){
+
+montarHistorico();
+
+montarHistoricoPeso();
+
+}
+
+}
+
+
 /* =====================================================
-INICIALIZAÇÃO
+   EVENTOS
 ===================================================== */
 
-criarSeletorDias();
+const campoData =
+document.getElementById(
+"dataPlanejamento"
+);
+
+
+if(campoData){
+
+campoData.addEventListener(
+"change",
+registrarDataPlanejamento
+);
+
+}
+
+
+/* =====================================================
+   INICIALIZAÇÃO V4
+===================================================== */
+
+
+/*
+   Primeiro carrega o planejamento
+   salvo no navegador.
+*/
+
+carregarPlanejamentoNaTela();
+
+
+/*
+   Depois atualiza toda a interface.
+*/
 
 atualizar();
 
-</script>
 
-</body>
-</html>
+/*
+   Garante que a prévia esteja correta.
+*/
+
+atualizarPlanejamento();
+
+
+/* =====================================================
+   FIM DO BLOCO 3
+===================================================== */
+
+</script>
