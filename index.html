@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Meu Treino • 12 Meses</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f1f5f9;
+    color:#111827;
+}
+
+header{
+    background:#111827;
+    color:white;
+    padding:22px 18px;
+    position:sticky;
+    top:0;
+    z-index:10;
+}
+
+header h1{
+    margin:0;
+    font-size:24px;
+}
+
+header p{
+    margin:6px 0 0;
+    color:#cbd5e1;
+    font-size:13px;
+}
+
+main{
+    max-width:700px;
+    margin:auto;
+    padding:16px 14px 90px;
+}
+
+.card{
+    background:white;
+    border-radius:18px;
+    padding:18px;
+    margin-bottom:14px;
+    box-shadow:0 4px 15px rgba(0,0,0,.06);
+}
+
+.row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+}
+
+.muted{
+    color:#64748b;
+    font-size:13px;
+}
+
+.progress{
+    height:10px;
+    background:#e5e7eb;
+    border-radius:20px;
+    overflow:hidden;
+    margin:14px 0;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:#111827;
+    border-radius:20px;
+    transition:.3s;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.stat{
+    background:#f8fafc;
+    border-radius:14px;
+    padding:14px;
+}
+
+.stat span{
+    color:#64748b;
+    font-size:12px;
+}
+
+.stat strong{
+    display:block;
+    font-size:21px;
+    margin-top:5px;
+}
+
+.badge{
+    background:#e5e7eb;
+    padding:6px 9px;
+    border-radius:20px;
+    font-size:11px;
+}
+
+button{
+    border:0;
+    border-radius:12px;
+    padding:12px 15px;
+    background:#111827;
+    color:white;
+    font-size:14px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button.secondary{
+    background:#e5e7eb;
+    color:#111827;
+}
+
+.exercise{
+    padding:15px 0;
+    border-top:1px solid #e5e7eb;
+}
+
+.exercise:first-child{
+    border-top:0;
+}
+
+.exercise-name{
+    font-weight:bold;
+    font-size:16px;
+}
+
+.exercise-info{
+    color:#64748b;
+    font-size:13px;
+    margin-top:4px;
+}
+
+.inputs{
+    display:flex;
+    gap:8px;
+    margin-top:10px;
+}
+
+input{
+    width:100%;
+    padding:11px;
+    border:1px solid #cbd5e1;
+    border-radius:10px;
+    font-size:14px;
+}
+
+.hidden{
+    display:none;
+}
+
+.history-item{
+    padding:12px 0;
+    border-top:1px solid #e5e7eb;
+}
+
+nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    background:white;
+    border-top:1px solid #e5e7eb;
+    display:flex;
+    justify-content:center;
+    gap:5px;
+    padding:9px 8px;
+    z-index:20;
+}
+
+nav button{
+    background:transparent;
+    color:#64748b;
+    font-size:12px;
+    padding:9px 12px;
+}
+
+nav button.active{
+    background:#111827;
+    color:white;
+}
+
+.success{
+    color:#15803d;
+}
+
+.danger{
+    color:#b91c1c;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<h1>💪 Meu Treino</h1>
+
+<p>Plano de hipertrofia • 12 meses</p>
+
+</header>
+
+
+<main>
+
+
+<!-- ================= INÍCIO ================= -->
+
+<section id="inicio">
+
+<div class="card">
+
+<div class="row">
+
+<div>
+
+<strong>Progresso do plano</strong>
+
+<div class="muted">
+Mês 1 de 12
+</div>
+
+</div>
+
+<span class="badge" id="percentual">
+0%
+</span>
+
+</div>
+
+
+<div class="progress">
+
+<div
+class="progress-bar"
+id="barra"
+></div>
+
+</div>
+
+
+<div class="grid">
+
+<div class="stat">
+
+<span>
+Treinos realizados
+</span>
+
+<strong id="totalTreinos">
+0
+</strong>
+
+</div>
+
+
+<div class="stat">
+
+<span>
+Peso atual
+</span>
+
+<strong id="pesoAtual">
+-- kg
+</strong>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="row">
+
+<div>
+
+<strong>🏋️ Treino de hoje</strong>
+
+<div class="muted">
+Treino A • Hipertrofia
+</div>
+
+</div>
+
+<span
+class="badge"
+id="statusTreino"
+>
+Pendente
+</span>
+
+</div>
+
+
+<p class="muted">
+
+Registre suas cargas e repetições durante o treino.
+
+</p>
+
+
+<button onclick="abrirTela('treino')">
+
+Abrir treino →
+
+</button>
+
+</div>
+
+
+<div class="card">
+
+<strong>🎯 Meta</strong>
+
+<p class="muted">
+
+Construir consistência e acompanhar sua evolução ao longo dos 12 meses.
+
+</p>
+
+</div>
+
+</section>
+
+
+
+<!-- ================= TREINO ================= -->
+
+<section
+id="treino"
+class="hidden"
+>
+
+<div class="card">
+
+<div class="row">
+
+<div>
+
+<strong>🏋️ Treino A</strong>
+
+<div class="muted">
+Hipertrofia
+</div>
+
+</div>
+
+<span
+class="badge"
+id="statusTreino2"
+>
+Pendente
+</span>
+
+</div>
+
+
+<div id="listaExercicios"></div>
+
+
+<button
+onclick="concluirTreino()"
+>
+
+✓ Concluir treino
+
+</button>
+
+
+</div>
+
+</section>
+
+
+
+<!-- ================= PROGRESSO ================= -->
+
+<section
+id="progresso"
+class="hidden"
+>
+
+<div class="card">
+
+<strong>⚖️ Peso corporal</strong>
+
+<p class="muted">
+
+Registre seu peso para acompanhar a evolução.
+
+</p>
+
+
+<div class="inputs">
+
+<input
+type="number"
+id="campoPeso"
+placeholder="Peso em kg"
+step="0.1"
+>
+
+<button onclick="salvarPeso()">
+
+Salvar
+
+</button>
+
+</div>
+
+
+<div
+id="historicoPeso"
+style="margin-top:15px"
+>
+
+</div>
+
+</div>
+
+
+
+<div class="card">
+
+<strong>📊 Consistência</strong>
+
+<p class="muted">
+
+Você já concluiu
+
+<strong id="totalTreinos2">
+0
+</strong>
+
+treinos.
+
+</p>
+
+</div>
+
+
+<div class="card">
+
+<strong>🚀 Evolução</strong>
+
+<p class="muted">
+
+Este espaço será usado nas próximas versões para gráficos de peso, cargas e evolução corporal.
+
+</p>
+
+</div>
+
+</section>
+
+</main>
+
+
+
+<!-- ================= MENU ================= -->
+
+<nav>
+
+<button
+id="menuInicio"
+class="active"
+onclick="abrirTela('inicio')"
+>
+
+🏠 Início
+
+</button>
+
+
+<button
+id="menuTreino"
+onclick="abrirTela('treino')"
+>
+
+🏋️ Treino
+
+</button>
+
+
+<button
+id="menuProgresso"
+onclick="abrirTela('progresso')"
+>
+
+📈 Progresso
+
+</button>
+
+</nav>
+
+
+
+<script>
+
+/* =====================================================
+   DADOS DO TREINO
+===================================================== */
+
+const exercicios = [
+
+{
+nome:"Supino reto",
+series:3,
+repeticoes:"8–12"
+},
+
+{
+nome:"Puxada frontal",
+series:3,
+repeticoes:"8–12"
+},
+
+{
+nome:"Desenvolvimento",
+series:3,
+repeticoes:"8–12"
+},
+
+{
+nome:"Remada",
+series:3,
+repeticoes:"8–12"
+},
+
+{
+nome:"Rosca bíceps",
+series:3,
+repeticoes:"10–15"
+},
+
+{
+nome:"Tríceps",
+series:3,
+repeticoes:"10–15"
+}
+
+];
+
+
+
+/* =====================================================
+   DADOS SALVOS
+===================================================== */
+
+let dados =
+JSON.parse(
+localStorage.getItem("meuTreino12Meses")
+)
+||
+{
+treinos:0,
+peso:null,
+historicoPeso:[],
+treinoConcluido:false
+};
+
+
+
+/* =====================================================
+   MONTAR EXERCÍCIOS
+===================================================== */
+
+function montarTreino(){
+
+const lista =
+document.getElementById(
+"listaExercicios"
+);
+
+lista.innerHTML="";
+
+
+exercicios.forEach(
+(exercicio,index)=>{
+
+lista.innerHTML += `
+
+<div class="exercise">
+
+<div class="exercise-name">
+
+${exercicio.nome}
+
+</div>
+
+<div class="exercise-info">
+
+${exercicio.series} séries •
+${exercicio.repeticoes} repetições
+
+</div>
+
+<div class="inputs">
+
+<input
+
+type="number"
+
+id="carga${index}"
+
+placeholder="Carga (kg)"
+
+step="0.5"
+
+>
+
+<input
+
+type="number"
+
+id="reps${index}"
+
+placeholder="Reps"
+
+>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+
+/* =====================================================
+   SALVAR
+===================================================== */
+
+function salvarDados(){
+
+localStorage.setItem(
+
+"meuTreino12Meses",
+
+JSON.stringify(dados)
+
+);
+
+atualizarTela();
+
+}
+
+
+
+/* =====================================================
+   ATUALIZAR TELA
+===================================================== */
+
+function atualizarTela(){
+
+document.getElementById(
+"totalTreinos"
+).textContent =
+dados.treinos;
+
+
+document.getElementById(
+"totalTreinos2"
+).textContent =
+dados.treinos;
+
+
+document.getElementById(
+"pesoAtual"
+).textContent =
+dados.peso
+?
+dados.peso+" kg"
+:
+"-- kg";
+
+
+
+/* progresso */
+
+const percentual =
+Math.min(
+100,
+Math.round(
+(dados.treinos / 156) * 100
+)
+);
+
+
+document.getElementById(
+"percentual"
+).textContent =
+percentual+"%";
+
+
+document.getElementById(
+"barra"
+).style.width =
+percentual+"%";
+
+
+
+/* status */
+
+const status =
+dados.treinoConcluido
+?
+"Concluído"
+:
+"Pendente";
+
+
+document.getElementById(
+"statusTreino"
+).textContent =
+status;
+
+
+document.getElementById(
+"statusTreino2"
+).textContent =
+status;
+
+
+
+/* histórico */
+
+const historico =
+document.getElementById(
+"historicoPeso"
+);
+
+
+if(
+dados.historicoPeso.length===0
+){
+
+historico.innerHTML =
+`
+<div class="muted">
+
+Nenhum registro ainda.
+
+</div>
+`;
+
+return;
+
+}
+
+
+historico.innerHTML="";
+
+
+dados.historicoPeso
+.slice()
+.reverse()
+.forEach(
+(item)=>{
+
+historico.innerHTML += `
+
+<div class="history-item">
+
+<div class="muted">
+
+${item.data}
+
+</div>
+
+<strong>
+
+${item.peso} kg
+
+</strong>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+
+/* =====================================================
+   CONCLUIR TREINO
+===================================================== */
+
+function concluirTreino(){
+
+if(
+dados.treinoConcluido
+){
+
+alert(
+"Este treino já foi concluído."
+);
+
+return;
+
+}
+
+
+dados.treinos++;
+
+dados.treinoConcluido=true;
+
+
+salvarDados();
+
+
+alert(
+"Treino concluído! 💪"
+);
+
+}
+
+
+
+/* =====================================================
+   SALVAR PESO
+===================================================== */
+
+function salvarPeso(){
+
+const campo =
+document.getElementById(
+"campoPeso"
+);
+
+
+const peso =
+parseFloat(
+campo.value
+);
+
+
+if(
+!peso ||
+peso<=0
+){
+
+alert(
+"Digite um peso válido."
+);
+
+return;
+
+}
+
+
+dados.peso=peso;
+
+
+dados.historicoPeso.push({
+
+peso:peso,
+
+data:
+new Date()
+.toLocaleDateString(
+"pt-BR"
+)
+
+});
+
+
+campo.value="";
+
+
+salvarDados();
+
+
+alert(
+"Peso registrado! ⚖️"
+);
+
+}
+
+
+
+/* =====================================================
+   NAVEGAÇÃO
+===================================================== */
+
+function abrirTela(tela){
+
+const telas=[
+"inicio",
+"treino",
+"progresso"
+];
+
+
+telas.forEach(
+(nome)=>{
+
+document
+.getElementById(nome)
+.classList
+.toggle(
+"hidden",
+nome!==tela
+);
+
+});
+
+
+const menus=[
+"menuInicio",
+"menuTreino",
+"menuProgresso"
+];
+
+
+menus.forEach(
+(id)=>{
+
+document
+.getElementById(id)
+.classList
+.remove("active");
+
+});
+
+
+document
+.getElementById(
+"menu"+
+tela.charAt(0)
+.toUpperCase()+
+tela.slice(1)
+)
+.classList
+.add("active");
+
+}
+
+
+
+/* =====================================================
+   INICIALIZAÇÃO
+===================================================== */
+
+montarTreino();
+
+atualizarTela();
+
+</script>
+
+</body>
+
+</html>
