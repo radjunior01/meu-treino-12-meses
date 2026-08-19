@@ -39,7 +39,7 @@ font-size:13px;
 main{
 max-width:720px;
 margin:auto;
-padding:15px 14px 90px;
+padding:15px 14px 95px;
 }
 
 .card{
@@ -60,6 +60,7 @@ gap:10px;
 .muted{
 color:#64748b;
 font-size:13px;
+line-height:1.5;
 }
 
 .badge{
@@ -118,22 +119,29 @@ cursor:pointer;
 font-size:14px;
 }
 
+button.green{
+background:#166534;
+}
+
 button.secondary{
 background:#e5e7eb;
 color:#111827;
 }
 
-button.green{
-background:#166534;
-}
-
-input,select{
+input{
 width:100%;
 padding:11px;
 border:1px solid #cbd5e1;
 border-radius:10px;
 font-size:14px;
 background:white;
+}
+
+.inputs{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+margin-top:10px;
 }
 
 .exercise{
@@ -153,20 +161,14 @@ font-size:16px;
 .exercise-info{
 font-size:13px;
 color:#64748b;
-margin-top:4px;
+margin-top:5px;
 }
 
 .exercise-note{
 font-size:12px;
-margin-top:8px;
 color:#475569;
-}
-
-.inputs{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:8px;
-margin-top:10px;
+margin-top:8px;
+line-height:1.45;
 }
 
 .series{
@@ -181,13 +183,13 @@ border-left:5px solid #111827;
 padding-left:12px;
 }
 
-.hidden{
-display:none;
+.history{
+padding:11px 0;
+border-top:1px solid #e5e7eb;
 }
 
-.history{
-padding:10px 0;
-border-top:1px solid #e5e7eb;
+.hidden{
+display:none;
 }
 
 .success{
@@ -228,6 +230,11 @@ color:white;
 font-size:11px;
 }
 
+.big{
+font-size:22px;
+font-weight:bold;
+}
+
 </style>
 </head>
 
@@ -251,6 +258,7 @@ INÍCIO
 
 <section id="inicio">
 
+
 <div class="card">
 
 <div class="row">
@@ -259,42 +267,47 @@ INÍCIO
 
 <strong>Status do plano</strong>
 
-<div class="muted" id="statusPlano">
+<div
+class="muted"
+id="statusPlano"
+>
 Planejamento
 </div>
 
 </div>
 
-<span class="badge" id="semanaBadge">
+<span
+class="badge"
+id="semanaBadge"
+>
 Sem data
 </span>
 
 </div>
 
 
-<div id="planejamento">
+<div
+id="planejamento"
+>
 
 <p class="muted">
 
 Você ainda não definiu a data de início.
-Escolha quando estiver pronto para começar.
+Quando estiver pronto, escolha a data abaixo.
 
 </p>
-<div class="stat" style="margin:15px 0;">
-    <span>Treinos concluídos</span>
-    <strong id="totalTreinosPlanejamento">0</strong>
-</div>
+
 
 <input
 type="date"
 id="dataInicio"
 >
 
-
 <br><br>
 
-
-<button onclick="iniciarPlano()">
+<button
+onclick="iniciarPlano()"
+>
 
 📅 Definir início do plano
 
@@ -303,13 +316,27 @@ id="dataInicio"
 </div>
 
 
-<div id="planoAtivo" class="hidden">
+<div
+id="planoAtivo"
+class="hidden"
+>
 
 <div class="row">
+
+<div>
 
 <strong id="faseNome">
 -
 </strong>
+
+<div
+class="muted"
+id="focoFase"
+>
+-
+</div>
+
+</div>
 
 <span
 class="badge"
@@ -319,14 +346,6 @@ id="esforco"
 </span>
 
 </div>
-
-
-<p
-class="muted"
-id="focoFase"
->
--
-</p>
 
 
 <div class="progress">
@@ -348,7 +367,9 @@ id="barra"
 Semana
 </span>
 
-<strong id="semanaAtual">
+<strong
+id="semanaAtual"
+>
 -
 </strong>
 
@@ -358,14 +379,57 @@ Semana
 <div class="stat">
 
 <span>
-Treinos realizados
+Treinos concluídos
 </span>
 
-<strong id="totalTreinos">
+<strong
+id="totalTreinos"
+>
 0
 </strong>
 
 </div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- CONTADOR SEMPRE VISÍVEL -->
+
+<div class="card">
+
+<div class="grid">
+
+<div class="stat">
+
+<span>
+🏋️ Treinos concluídos
+</span>
+
+<strong
+id="totalTreinosInicio"
+>
+0
+</strong>
+
+</div>
+
+
+<div class="stat">
+
+<span>
+⚖️ Peso atual
+</span>
+
+<strong
+id="pesoAtual"
+>
+-- kg
+</strong>
 
 </div>
 
@@ -384,7 +448,9 @@ id="cardFase"
 
 <div class="phase">
 
-<strong id="faseTitulo">
+<strong
+id="faseTitulo"
+>
 -
 </strong>
 
@@ -408,7 +474,7 @@ id="faseObservacao"
 
 
 
-<!-- TREINO DE HOJE -->
+<!-- HOJE -->
 
 <div
 class="card hidden"
@@ -419,8 +485,10 @@ id="cardHoje"
 
 <div>
 
-<strong id="tituloHoje">
-Treino
+<strong
+id="tituloHoje"
+>
+Hoje
 </strong>
 
 <div
@@ -451,7 +519,7 @@ id="orientacaoHoje"
 
 
 <button
-onclick="abrirTela('treino')"
+onclick="abrirTreinoAtual()"
 >
 
 Abrir treino →
@@ -461,22 +529,6 @@ Abrir treino →
 </div>
 
 
-
-<!-- PESO -->
-
-<div class="card">
-
-<div class="row">
-
-<strong>⚖️ Peso atual</strong>
-
-<strong id="pesoAtual">
--- kg
-</strong>
-
-</div>
-
-</div>
 
 </section>
 
@@ -497,7 +549,9 @@ class="hidden"
 
 <div>
 
-<strong id="treinoTitulo">
+<strong
+id="treinoTitulo"
+>
 Treino
 </strong>
 
@@ -547,13 +601,14 @@ id="progresso"
 class="hidden"
 >
 
+
 <div class="card">
 
 <strong>⚖️ Registrar peso</strong>
 
 <p class="muted">
 
-Acompanhe sua evolução corporal.
+Acompanhe seu peso durante o plano.
 
 </p>
 
@@ -567,7 +622,9 @@ placeholder="Peso em kg"
 step="0.1"
 >
 
-<button onclick="salvarPeso()">
+<button
+onclick="salvarPeso()"
+>
 
 Salvar
 
@@ -576,9 +633,14 @@ Salvar
 </div>
 
 
-<div id="historicoPeso"></div>
+<div
+id="historicoPeso"
+>
 
 </div>
+
+</div>
+
 
 
 <div class="card">
@@ -587,9 +649,11 @@ Salvar
 
 <p class="muted">
 
-Treinos concluídos:
+Total concluído:
 
-<strong id="totalTreinos2">
+<strong
+id="totalTreinos2"
+>
 0
 </strong>
 
@@ -598,15 +662,31 @@ Treinos concluídos:
 </div>
 
 
+
 <div class="card">
 
-<strong>🎯 Plano</strong>
+<strong>🎯 Progresso do plano</strong>
 
 <p class="muted">
 
-Progresso das 52 semanas:
+Semana atual:
 
-<strong id="progressoSemanas">
+<strong
+id="progressoSemana"
+>
+-
+</strong>
+
+</p>
+
+
+<p class="muted">
+
+Progresso:
+
+<strong
+id="progressoPercentual"
+>
 0%
 </strong>
 
@@ -614,13 +694,16 @@ Progresso das 52 semanas:
 
 </div>
 
+
 </section>
 
 </main>
 
 
 
-<!-- MENU -->
+<!-- =========================
+MENU
+========================= -->
 
 <nav>
 
@@ -632,12 +715,14 @@ onclick="abrirTela('inicio')"
 🏠 Início
 </button>
 
+
 <button
 id="menuTreino"
 onclick="abrirTela('treino')"
 >
 🏋️ Treino
 </button>
+
 
 <button
 id="menuProgresso"
@@ -652,11 +737,12 @@ onclick="abrirTela('progresso')"
 
 <script>
 
+
 /* =====================================================
-DADOS DO TREINO
+TREINO A
 ===================================================== */
 
-const treinoA = [
+const treinoA=[
 
 {
 nome:"Leg press",
@@ -717,7 +803,12 @@ nota:"Movimento controlado."
 ];
 
 
-const treinoB = [
+
+/* =====================================================
+TREINO B
+===================================================== */
+
+const treinoB=[
 
 {
 nome:"Agachamento guiado ou leg press",
@@ -778,11 +869,12 @@ nota:"Controle o movimento."
 ];
 
 
+
 /* =====================================================
 FASES
 ===================================================== */
 
-const fases = [
+const fases=[
 
 {
 inicio:1,
@@ -832,22 +924,32 @@ observacao:"Ajuste alimentação conforme evolução."
 ];
 
 
+
 /* =====================================================
 DADOS
 ===================================================== */
 
-let dados =
+let dados=
 JSON.parse(
-localStorage.getItem("meuTreino12MesesV2")
+localStorage.getItem(
+"meuTreino12MesesV21"
+)
 )
 ||
 {
+
 dataInicio:null,
+
 treinos:0,
+
 peso:null,
+
 historicoPeso:[],
+
 proximoTreino:"A",
+
 historicoTreinos:[]
+
 };
 
 
@@ -859,8 +961,11 @@ SALVAR
 function salvar(){
 
 localStorage.setItem(
-"meuTreino12MesesV2",
+
+"meuTreino12MesesV21",
+
 JSON.stringify(dados)
+
 );
 
 atualizar();
@@ -870,7 +975,7 @@ atualizar();
 
 
 /* =====================================================
-CALCULAR SEMANA
+SEMANA
 ===================================================== */
 
 function calcularSemana(){
@@ -878,30 +983,42 @@ function calcularSemana(){
 if(!dados.dataInicio)
 return null;
 
-const inicio =
+
+const inicio=
 new Date(
 dados.dataInicio+"T00:00:00"
 );
 
-const hoje =
+
+const hoje=
 new Date();
 
-const diferenca =
-hoje.getTime()-inicio.getTime();
 
-const dias =
+const diferenca=
+hoje.getTime()-
+inicio.getTime();
+
+
+const dias=
 Math.floor(
-diferenca/(1000*60*60*24)
+diferenca/
+(1000*60*60*24)
 );
+
 
 if(dias<0)
 return 1;
 
-let semana =
-Math.floor(dias/7)+1;
+
+let semana=
+Math.floor(
+dias/7
+)+1;
+
 
 if(semana>52)
 semana=52;
+
 
 return semana;
 
@@ -916,7 +1033,7 @@ FASE
 function obterFase(semana){
 
 return fases.find(
-fase =>
+fase=>
 semana>=fase.inicio &&
 semana<=fase.fim
 );
@@ -926,26 +1043,17 @@ semana<=fase.fim
 
 
 /* =====================================================
-TREINO PREVISTO
+DIA DA SEMANA
 ===================================================== */
 
-function treinoDoDia(semana){
+function diaTreinoPrevisto(semana){
 
-const hoje =
+const hoje=
 new Date();
 
-const dia =
+const dia=
 hoje.getDay();
 
-/*
-0 domingo
-1 segunda
-2 terça
-3 quarta
-4 quinta
-5 sexta
-6 sábado
-*/
 
 if(
 dia===0 ||
@@ -958,20 +1066,6 @@ return "Descanso";
 
 }
 
-
-/*
-Semanas ímpares:
-
-Seg A
-Qua B
-Sex A
-
-Semanas pares:
-
-Seg B
-Qua A
-Sex B
-*/
 
 if(semana%2===1){
 
@@ -986,6 +1080,7 @@ return "A";
 
 }
 
+
 else{
 
 if(dia===1)
@@ -999,6 +1094,7 @@ return "B";
 
 }
 
+
 return "Descanso";
 
 }
@@ -1011,12 +1107,13 @@ MONTAR TREINO
 
 function montarTreino(tipo){
 
-const lista =
+const lista=
 document.getElementById(
 "listaExercicios"
 );
 
-const exercicios =
+
+const exercicios=
 tipo==="A"
 ?
 treinoA
@@ -1030,7 +1127,8 @@ lista.innerHTML="";
 exercicios.forEach(
 (exercicio,index)=>{
 
-let campos="";
+
+let seriesHTML="";
 
 
 for(
@@ -1039,7 +1137,7 @@ s<=exercicio.series;
 s++
 ){
 
-campos += `
+seriesHTML+=`
 
 <div class="series">
 
@@ -1071,7 +1169,7 @@ id="reps_${tipo}_${index}_${s}"
 }
 
 
-lista.innerHTML += `
+lista.innerHTML+=`
 
 <div class="exercise">
 
@@ -1086,7 +1184,7 @@ ${exercicio.nome}
 ${exercicio.series}
 séries •
 ${exercicio.reps}
-repetições •
+reps •
 ⏱️ ${exercicio.descanso}
 
 </div>
@@ -1097,7 +1195,7 @@ repetições •
 
 </div>
 
-${campos}
+${seriesHTML}
 
 </div>
 
@@ -1106,22 +1204,21 @@ ${campos}
 });
 
 
-
 document.getElementById(
 "treinoTitulo"
-).textContent =
+).textContent=
 "🏋️ Treino "+tipo;
 
 
 document.getElementById(
 "treinoSubtitulo"
-).textContent =
-"Plano de hipertrofia";
+).textContent=
+"Registre carga e repetições";
 
 
 document.getElementById(
 "treinoBadge"
-).textContent =
+).textContent=
 tipo;
 
 }
@@ -1134,7 +1231,7 @@ INICIAR PLANO
 
 function iniciarPlano(){
 
-const data =
+const data=
 document.getElementById(
 "dataInicio"
 ).value;
@@ -1143,7 +1240,7 @@ document.getElementById(
 if(!data){
 
 alert(
-"Escolha uma data para começar o plano."
+"Escolha uma data."
 );
 
 return;
@@ -1155,8 +1252,39 @@ dados.dataInicio=data;
 
 salvar();
 
+
 alert(
 "Plano configurado! 📅💪"
+);
+
+}
+
+
+
+/* =====================================================
+ABRIR TREINO ATUAL
+===================================================== */
+
+function abrirTreinoAtual(){
+
+if(!dados.dataInicio){
+
+alert(
+"Defina a data de início primeiro."
+);
+
+return;
+
+}
+
+
+montarTreino(
+dados.proximoTreino
+);
+
+
+abrirTela(
+"treino"
 );
 
 }
@@ -1172,7 +1300,7 @@ function concluirTreino(){
 if(!dados.dataInicio){
 
 alert(
-"Defina primeiro a data de início."
+"Defina a data de início."
 );
 
 return;
@@ -1180,13 +1308,17 @@ return;
 }
 
 
-const semana =
+const semana=
 calcularSemana();
 
 
-const tipo =
+const tipo=
 dados.proximoTreino;
 
+
+/*
+REGISTRA O TREINO
+*/
 
 dados.treinos++;
 
@@ -1195,7 +1327,9 @@ dados.historicoTreinos.push({
 
 data:
 new Date()
-.toLocaleDateString("pt-BR"),
+.toLocaleDateString(
+"pt-BR"
+),
 
 treino:tipo,
 
@@ -1205,11 +1339,14 @@ semana:semana
 
 
 /*
-Alterna A/B independentemente
-do dia perdido.
+SEQUÊNCIA:
+
+A → B → A → B
+
+Independentemente de perder um dia.
 */
 
-dados.proximoTreino =
+dados.proximoTreino=
 tipo==="A"
 ?
 "B"
@@ -1221,7 +1358,13 @@ salvar();
 
 
 alert(
-"Treino "+tipo+" concluído! 💪"
+"Treino "+tipo+
+" concluído! 💪"
+);
+
+
+abrirTela(
+"inicio"
 );
 
 }
@@ -1234,13 +1377,16 @@ PESO
 
 function salvarPeso(){
 
-const campo =
+const campo=
 document.getElementById(
 "campoPeso"
 );
 
-const peso =
-parseFloat(campo.value);
+
+const peso=
+parseFloat(
+campo.value
+);
 
 
 if(!peso || peso<=0){
@@ -1263,7 +1409,9 @@ peso:peso,
 
 data:
 new Date()
-.toLocaleDateString("pt-BR")
+.toLocaleDateString(
+"pt-BR"
+)
 
 });
 
@@ -1283,30 +1431,36 @@ alert(
 
 
 /* =====================================================
-ATUALIZAR
+ATUALIZAR INTERFACE
 ===================================================== */
 
 function atualizar(){
 
-document.getElementById(
-"totalTreinos"
-).textContent =
-dados.treinos;
+/*
+CONTADORES
+*/
 
 document.getElementById(
-"totalTreinosPlanejamento"
-).textContent =
+"totalTreinos"
+).textContent=
 dados.treinos;
+
+
+document.getElementById(
+"totalTreinosInicio"
+).textContent=
+dados.treinos;
+
 
 document.getElementById(
 "totalTreinos2"
-).textContent =
+).textContent=
 dados.treinos;
 
 
 document.getElementById(
 "pesoAtual"
-).textContent =
+).textContent=
 dados.peso
 ?
 dados.peso+" kg"
@@ -1314,15 +1468,23 @@ dados.peso+" kg"
 "-- kg";
 
 
-/* sem data */
+/*
+SEM DATA
+*/
 
 if(!dados.dataInicio){
 
 document.getElementById(
-"planejamento"
-).classList.remove(
-"hidden"
-);
+"statusPlano"
+).textContent=
+"Planejamento";
+
+
+document.getElementById(
+"semanaBadge"
+).textContent=
+"Sem data";
+
 
 document.getElementById(
 "planoAtivo"
@@ -1330,30 +1492,35 @@ document.getElementById(
 "hidden"
 );
 
+
 document.getElementById(
 "cardFase"
 ).classList.add(
 "hidden"
 );
 
+
 document.getElementById(
 "cardHoje"
 ).classList.add(
 "hidden"
 );
+
 
 return;
 
 }
 
 
-/* plano ativo */
+/*
+PLANO ATIVO
+*/
 
 document.getElementById(
-"planejamento"
-).classList.add(
-"hidden"
-);
+"statusPlano"
+).textContent=
+"Plano ativo";
+
 
 document.getElementById(
 "planoAtivo"
@@ -1361,11 +1528,13 @@ document.getElementById(
 "hidden"
 );
 
+
 document.getElementById(
 "cardFase"
 ).classList.remove(
 "hidden"
 );
+
 
 document.getElementById(
 "cardHoje"
@@ -1374,73 +1543,74 @@ document.getElementById(
 );
 
 
-const semana =
+document.getElementById(
+"planejamento"
+).classList.add(
+"hidden"
+);
+
+
+const semana=
 calcularSemana();
 
 
-const fase =
+const fase=
 obterFase(semana);
 
 
-const treino =
-treinoDoDia(semana);
-
-
-document.getElementById(
-"statusPlano"
-).textContent =
-"Plano ativo";
+const treinoPrevisto=
+diaTreinoPrevisto(semana);
 
 
 document.getElementById(
 "semanaBadge"
-).textContent =
+).textContent=
 "Semana "+semana;
 
 
 document.getElementById(
 "semanaAtual"
-).textContent =
+).textContent=
 semana+" / 52";
 
 
 document.getElementById(
 "faseNome"
-).textContent =
+).textContent=
 fase.nome;
 
 
 document.getElementById(
-"esforco"
-).textContent =
-fase.esforco;
-
-
-document.getElementById(
 "focoFase"
-).textContent =
+).textContent=
 fase.foco;
 
 
 document.getElementById(
+"esforco"
+).textContent=
+fase.esforco;
+
+
+document.getElementById(
 "faseTitulo"
-).textContent =
+).textContent=
 fase.nome;
 
 
 document.getElementById(
 "faseDescricao"
-).textContent =
+).textContent=
 fase.foco;
 
 
 document.getElementById(
 "faseObservacao"
-).textContent =
+).textContent=
 fase.observacao;
 
 
-const progresso =
+const percentual=
 Math.round(
 (semana/52)*100
 );
@@ -1448,40 +1618,53 @@ Math.round(
 
 document.getElementById(
 "barra"
-).style.width =
-progresso+"%";
+).style.width=
+percentual+"%";
 
 
 document.getElementById(
-"progressoSemanas"
-).textContent =
-progresso+"%";
+"progressoSemana"
+).textContent=
+semana+" / 52";
 
 
-if(treino==="Descanso"){
+document.getElementById(
+"progressoPercentual"
+).textContent=
+percentual+"%";
+
+
+/*
+TREINO DE HOJE
+*/
+
+if(
+treinoPrevisto==="Descanso"
+){
 
 document.getElementById(
 "tituloHoje"
-).textContent =
+).textContent=
 "😴 Descanso";
 
 
 document.getElementById(
 "subtituloHoje"
-).textContent =
+).textContent=
 "Recuperação";
 
 
 document.getElementById(
 "badgeHoje"
-).textContent =
+).textContent=
 "Descanso";
 
 
 document.getElementById(
 "orientacaoHoje"
-).textContent =
-"Hoje é dia de descanso. O próximo treino será mantido na sequência A/B.";
+).textContent=
+"Hoje é dia de descanso. Seu próximo treino da sequência é o Treino "+
+dados.proximoTreino+".";
 
 }
 
@@ -1489,37 +1672,38 @@ else{
 
 document.getElementById(
 "tituloHoje"
-).textContent =
-"🏋️ Treino "+dados.proximoTreino;
+).textContent=
+"🏋️ Treino "+
+dados.proximoTreino;
 
 
 document.getElementById(
 "subtituloHoje"
-).textContent =
-"Treino previsto: "+treino;
+).textContent=
+"Treino previsto: "+
+treinoPrevisto;
 
 
 document.getElementById(
 "badgeHoje"
-).textContent =
-treino;
+).textContent=
+dados.proximoTreino;
 
 
 document.getElementById(
 "orientacaoHoje"
-).textContent =
-"Se perder um dia, continue no próximo dia disponível.";
-
-montarTreino(
-dados.proximoTreino
-);
+).textContent=
+"Se não puder treinar hoje, continue no próximo dia disponível.";
 
 }
 
 
-/* histórico de peso */
 
-const historico =
+/*
+HISTÓRICO DE PESO
+*/
+
+const historico=
 document.getElementById(
 "historicoPeso"
 );
@@ -1529,10 +1713,10 @@ if(
 dados.historicoPeso.length===0
 ){
 
-historico.innerHTML =
+historico.innerHTML=
 `
 <p class="muted">
-Nenhum registro de peso ainda.
+Nenhum registro ainda.
 </p>
 `;
 
@@ -1542,22 +1726,27 @@ else{
 
 historico.innerHTML="";
 
+
 dados.historicoPeso
 .slice()
 .reverse()
 .forEach(
 (item)=>{
 
-historico.innerHTML += `
+historico.innerHTML+=`
 
 <div class="history">
 
 <div class="muted">
+
 ${item.data}
+
 </div>
 
 <strong>
+
 ${item.peso} kg
+
 </strong>
 
 </div>
@@ -1631,7 +1820,9 @@ tela.slice(1)
 );
 
 
-if(tela==="treino"){
+if(
+tela==="treino"
+){
 
 if(!dados.dataInicio){
 
@@ -1639,11 +1830,14 @@ alert(
 "Defina a data de início primeiro."
 );
 
-abrirTela("inicio");
+abrirTela(
+"inicio"
+);
 
 return;
 
 }
+
 
 montarTreino(
 dados.proximoTreino
@@ -1656,7 +1850,7 @@ dados.proximoTreino
 
 
 /* =====================================================
-INICIAR
+INICIALIZAÇÃO
 ===================================================== */
 
 atualizar();
