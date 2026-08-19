@@ -1579,28 +1579,74 @@ return ultimo.treino==="A"
 
 }
 
-
 /* =====================================================
-TREINO HOJE
+TREINO HOJE V4
 ===================================================== */
 
 function treinoHoje(){
 
-const semana=
-calcularSemana();
+    /* Não existe plano */
 
-if(!semana)
-return "Descanso";
+    if(!dados || !dados.dataInicio){
 
-const dia=
-new Date().getDay();
+        return "Descanso";
 
-if(
-!dados.diasTreino.includes(dia)
-)
-return "Descanso";
+    }
 
-return obterProximoTreino();
+
+    /* Não existem dias configurados */
+
+    if(
+        !Array.isArray(dados.diasTreino) ||
+        dados.diasTreino.length !== 3
+    ){
+
+        return "Descanso";
+
+    }
+
+
+    const semana =
+        calcularSemana();
+
+
+    if(!semana){
+
+        return "Descanso";
+
+    }
+
+
+    const hoje =
+        new Date().getDay();
+
+
+    /* Hoje não é um dos dias escolhidos */
+
+    if(
+        !dados.diasTreino.includes(hoje)
+    ){
+
+        return "Descanso";
+
+    }
+
+
+    /* Garante A ou B */
+
+    if(
+        dados.proximoTreino !== "A" &&
+        dados.proximoTreino !== "B"
+    ){
+
+        dados.proximoTreino = "A";
+
+        salvar();
+
+    }
+
+
+    return dados.proximoTreino;
 
 }
 
@@ -3110,117 +3156,191 @@ document.getElementById(
 
 }
 
-
 /* =====================================================
-NAVEGAÇÃO
+NAVEGAÇÃO V4 CORRIGIDA
 ===================================================== */
 
 function abrirTela(tela){
 
-const telas=[
-"inicio",
-"treino",
-"progresso"
-];
+    const telas = [
+        "inicio",
+        "treino",
+        "progresso"
+    ];
 
-telas.forEach(
-nome=>{
+    /* ---------------------------------------------
+       PROTEÇÃO DA TELA DE TREINO
+       --------------------------------------------- */
 
-document
-.getElementById(nome)
-.classList
-.toggle(
-"hidden",
-nome!==tela
-);
+    if(tela === "treino"){
 
-});
+        /* Primeiro verifica se existe plano ativo */
+
+        if(!dados || !dados.dataInicio){
+
+            alert(
+                "O plano ainda não foi iniciado. 🗓️\n\n" +
+                "Escolha a data de início e os 3 dias de treino na página inicial."
+            );
+
+            tela = "inicio";
+
+        }else{
+
+            /* Existe plano. Agora verifica o dia */
+
+            const tipoHoje = treinoHoje();
+
+            if(tipoHoje === "Descanso"){
+
+                alert(
+                    "Hoje é dia de descanso. 😴\n\n" +
+                    "O próximo treino será o Treino " +
+                    dados.proximoTreino + "."
+                );
+
+                tela = "inicio";
+
+            }else{
+
+                /* É dia de treino */
+
+                montarTreino(tipoHoje);
+
+            }
+
+        }
+
+    }
 
 
-const menus=[
-"menuInicio",
-"menuTreino",
-"menuProgresso"
-];
+    /* ---------------------------------------------
+       MOSTRAR / ESCONDER TELAS
+       --------------------------------------------- */
 
-menus.forEach(
-id=>{
+    telas.forEach(function(nome){
 
-document
-.getElementById(id)
-.classList
-.remove("active");
+        const elemento =
+            document.getElementById(nome);
 
-});
+        if(elemento){
 
+            elemento.classList.toggle(
+                "hidden",
+                nome !== tela
+            );
 
-const idMenu=
-"menu"+
-tela.charAt(0).toUpperCase()+
-tela.slice(1);
+        }
 
-document
-.getElementById(idMenu)
-.classList
-.add("active");
+    });
 
 
-if(
-tela==="treino"
-){
+    /* ---------------------------------------------
+       MENU INFERIOR
+       --------------------------------------------- */
 
-if(!dados.dataInicio){
+    const menus = [
+        "menuInicio",
+        "menuTreino",
+        "menuProgresso"
+    ];
 
-alert(
-"Inicie o plano primeiro."
-);
+    menus.forEach(function(id){
 
-abrirTela("inicio");
+        const botao =
+            document.getElementById(id);
 
-return;
+        if(botao){
+
+            botao.classList.remove("active");
+
+        }
+
+    });
+
+
+    const idMenu =
+        "menu" +
+        tela.charAt(0).toUpperCase() +
+        tela.slice(1);
+
+    const menuAtual =
+        document.getElementById(idMenu);
+
+    if(menuAtual){
+
+        menuAtual.classList.add("active");
+
+    }
+
+
+    /* ---------------------------------------------
+       ATUALIZAÇÕES ESPECÍFICAS
+       --------------------------------------------- */
+
+    if(tela === "inicio"){
+
+        atualizar();
+
+    }
+
+
+    if(tela === "progresso"){
+
+        montarHistorico();
+
+        montarHistoricoPeso();
+
+    }
 
 }
 
-if(
-treinoHoje()==="Descanso"
-){
 
-alert(
-"Hoje é dia de descanso. 😴"
-);
+/* =====================================================
+ABRIR TREINO ATUAL V4
+===================================================== */
 
-abrirTela("inicio");
+function abrirTreinoAtual(){
 
-return;
+    /* Sem plano */
+
+    if(!dados || !dados.dataInicio){
+
+        alert(
+            "O plano ainda não foi iniciado. 🗓️"
+        );
+
+        abrirTela("inicio");
+
+        return;
+
+    }
+
+
+    const tipo =
+        treinoHoje();
+
+
+    /* Dia de descanso */
+
+    if(tipo === "Descanso"){
+
+        alert(
+            "Hoje é dia de descanso. 😴"
+        );
+
+        return;
+
+    }
+
+
+    /* Dia de treino */
+
+    montarTreino(tipo);
+
+    abrirTela("treino");
 
 }
-
-montarTreino(
-treinoHoje()
-);
-
-setTimeout(
-adicionarBotoesDescanso,
-50
-);
-
-}
-
-
-if(
-tela==="progresso"
-){
-
-montarHistorico();
-
-montarHistoricoPeso();
-
-montarCalendario();
-
-}
-
-}
-
 
 /* =====================================================
 EVENTOS
