@@ -3,205 +3,229 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="theme-color" content="#111827">
 <title>Meu Treino • 12 Meses</title>
 
 <style>
-
-*{
-    box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f1f5f9;
-    color:#111827;
+margin:0;
+font-family:Arial,Helvetica,sans-serif;
+background:#f1f5f9;
+color:#111827;
 }
 
 header{
-    background:#111827;
-    color:white;
-    padding:22px 18px;
-    position:sticky;
-    top:0;
-    z-index:10;
+background:#111827;
+color:white;
+padding:20px 18px;
+position:sticky;
+top:0;
+z-index:10;
 }
 
 header h1{
-    margin:0;
-    font-size:24px;
+margin:0;
+font-size:24px;
 }
 
 header p{
-    margin:6px 0 0;
-    color:#cbd5e1;
-    font-size:13px;
+margin:6px 0 0;
+color:#cbd5e1;
+font-size:13px;
 }
 
 main{
-    max-width:700px;
-    margin:auto;
-    padding:16px 14px 90px;
+max-width:720px;
+margin:auto;
+padding:15px 14px 90px;
 }
 
 .card{
-    background:white;
-    border-radius:18px;
-    padding:18px;
-    margin-bottom:14px;
-    box-shadow:0 4px 15px rgba(0,0,0,.06);
+background:white;
+border-radius:18px;
+padding:18px;
+margin-bottom:14px;
+box-shadow:0 4px 15px rgba(0,0,0,.06);
 }
 
 .row{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:10px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
 }
 
 .muted{
-    color:#64748b;
-    font-size:13px;
-}
-
-.progress{
-    height:10px;
-    background:#e5e7eb;
-    border-radius:20px;
-    overflow:hidden;
-    margin:14px 0;
-}
-
-.progress-bar{
-    height:100%;
-    width:0%;
-    background:#111827;
-    border-radius:20px;
-    transition:.3s;
-}
-
-.grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-}
-
-.stat{
-    background:#f8fafc;
-    border-radius:14px;
-    padding:14px;
-}
-
-.stat span{
-    color:#64748b;
-    font-size:12px;
-}
-
-.stat strong{
-    display:block;
-    font-size:21px;
-    margin-top:5px;
+color:#64748b;
+font-size:13px;
 }
 
 .badge{
-    background:#e5e7eb;
-    padding:6px 9px;
-    border-radius:20px;
-    font-size:11px;
+background:#e5e7eb;
+padding:6px 10px;
+border-radius:20px;
+font-size:11px;
+}
+
+.progress{
+height:10px;
+background:#e5e7eb;
+border-radius:20px;
+overflow:hidden;
+margin:14px 0;
+}
+
+.progress-bar{
+height:100%;
+background:#111827;
+width:0%;
+transition:.3s;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+.stat{
+background:#f8fafc;
+border-radius:14px;
+padding:14px;
+}
+
+.stat span{
+font-size:12px;
+color:#64748b;
+}
+
+.stat strong{
+display:block;
+font-size:21px;
+margin-top:5px;
 }
 
 button{
-    border:0;
-    border-radius:12px;
-    padding:12px 15px;
-    background:#111827;
-    color:white;
-    font-size:14px;
-    font-weight:bold;
-    cursor:pointer;
+border:0;
+border-radius:12px;
+padding:12px 15px;
+background:#111827;
+color:white;
+font-weight:bold;
+cursor:pointer;
+font-size:14px;
 }
 
 button.secondary{
-    background:#e5e7eb;
-    color:#111827;
+background:#e5e7eb;
+color:#111827;
+}
+
+button.green{
+background:#166534;
+}
+
+input,select{
+width:100%;
+padding:11px;
+border:1px solid #cbd5e1;
+border-radius:10px;
+font-size:14px;
+background:white;
 }
 
 .exercise{
-    padding:15px 0;
-    border-top:1px solid #e5e7eb;
+padding:16px 0;
+border-top:1px solid #e5e7eb;
 }
 
 .exercise:first-child{
-    border-top:0;
+border-top:0;
 }
 
 .exercise-name{
-    font-weight:bold;
-    font-size:16px;
+font-weight:bold;
+font-size:16px;
 }
 
 .exercise-info{
-    color:#64748b;
-    font-size:13px;
-    margin-top:4px;
+font-size:13px;
+color:#64748b;
+margin-top:4px;
+}
+
+.exercise-note{
+font-size:12px;
+margin-top:8px;
+color:#475569;
 }
 
 .inputs{
-    display:flex;
-    gap:8px;
-    margin-top:10px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+margin-top:10px;
 }
 
-input{
-    width:100%;
-    padding:11px;
-    border:1px solid #cbd5e1;
-    border-radius:10px;
-    font-size:14px;
+.series{
+margin-top:10px;
+padding:10px;
+background:#f8fafc;
+border-radius:10px;
+}
+
+.phase{
+border-left:5px solid #111827;
+padding-left:12px;
 }
 
 .hidden{
-    display:none;
+display:none;
 }
 
-.history-item{
-    padding:12px 0;
-    border-top:1px solid #e5e7eb;
-}
-
-nav{
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    background:white;
-    border-top:1px solid #e5e7eb;
-    display:flex;
-    justify-content:center;
-    gap:5px;
-    padding:9px 8px;
-    z-index:20;
-}
-
-nav button{
-    background:transparent;
-    color:#64748b;
-    font-size:12px;
-    padding:9px 12px;
-}
-
-nav button.active{
-    background:#111827;
-    color:white;
+.history{
+padding:10px 0;
+border-top:1px solid #e5e7eb;
 }
 
 .success{
-    color:#15803d;
+color:#15803d;
 }
 
-.danger{
-    color:#b91c1c;
+.warning{
+color:#a16207;
+}
+
+nav{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:white;
+border-top:1px solid #e5e7eb;
+display:flex;
+justify-content:center;
+gap:5px;
+padding:9px;
+z-index:20;
+}
+
+nav button{
+background:transparent;
+color:#64748b;
+font-size:12px;
+padding:9px 12px;
+}
+
+nav button.active{
+background:#111827;
+color:white;
+}
+
+.small{
+font-size:11px;
 }
 
 </style>
@@ -213,7 +237,7 @@ nav button.active{
 
 <h1>💪 Meu Treino</h1>
 
-<p>Plano de hipertrofia • 12 meses</p>
+<p>Plano de hipertrofia • 52 semanas</p>
 
 </header>
 
@@ -221,7 +245,9 @@ nav button.active{
 <main>
 
 
-<!-- ================= INÍCIO ================= -->
+<!-- =========================
+INÍCIO
+========================= -->
 
 <section id="inicio">
 
@@ -231,19 +257,73 @@ nav button.active{
 
 <div>
 
-<strong>Progresso do plano</strong>
+<strong>Status do plano</strong>
 
-<div class="muted">
-Mês 1 de 12
+<div class="muted" id="statusPlano">
+Planejamento
 </div>
 
 </div>
 
-<span class="badge" id="percentual">
-0%
+<span class="badge" id="semanaBadge">
+Sem data
 </span>
 
 </div>
+
+
+<div id="planejamento">
+
+<p class="muted">
+
+Você ainda não definiu a data de início.
+Escolha quando estiver pronto para começar.
+
+</p>
+
+
+<input
+type="date"
+id="dataInicio"
+>
+
+
+<br><br>
+
+
+<button onclick="iniciarPlano()">
+
+📅 Definir início do plano
+
+</button>
+
+</div>
+
+
+<div id="planoAtivo" class="hidden">
+
+<div class="row">
+
+<strong id="faseNome">
+-
+</strong>
+
+<span
+class="badge"
+id="esforco"
+>
+-
+</span>
+
+</div>
+
+
+<p
+class="muted"
+id="focoFase"
+>
+-
+</p>
 
 
 <div class="progress">
@@ -251,12 +331,26 @@ Mês 1 de 12
 <div
 class="progress-bar"
 id="barra"
-></div>
+>
+</div>
 
 </div>
 
 
 <div class="grid">
+
+<div class="stat">
+
+<span>
+Semana
+</span>
+
+<strong id="semanaAtual">
+-
+</strong>
+
+</div>
+
 
 <div class="stat">
 
@@ -270,12 +364,108 @@ Treinos realizados
 
 </div>
 
+</div>
 
-<div class="stat">
+</div>
 
-<span>
-Peso atual
+</div>
+
+
+
+<!-- FASE -->
+
+<div
+class="card hidden"
+id="cardFase"
+>
+
+<div class="phase">
+
+<strong id="faseTitulo">
+-
+</strong>
+
+<p
+class="muted"
+id="faseDescricao"
+>
+-
+</p>
+
+<p
+class="small"
+id="faseObservacao"
+>
+-
+</p>
+
+</div>
+
+</div>
+
+
+
+<!-- TREINO DE HOJE -->
+
+<div
+class="card hidden"
+id="cardHoje"
+>
+
+<div class="row">
+
+<div>
+
+<strong id="tituloHoje">
+Treino
+</strong>
+
+<div
+class="muted"
+id="subtituloHoje"
+>
+-
+</div>
+
+</div>
+
+<span
+class="badge"
+id="badgeHoje"
+>
+-
 </span>
+
+</div>
+
+
+<p
+class="muted"
+id="orientacaoHoje"
+>
+-
+</p>
+
+
+<button
+onclick="abrirTela('treino')"
+>
+
+Abrir treino →
+
+</button>
+
+</div>
+
+
+
+<!-- PESO -->
+
+<div class="card">
+
+<div class="row">
+
+<strong>⚖️ Peso atual</strong>
 
 <strong id="pesoAtual">
 -- kg
@@ -285,66 +475,13 @@ Peso atual
 
 </div>
 
-</div>
-
-
-<div class="card">
-
-<div class="row">
-
-<div>
-
-<strong>🏋️ Treino de hoje</strong>
-
-<div class="muted">
-Treino A • Hipertrofia
-</div>
-
-</div>
-
-<span
-class="badge"
-id="statusTreino"
->
-Pendente
-</span>
-
-</div>
-
-
-<p class="muted">
-
-Registre suas cargas e repetições durante o treino.
-
-</p>
-
-
-<button onclick="abrirTela('treino')">
-
-Abrir treino →
-
-</button>
-
-</div>
-
-
-<div class="card">
-
-<strong>🎯 Meta</strong>
-
-<p class="muted">
-
-Construir consistência e acompanhar sua evolução ao longo dos 12 meses.
-
-</p>
-
-</div>
-
 </section>
 
 
 
-<!-- ================= TREINO ================= -->
+<!-- =========================
+TREINO
+========================= -->
 
 <section
 id="treino"
@@ -357,19 +494,24 @@ class="hidden"
 
 <div>
 
-<strong>🏋️ Treino A</strong>
+<strong id="treinoTitulo">
+Treino
+</strong>
 
-<div class="muted">
-Hipertrofia
+<div
+class="muted"
+id="treinoSubtitulo"
+>
+-
 </div>
 
 </div>
 
 <span
 class="badge"
-id="statusTreino2"
+id="treinoBadge"
 >
-Pendente
+-
 </span>
 
 </div>
@@ -379,6 +521,7 @@ Pendente
 
 
 <button
+class="green"
 onclick="concluirTreino()"
 >
 
@@ -386,14 +529,15 @@ onclick="concluirTreino()"
 
 </button>
 
-
 </div>
 
 </section>
 
 
 
-<!-- ================= PROGRESSO ================= -->
+<!-- =========================
+PROGRESSO
+========================= -->
 
 <section
 id="progresso"
@@ -402,11 +546,11 @@ class="hidden"
 
 <div class="card">
 
-<strong>⚖️ Peso corporal</strong>
+<strong>⚖️ Registrar peso</strong>
 
 <p class="muted">
 
-Registre seu peso para acompanhar a evolução.
+Acompanhe sua evolução corporal.
 
 </p>
 
@@ -429,30 +573,22 @@ Salvar
 </div>
 
 
-<div
-id="historicoPeso"
-style="margin-top:15px"
->
+<div id="historicoPeso"></div>
 
 </div>
-
-</div>
-
 
 
 <div class="card">
 
-<strong>📊 Consistência</strong>
+<strong>📊 Treinos</strong>
 
 <p class="muted">
 
-Você já concluiu
+Treinos concluídos:
 
 <strong id="totalTreinos2">
 0
 </strong>
-
-treinos.
 
 </p>
 
@@ -461,11 +597,15 @@ treinos.
 
 <div class="card">
 
-<strong>🚀 Evolução</strong>
+<strong>🎯 Plano</strong>
 
 <p class="muted">
 
-Este espaço será usado nas próximas versões para gráficos de peso, cargas e evolução corporal.
+Progresso das 52 semanas:
+
+<strong id="progressoSemanas">
+0%
+</strong>
 
 </p>
 
@@ -477,7 +617,7 @@ Este espaço será usado nas próximas versões para gráficos de peso, cargas e
 
 
 
-<!-- ================= MENU ================= -->
+<!-- MENU -->
 
 <nav>
 
@@ -486,29 +626,21 @@ id="menuInicio"
 class="active"
 onclick="abrirTela('inicio')"
 >
-
 🏠 Início
-
 </button>
-
 
 <button
 id="menuTreino"
 onclick="abrirTela('treino')"
 >
-
 🏋️ Treino
-
 </button>
-
 
 <button
 id="menuProgresso"
 onclick="abrirTela('progresso')"
 >
-
 📈 Progresso
-
 </button>
 
 </nav>
@@ -518,85 +650,423 @@ onclick="abrirTela('progresso')"
 <script>
 
 /* =====================================================
-   DADOS DO TREINO
+DADOS DO TREINO
 ===================================================== */
 
-const exercicios = [
+const treinoA = [
 
 {
-nome:"Supino reto",
+nome:"Leg press",
 series:3,
-repeticoes:"8–12"
+reps:"8–12",
+descanso:"2 min",
+nota:"Ao fazer 12 reps nas 3 séries com boa técnica, aumente um pouco a carga."
 },
 
 {
-nome:"Puxada frontal",
+nome:"Supino máquina ou barra",
 series:3,
-repeticoes:"8–12"
+reps:"8–12",
+descanso:"2 min",
+nota:"Mesma regra."
 },
 
 {
-nome:"Desenvolvimento",
+nome:"Remada baixa",
 series:3,
-repeticoes:"8–12"
+reps:"8–12",
+descanso:"2 min",
+nota:"Movimento controlado, sem puxar com o corpo."
 },
 
 {
-nome:"Remada",
+nome:"Elevação lateral",
 series:3,
-repeticoes:"8–12"
+reps:"12–15",
+descanso:"60–90 s",
+nota:"Aumente a carga mantendo controle."
+},
+
+{
+nome:"Mesa flexora",
+series:2,
+reps:"10–15",
+descanso:"90 s",
+nota:"Controle a volta do movimento."
 },
 
 {
 nome:"Rosca bíceps",
-series:3,
-repeticoes:"10–15"
+series:2,
+reps:"10–15",
+descanso:"60–90 s",
+nota:"Evite balançar o tronco."
 },
 
 {
-nome:"Tríceps",
-series:3,
-repeticoes:"10–15"
+nome:"Tríceps na polia",
+series:2,
+reps:"10–15",
+descanso:"60–90 s",
+nota:"Movimento controlado."
 }
 
 ];
 
 
+const treinoB = [
+
+{
+nome:"Agachamento guiado ou leg press",
+series:3,
+reps:"8–12",
+descanso:"2 min",
+nota:"Priorize técnica e amplitude confortável."
+},
+
+{
+nome:"Supino inclinado",
+series:3,
+reps:"8–12",
+descanso:"2 min",
+nota:"Controle a descida."
+},
+
+{
+nome:"Puxada alta",
+series:3,
+reps:"8–12",
+descanso:"2 min",
+nota:"Puxe em direção ao alto do peito."
+},
+
+{
+nome:"Desenvolvimento de ombros máquina",
+series:2,
+reps:"8–12",
+descanso:"2 min",
+nota:"Movimento controlado."
+},
+
+{
+nome:"Cadeira extensora",
+series:2,
+reps:"10–15",
+descanso:"90 s",
+nota:"Controle subida e descida."
+},
+
+{
+nome:"Rosca bíceps",
+series:2,
+reps:"10–15",
+descanso:"60–90 s",
+nota:"Sem balanço."
+},
+
+{
+nome:"Tríceps na polia",
+series:2,
+reps:"10–15",
+descanso:"60–90 s",
+nota:"Controle o movimento."
+}
+
+];
+
 
 /* =====================================================
-   DADOS SALVOS
+FASES
+===================================================== */
+
+const fases = [
+
+{
+inicio:1,
+fim:4,
+nome:"Adaptação",
+esforco:"Leve–moderado",
+foco:"Aprender técnica e rotina",
+observacao:"Termine as séries sentindo que conseguiria mais 3–4 repetições."
+},
+
+{
+inicio:5,
+fim:12,
+nome:"Construção 1",
+esforco:"Moderado",
+foco:"Aumentar gradualmente cargas/reps",
+observacao:"Chegue perto da falha, sem precisar falhar em todas as séries."
+},
+
+{
+inicio:13,
+fim:24,
+nome:"Construção 2",
+esforco:"Moderado–alto",
+foco:"Consistência e progressão",
+observacao:"Registre cargas e repetições."
+},
+
+{
+inicio:25,
+fim:36,
+nome:"Construção 3",
+esforco:"Moderado–alto",
+foco:"Consolidar técnica e volume",
+observacao:"Reavalie medidas e fotos."
+},
+
+{
+inicio:37,
+fim:52,
+nome:"Construção 4",
+esforco:"Moderado–alto",
+foco:"Ganhar músculo mantendo cintura controlada",
+observacao:"Ajuste alimentação conforme evolução."
+}
+
+];
+
+
+/* =====================================================
+DADOS
 ===================================================== */
 
 let dados =
 JSON.parse(
-localStorage.getItem("meuTreino12Meses")
+localStorage.getItem("meuTreino12MesesV2")
 )
 ||
 {
+dataInicio:null,
 treinos:0,
 peso:null,
 historicoPeso:[],
-treinoConcluido:false
+proximoTreino:"A",
+historicoTreinos:[]
 };
 
 
 
 /* =====================================================
-   MONTAR EXERCÍCIOS
+SALVAR
 ===================================================== */
 
-function montarTreino(){
+function salvar(){
+
+localStorage.setItem(
+"meuTreino12MesesV2",
+JSON.stringify(dados)
+);
+
+atualizar();
+
+}
+
+
+
+/* =====================================================
+CALCULAR SEMANA
+===================================================== */
+
+function calcularSemana(){
+
+if(!dados.dataInicio)
+return null;
+
+const inicio =
+new Date(
+dados.dataInicio+"T00:00:00"
+);
+
+const hoje =
+new Date();
+
+const diferenca =
+hoje.getTime()-inicio.getTime();
+
+const dias =
+Math.floor(
+diferenca/(1000*60*60*24)
+);
+
+if(dias<0)
+return 1;
+
+let semana =
+Math.floor(dias/7)+1;
+
+if(semana>52)
+semana=52;
+
+return semana;
+
+}
+
+
+
+/* =====================================================
+FASE
+===================================================== */
+
+function obterFase(semana){
+
+return fases.find(
+fase =>
+semana>=fase.inicio &&
+semana<=fase.fim
+);
+
+}
+
+
+
+/* =====================================================
+TREINO PREVISTO
+===================================================== */
+
+function treinoDoDia(semana){
+
+const hoje =
+new Date();
+
+const dia =
+hoje.getDay();
+
+/*
+0 domingo
+1 segunda
+2 terça
+3 quarta
+4 quinta
+5 sexta
+6 sábado
+*/
+
+if(
+dia===0 ||
+dia===2 ||
+dia===4 ||
+dia===6
+){
+
+return "Descanso";
+
+}
+
+
+/*
+Semanas ímpares:
+
+Seg A
+Qua B
+Sex A
+
+Semanas pares:
+
+Seg B
+Qua A
+Sex B
+*/
+
+if(semana%2===1){
+
+if(dia===1)
+return "A";
+
+if(dia===3)
+return "B";
+
+if(dia===5)
+return "A";
+
+}
+
+else{
+
+if(dia===1)
+return "B";
+
+if(dia===3)
+return "A";
+
+if(dia===5)
+return "B";
+
+}
+
+return "Descanso";
+
+}
+
+
+
+/* =====================================================
+MONTAR TREINO
+===================================================== */
+
+function montarTreino(tipo){
 
 const lista =
 document.getElementById(
 "listaExercicios"
 );
 
+const exercicios =
+tipo==="A"
+?
+treinoA
+:
+treinoB;
+
+
 lista.innerHTML="";
 
 
 exercicios.forEach(
 (exercicio,index)=>{
+
+let campos="";
+
+
+for(
+let s=1;
+s<=exercicio.series;
+s++
+){
+
+campos += `
+
+<div class="series">
+
+<strong>
+Série ${s}
+</strong>
+
+<div class="inputs">
+
+<input
+type="number"
+step="0.5"
+placeholder="Carga kg"
+id="carga_${tipo}_${index}_${s}"
+>
+
+<input
+type="number"
+placeholder="Reps"
+id="reps_${tipo}_${index}_${s}"
+>
+
+</div>
+
+</div>
+
+`;
+
+}
+
 
 lista.innerHTML += `
 
@@ -610,36 +1080,21 @@ ${exercicio.nome}
 
 <div class="exercise-info">
 
-${exercicio.series} séries •
-${exercicio.repeticoes} repetições
+${exercicio.series}
+séries •
+${exercicio.reps}
+repetições •
+⏱️ ${exercicio.descanso}
 
 </div>
 
-<div class="inputs">
+<div class="exercise-note">
 
-<input
-
-type="number"
-
-id="carga${index}"
-
-placeholder="Carga (kg)"
-
-step="0.5"
-
->
-
-<input
-
-type="number"
-
-id="reps${index}"
-
-placeholder="Reps"
-
->
+💡 ${exercicio.nota}
 
 </div>
+
+${campos}
 
 </div>
 
@@ -647,35 +1102,188 @@ placeholder="Reps"
 
 });
 
+
+
+document.getElementById(
+"treinoTitulo"
+).textContent =
+"🏋️ Treino "+tipo;
+
+
+document.getElementById(
+"treinoSubtitulo"
+).textContent =
+"Plano de hipertrofia";
+
+
+document.getElementById(
+"treinoBadge"
+).textContent =
+tipo;
+
 }
 
 
 
 /* =====================================================
-   SALVAR
+INICIAR PLANO
 ===================================================== */
 
-function salvarDados(){
+function iniciarPlano(){
 
-localStorage.setItem(
+const data =
+document.getElementById(
+"dataInicio"
+).value;
 
-"meuTreino12Meses",
 
-JSON.stringify(dados)
+if(!data){
 
+alert(
+"Escolha uma data para começar o plano."
 );
 
-atualizarTela();
+return;
+
+}
+
+
+dados.dataInicio=data;
+
+salvar();
+
+alert(
+"Plano configurado! 📅💪"
+);
 
 }
 
 
 
 /* =====================================================
-   ATUALIZAR TELA
+CONCLUIR TREINO
 ===================================================== */
 
-function atualizarTela(){
+function concluirTreino(){
+
+if(!dados.dataInicio){
+
+alert(
+"Defina primeiro a data de início."
+);
+
+return;
+
+}
+
+
+const semana =
+calcularSemana();
+
+
+const tipo =
+dados.proximoTreino;
+
+
+dados.treinos++;
+
+
+dados.historicoTreinos.push({
+
+data:
+new Date()
+.toLocaleDateString("pt-BR"),
+
+treino:tipo,
+
+semana:semana
+
+});
+
+
+/*
+Alterna A/B independentemente
+do dia perdido.
+*/
+
+dados.proximoTreino =
+tipo==="A"
+?
+"B"
+:
+"A";
+
+
+salvar();
+
+
+alert(
+"Treino "+tipo+" concluído! 💪"
+);
+
+}
+
+
+
+/* =====================================================
+PESO
+===================================================== */
+
+function salvarPeso(){
+
+const campo =
+document.getElementById(
+"campoPeso"
+);
+
+const peso =
+parseFloat(campo.value);
+
+
+if(!peso || peso<=0){
+
+alert(
+"Digite um peso válido."
+);
+
+return;
+
+}
+
+
+dados.peso=peso;
+
+
+dados.historicoPeso.push({
+
+peso:peso,
+
+data:
+new Date()
+.toLocaleDateString("pt-BR")
+
+});
+
+
+campo.value="";
+
+
+salvar();
+
+
+alert(
+"Peso registrado! ⚖️"
+);
+
+}
+
+
+
+/* =====================================================
+ATUALIZAR
+===================================================== */
+
+function atualizar(){
 
 document.getElementById(
 "totalTreinos"
@@ -699,55 +1307,210 @@ dados.peso+" kg"
 "-- kg";
 
 
+/* sem data */
 
-/* progresso */
+if(!dados.dataInicio){
 
-const percentual =
-Math.min(
-100,
-Math.round(
-(dados.treinos / 156) * 100
-)
+document.getElementById(
+"planejamento"
+).classList.remove(
+"hidden"
+);
+
+document.getElementById(
+"planoAtivo"
+).classList.add(
+"hidden"
+);
+
+document.getElementById(
+"cardFase"
+).classList.add(
+"hidden"
+);
+
+document.getElementById(
+"cardHoje"
+).classList.add(
+"hidden"
+);
+
+return;
+
+}
+
+
+/* plano ativo */
+
+document.getElementById(
+"planejamento"
+).classList.add(
+"hidden"
+);
+
+document.getElementById(
+"planoAtivo"
+).classList.remove(
+"hidden"
+);
+
+document.getElementById(
+"cardFase"
+).classList.remove(
+"hidden"
+);
+
+document.getElementById(
+"cardHoje"
+).classList.remove(
+"hidden"
 );
 
 
+const semana =
+calcularSemana();
+
+
+const fase =
+obterFase(semana);
+
+
+const treino =
+treinoDoDia(semana);
+
+
 document.getElementById(
-"percentual"
+"statusPlano"
 ).textContent =
-percentual+"%";
+"Plano ativo";
+
+
+document.getElementById(
+"semanaBadge"
+).textContent =
+"Semana "+semana;
+
+
+document.getElementById(
+"semanaAtual"
+).textContent =
+semana+" / 52";
+
+
+document.getElementById(
+"faseNome"
+).textContent =
+fase.nome;
+
+
+document.getElementById(
+"esforco"
+).textContent =
+fase.esforco;
+
+
+document.getElementById(
+"focoFase"
+).textContent =
+fase.foco;
+
+
+document.getElementById(
+"faseTitulo"
+).textContent =
+fase.nome;
+
+
+document.getElementById(
+"faseDescricao"
+).textContent =
+fase.foco;
+
+
+document.getElementById(
+"faseObservacao"
+).textContent =
+fase.observacao;
+
+
+const progresso =
+Math.round(
+(semana/52)*100
+);
 
 
 document.getElementById(
 "barra"
 ).style.width =
-percentual+"%";
-
-
-
-/* status */
-
-const status =
-dados.treinoConcluido
-?
-"Concluído"
-:
-"Pendente";
+progresso+"%";
 
 
 document.getElementById(
-"statusTreino"
+"progressoSemanas"
 ).textContent =
-status;
+progresso+"%";
+
+
+if(treino==="Descanso"){
+
+document.getElementById(
+"tituloHoje"
+).textContent =
+"😴 Descanso";
 
 
 document.getElementById(
-"statusTreino2"
+"subtituloHoje"
 ).textContent =
-status;
+"Recuperação";
 
 
+document.getElementById(
+"badgeHoje"
+).textContent =
+"Descanso";
 
-/* histórico */
+
+document.getElementById(
+"orientacaoHoje"
+).textContent =
+"Hoje é dia de descanso. O próximo treino será mantido na sequência A/B.";
+
+}
+
+else{
+
+document.getElementById(
+"tituloHoje"
+).textContent =
+"🏋️ Treino "+dados.proximoTreino;
+
+
+document.getElementById(
+"subtituloHoje"
+).textContent =
+"Treino previsto: "+treino;
+
+
+document.getElementById(
+"badgeHoje"
+).textContent =
+treino;
+
+
+document.getElementById(
+"orientacaoHoje"
+).textContent =
+"Se perder um dia, continue no próximo dia disponível.";
+
+montarTreino(
+dados.proximoTreino
+);
+
+}
+
+
+/* histórico de peso */
 
 const historico =
 document.getElementById(
@@ -761,20 +1524,16 @@ dados.historicoPeso.length===0
 
 historico.innerHTML =
 `
-<div class="muted">
-
-Nenhum registro ainda.
-
-</div>
+<p class="muted">
+Nenhum registro de peso ainda.
+</p>
 `;
-
-return;
 
 }
 
+else{
 
 historico.innerHTML="";
-
 
 dados.historicoPeso
 .slice()
@@ -784,18 +1543,14 @@ dados.historicoPeso
 
 historico.innerHTML += `
 
-<div class="history-item">
+<div class="history">
 
 <div class="muted">
-
 ${item.data}
-
 </div>
 
 <strong>
-
 ${item.peso} kg
-
 </strong>
 
 </div>
@@ -806,107 +1561,12 @@ ${item.peso} kg
 
 }
 
-
-
-/* =====================================================
-   CONCLUIR TREINO
-===================================================== */
-
-function concluirTreino(){
-
-if(
-dados.treinoConcluido
-){
-
-alert(
-"Este treino já foi concluído."
-);
-
-return;
-
-}
-
-
-dados.treinos++;
-
-dados.treinoConcluido=true;
-
-
-salvarDados();
-
-
-alert(
-"Treino concluído! 💪"
-);
-
 }
 
 
 
 /* =====================================================
-   SALVAR PESO
-===================================================== */
-
-function salvarPeso(){
-
-const campo =
-document.getElementById(
-"campoPeso"
-);
-
-
-const peso =
-parseFloat(
-campo.value
-);
-
-
-if(
-!peso ||
-peso<=0
-){
-
-alert(
-"Digite um peso válido."
-);
-
-return;
-
-}
-
-
-dados.peso=peso;
-
-
-dados.historicoPeso.push({
-
-peso:peso,
-
-data:
-new Date()
-.toLocaleDateString(
-"pt-BR"
-)
-
-});
-
-
-campo.value="";
-
-
-salvarDados();
-
-
-alert(
-"Peso registrado! ⚖️"
-);
-
-}
-
-
-
-/* =====================================================
-   NAVEGAÇÃO
+NAVEGAÇÃO
 ===================================================== */
 
 function abrirTela(tela){
@@ -945,7 +1605,9 @@ menus.forEach(
 document
 .getElementById(id)
 .classList
-.remove("active");
+.remove(
+"active"
+);
 
 });
 
@@ -953,27 +1615,46 @@ document
 document
 .getElementById(
 "menu"+
-tela.charAt(0)
-.toUpperCase()+
+tela.charAt(0).toUpperCase()+
 tela.slice(1)
 )
 .classList
-.add("active");
+.add(
+"active"
+);
+
+
+if(tela==="treino"){
+
+if(!dados.dataInicio){
+
+alert(
+"Defina a data de início primeiro."
+);
+
+abrirTela("inicio");
+
+return;
+
+}
+
+montarTreino(
+dados.proximoTreino
+);
+
+}
 
 }
 
 
 
 /* =====================================================
-   INICIALIZAÇÃO
+INICIAR
 ===================================================== */
 
-montarTreino();
-
-atualizarTela();
+atualizar();
 
 </script>
 
 </body>
-
 </html>
