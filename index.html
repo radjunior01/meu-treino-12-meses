@@ -1,1 +1,1043 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111827">
 
+<title>Meu Treino V5</title>
+
+<style>
+
+*{
+box-sizing:border-box
+}
+
+body{
+margin:0;
+font-family:Arial,Helvetica,sans-serif;
+background:#f1f5f9;
+color:#111827
+}
+
+header{
+background:#111827;
+color:white;
+padding:20px 18px;
+position:sticky;
+top:0;
+z-index:10
+}
+
+header h1{
+margin:0;
+font-size:24px
+}
+
+header p{
+margin:6px 0 0;
+color:#cbd5e1;
+font-size:13px
+}
+
+main{
+max-width:760px;
+margin:auto;
+padding:15px 14px 100px
+}
+
+.card{
+background:white;
+border-radius:18px;
+padding:18px;
+margin-bottom:14px;
+box-shadow:0 4px 15px rgba(0,0,0,.06)
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px
+}
+
+.muted{
+color:#64748b;
+font-size:13px;
+line-height:1.5
+}
+
+.small{
+font-size:11px
+}
+
+.badge{
+background:#e5e7eb;
+padding:6px 10px;
+border-radius:20px;
+font-size:11px
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px
+}
+
+.stat{
+background:#f8fafc;
+border-radius:14px;
+padding:14px
+}
+
+.stat span{
+font-size:12px;
+color:#64748b
+}
+
+.stat strong{
+display:block;
+font-size:21px;
+margin-top:5px
+}
+
+.progress{
+height:10px;
+background:#e5e7eb;
+border-radius:20px;
+overflow:hidden;
+margin:14px 0
+}
+
+.progress-bar{
+height:100%;
+background:#111827;
+width:0%;
+transition:.3s
+}
+
+button{
+border:0;
+border-radius:12px;
+padding:12px 15px;
+background:#111827;
+color:white;
+font-weight:bold;
+cursor:pointer;
+font-size:14px
+}
+
+button.green{
+background:#166534
+}
+
+button.secondary{
+background:#e5e7eb;
+color:#111827
+}
+
+button.red{
+background:#991b1b
+}
+
+input{
+width:100%;
+padding:11px;
+border:1px solid #cbd5e1;
+border-radius:10px;
+font-size:14px;
+background:white
+}
+
+.inputs{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+margin-top:10px
+}
+
+.day-grid{
+display:grid;
+grid-template-columns:repeat(7,1fr);
+gap:6px;
+margin-top:12px
+}
+
+.day{
+border:1px solid #cbd5e1;
+border-radius:10px;
+padding:9px 4px;
+text-align:center;
+font-size:11px;
+cursor:pointer;
+background:white
+}
+
+.day.selected{
+background:#111827;
+color:white;
+border-color:#111827
+}
+
+.day small{
+display:block;
+margin-top:4px;
+opacity:.7
+}
+
+.preview{
+border-top:1px solid #e5e7eb;
+padding:13px 0
+}
+
+.preview:first-child{
+border-top:0
+}
+
+.week-title{
+font-weight:bold;
+margin-bottom:8px
+}
+
+.week-days{
+display:grid;
+grid-template-columns:repeat(7,1fr);
+gap:4px
+}
+
+.week-day{
+background:#f8fafc;
+border-radius:8px;
+padding:8px 3px;
+text-align:center;
+font-size:10px
+}
+
+.week-day strong{
+display:block;
+font-size:12px;
+margin-top:4px
+}
+
+.week-day.a{
+background:#e5e7eb
+}
+
+.week-day.b{
+background:#dbeafe
+}
+
+.week-day.rest{
+color:#94a3b8
+}
+
+.phase{
+border-left:5px solid #111827;
+padding-left:12px
+}
+
+.exercise{
+padding:16px 0;
+border-top:1px solid #e5e7eb
+}
+
+.exercise:first-child{
+border-top:0
+}
+
+.exercise-name{
+font-weight:bold;
+font-size:16px
+}
+
+.exercise-info{
+font-size:13px;
+color:#64748b;
+margin-top:5px
+}
+
+.exercise-note{
+font-size:12px;
+color:#475569;
+margin-top:8px;
+line-height:1.45
+}
+
+.series{
+margin-top:10px;
+padding:10px;
+background:#f8fafc;
+border-radius:10px
+}
+
+.series-title{
+font-size:12px;
+font-weight:bold;
+margin-bottom:6px
+}
+
+.history{
+padding:12px 0;
+border-top:1px solid #e5e7eb
+}
+
+.history:first-child{
+border-top:0
+}
+
+.history-exercise{
+padding:8px 0;
+font-size:12px
+}
+
+.hidden{
+display:none!important
+}
+
+nav{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:white;
+border-top:1px solid #e5e7eb;
+display:flex;
+justify-content:center;
+gap:5px;
+padding:9px;
+z-index:20
+}
+
+nav button{
+background:transparent;
+color:#64748b;
+font-size:12px;
+padding:9px 12px
+}
+
+nav button.active{
+background:#111827;
+color:white
+}
+
+.warning{
+background:#fff7ed;
+border:1px solid #fed7aa;
+border-radius:12px;
+padding:12px;
+font-size:12px;
+line-height:1.5
+}
+
+.success{
+background:#f0fdf4;
+border:1px solid #bbf7d0;
+border-radius:12px;
+padding:12px;
+font-size:12px
+}
+
+.danger{
+background:#fef2f2;
+border:1px solid #fecaca;
+border-radius:12px;
+padding:12px;
+font-size:12px;
+line-height:1.5
+}
+
+.record{
+background:#fefce8;
+border:1px solid #fde68a;
+border-radius:12px;
+padding:12px;
+margin-top:10px;
+font-size:12px
+}
+
+.chart{
+width:100%;
+height:220px;
+margin-top:10px
+}
+
+.table{
+width:100%;
+border-collapse:collapse;
+font-size:12px;
+margin-top:10px
+}
+
+.table th,
+.table td{
+padding:9px 6px;
+border-bottom:1px solid #e5e7eb;
+text-align:left
+}
+
+.table th{
+color:#64748b;
+font-size:11px
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<h1>💪 Meu Treino</h1>
+
+<p>
+Plano de hipertrofia • 52 semanas • V5.1
+</p>
+
+</header>
+
+<main>
+
+<!-- ==================================================
+INÍCIO
+================================================== -->
+
+<section id="inicio">
+
+<div class="card">
+
+<div class="row">
+
+<div>
+
+<strong>Status do plano</strong>
+
+<div
+class="muted"
+id="statusPlano"
+>
+Planejamento
+</div>
+
+</div>
+
+<span
+class="badge"
+id="semanaBadge"
+>
+Sem data
+</span>
+
+</div>
+
+
+<div id="planejamento">
+
+<p class="muted">
+Escolha quando pretende começar e quais dias da semana serão seus treinos.
+</p>
+
+<label class="small">
+📅 Data pretendida de início
+</label>
+
+<br><br>
+
+<input
+type="date"
+id="dataPlanejamento"
+>
+
+<br><br>
+
+<strong>
+🗓️ Dias de treino
+</strong>
+
+<p class="muted">
+Escolha exatamente 3 dias.
+</p>
+
+<div
+class="day-grid"
+id="seletorDias"
+></div>
+
+<p
+class="muted"
+id="contadorDias"
+>
+0 de 3 dias selecionados
+</p>
+
+</div>
+
+</div>
+
+
+<!-- PRÉVIA -->
+
+<div
+class="card"
+id="cardPreview"
+>
+
+<div class="row">
+
+<strong>
+👀 Prévia do calendário
+</strong>
+
+<span class="badge">
+Simulação
+</span>
+
+</div>
+
+<p class="muted">
+Veja como ficará a sequência A/B antes de iniciar.
+</p>
+
+<div id="previewCalendario">
+
+<p class="muted">
+Escolha a data e os 3 dias de treino para visualizar.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- CONFIRMAÇÃO -->
+
+<div
+class="card"
+id="cardConfirmacao"
+>
+
+<strong>
+🚀 Quando estiver pronto
+</strong>
+
+<p class="muted">
+A data e os dias escolhidos serão usados para montar seu plano de 52 semanas.
+</p>
+
+<button
+class="green"
+onclick="iniciarPlanoOficial()"
+>
+🟢 Iniciar plano oficialmente
+</button>
+
+</div>
+
+
+<!-- PLANO ATIVO -->
+
+<div
+class="card hidden"
+id="cardAtivo"
+>
+
+<div class="row">
+
+<div>
+
+<strong id="faseNome">
+-
+</strong>
+
+<div
+class="muted"
+id="focoFase"
+>
+-
+</div>
+
+</div>
+
+<span
+class="badge"
+id="esforco"
+>
+-
+</span>
+
+</div>
+
+<div class="progress">
+
+<div
+class="progress-bar"
+id="barra"
+></div>
+
+</div>
+
+<div class="grid">
+
+<div class="stat">
+
+<span>
+Semana
+</span>
+
+<strong id="semanaAtual">
+-
+</strong>
+
+</div>
+
+<div class="stat">
+
+<span>
+Treinos concluídos
+</span>
+
+<strong id="totalTreinosInicio">
+0
+</strong>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- FASE -->
+
+<div
+class="card hidden"
+id="cardFase"
+>
+
+<div class="phase">
+
+<strong id="faseTitulo">
+-
+</strong>
+
+<p
+class="muted"
+id="faseDescricao"
+>
+-
+</p>
+
+<p
+class="small"
+id="faseObservacao"
+>
+-
+</p>
+
+</div>
+
+</div>
+
+
+<!-- HOJE -->
+
+<div
+class="card hidden"
+id="cardHoje"
+>
+
+<div class="row">
+
+<div>
+
+<strong id="tituloHoje">
+Hoje
+</strong>
+
+<div
+class="muted"
+id="subtituloHoje"
+>
+-
+</div>
+
+</div>
+
+<span
+class="badge"
+id="badgeHoje"
+>
+-
+</span>
+
+</div>
+
+<p
+class="muted"
+id="orientacaoHoje"
+>
+-
+</p>
+
+<button
+onclick="abrirTreinoAtual()"
+>
+Abrir treino →
+</button>
+
+</div>
+
+
+<!-- ESTATÍSTICAS -->
+
+<div class="card">
+
+<div class="grid">
+
+<div class="stat">
+
+<span>
+🏋️ Treinos concluídos
+</span>
+
+<strong id="totalTreinos">
+0
+</strong>
+
+</div>
+
+<div class="stat">
+
+<span>
+⚖️ Peso atual
+</span>
+
+<strong id="pesoAtual">
+-- kg
+</strong>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ==================================================
+TREINO
+================================================== -->
+
+<section
+id="treino"
+class="hidden"
+>
+
+<div class="card">
+
+<div class="row">
+
+<div>
+
+<strong id="treinoTitulo">
+Treino
+</strong>
+
+<div
+class="muted"
+id="treinoSubtitulo"
+>
+-
+</div>
+
+</div>
+
+<span
+class="badge"
+id="treinoBadge"
+>
+-
+</span>
+
+</div>
+
+<div id="listaExercicios"></div>
+
+<div class="warning">
+
+💡 <strong>Antes de concluir:</strong>
+
+confira se todas as séries que você realizou estão registradas.
+
+</div>
+
+<br>
+
+<button
+class="green"
+onclick="concluirTreino()"
+>
+✓ Concluir treino
+</button>
+
+</div>
+
+</section>
+
+
+<!-- ==================================================
+PROGRESSO
+================================================== -->
+
+<section
+id="progresso"
+class="hidden"
+>
+
+<div class="card">
+
+<strong>
+⚖️ Registrar peso
+</strong>
+
+<p class="muted">
+Acompanhe sua evolução corporal.
+</p>
+
+<div class="inputs">
+
+<input
+type="number"
+id="campoPeso"
+placeholder="Peso em kg"
+step="0.1"
+>
+
+<button
+onclick="salvarPeso()"
+>
+Salvar
+</button>
+
+</div>
+
+<div id="historicoPeso"></div>
+
+</div>
+
+
+<div class="card">
+
+<strong>
+📊 Resumo
+</strong>
+
+<div class="grid">
+
+<div class="stat">
+
+<span>
+Treinos
+</span>
+
+<strong id="totalTreinos2">
+0
+</strong>
+
+</div>
+
+<div class="stat">
+
+<span>
+Plano
+</span>
+
+<strong id="progressoPercentual">
+0%
+</strong>
+
+</div>
+
+</div>
+
+<p class="muted">
+
+Semana
+<strong id="progressoSemana">
+-
+</strong>
+
+</p>
+
+</div>
+
+
+<!-- EVOLUÇÃO -->
+
+<div class="card">
+
+<div class="row">
+
+<strong>
+📈 Evolução dos exercícios
+</strong>
+
+<span class="badge">
+V5.1
+</span>
+
+</div>
+
+<p class="muted">
+Veja a maior carga registrada e acompanhe sua progressão.
+</p>
+
+<div id="resumoExercicios">
+
+<p class="muted">
+Nenhum treino registrado ainda.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- HISTÓRICO -->
+
+<div class="card">
+
+<div class="row">
+
+<strong>
+📚 Histórico de treinos
+</strong>
+
+<span
+class="badge"
+id="historicoQuantidade"
+>
+0
+</span>
+
+</div>
+
+<div id="historicoTreinos">
+
+<p class="muted">
+Nenhum treino concluído ainda.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- BACKUP -->
+
+<div class="card">
+
+<strong>
+🛡️ Backup dos dados
+</strong>
+
+<p class="muted">
+Exporte seus dados para guardar uma cópia do histórico.
+</p>
+
+<button
+onclick="exportarBackup()"
+>
+⬇️ Exportar backup
+</button>
+
+<br><br>
+
+<label class="small">
+Restaurar backup
+</label>
+
+<br><br>
+
+<input
+type="file"
+id="arquivoBackup"
+accept=".json"
+onchange="importarBackup(event)"
+>
+
+</div>
+
+
+<!-- REINICIAR -->
+
+<div class="card">
+
+<strong>
+🔄 Reiniciar plano
+</strong>
+
+<p class="muted">
+Use esta opção somente se quiser apagar o progresso atual e configurar um novo plano.
+</p>
+
+<div class="danger">
+
+⚠️ Esta ação apagará a configuração atual, histórico de treinos, pesos e cargas salvas.
+
+<br><br>
+
+<strong>
+Faça um backup antes de continuar.
+</strong>
+
+</div>
+
+<br>
+
+<button
+class="red"
+onclick="reiniciarPlano()"
+>
+🗑️ Reiniciar plano
+</button>
+
+</div>
+
+</section>
+
+</main>
+
+
+<!-- ==================================================
+MENU
+================================================== -->
+
+<nav>
+
+<button
+id="menuInicio"
+class="active"
+onclick="abrirTela('inicio')"
+>
+🏠 Início
+</button>
+
+<button
+id="menuTreino"
+onclick="abrirTela('treino')"
+>
+🏋️ Treino
+</button>
+
+<button
+id="menuProgresso"
+onclick="abrirTela('progresso')"
+>
+📈 Progresso
+</button>
+
+</nav>
+
+
+<script>
