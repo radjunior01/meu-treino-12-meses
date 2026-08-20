@@ -3308,3 +3308,677 @@ alert(
 location.reload();
 
 }
+/* =====================================================
+ATUALIZAR INTERFACE
+===================================================== */
+
+function atualizar(){
+
+/* -----------------------------
+ESTATÍSTICAS
+----------------------------- */
+
+document.getElementById(
+"totalTreinos"
+).textContent =
+dados.treinos;
+
+
+document.getElementById(
+"totalTreinosInicio"
+).textContent =
+dados.treinos;
+
+
+document.getElementById(
+"totalTreinos2"
+).textContent =
+dados.treinos;
+
+
+document.getElementById(
+"pesoAtual"
+).textContent =
+dados.peso
+?
+dados.peso + " kg"
+:
+"-- kg";
+
+
+/* -----------------------------
+HISTÓRICOS
+----------------------------- */
+
+montarHistorico();
+
+montarHistoricoPeso();
+
+
+/* -----------------------------
+RESUMO DE EXERCÍCIOS
+----------------------------- */
+
+if(
+document.getElementById(
+"resumoExercicios"
+)
+){
+
+montarResumoExercicios();
+
+}
+
+
+/* =================================================
+PLANO AINDA NÃO INICIADO
+================================================= */
+
+if(!dados.dataInicio){
+
+document.getElementById(
+"statusPlano"
+).textContent =
+"Planejamento";
+
+
+document.getElementById(
+"semanaBadge"
+).textContent =
+"Sem data";
+
+
+document.getElementById(
+"planejamento"
+).classList.remove(
+"hidden"
+);
+
+
+document.getElementById(
+"cardConfirmacao"
+).classList.remove(
+"hidden"
+);
+
+
+document.getElementById(
+"cardAtivo"
+).classList.add(
+"hidden"
+);
+
+
+document.getElementById(
+"cardFase"
+).classList.add(
+"hidden"
+);
+
+
+document.getElementById(
+"cardHoje"
+).classList.add(
+"hidden"
+);
+
+
+/*
+Restaura os dias selecionados.
+*/
+
+diasSelecionados =
+Array.isArray(
+dados.diasTreino
+)
+?
+[...dados.diasTreino]
+:
+[];
+
+
+criarSeletorDias();
+
+
+const campo =
+document.getElementById(
+"dataPlanejamento"
+);
+
+
+if(
+campo &&
+dados.dataInicio
+){
+
+campo.value =
+dados.dataInicio;
+
+}
+
+
+return;
+
+}
+
+
+/* =================================================
+PLANO ATIVO
+================================================= */
+
+document.getElementById(
+"statusPlano"
+).textContent =
+"Plano ativo";
+
+
+const semana =
+calcularSemana();
+
+
+const fase =
+obterFase(semana);
+
+
+const hoje =
+treinoHoje();
+
+
+/* -----------------------------
+SEMANA
+----------------------------- */
+
+document.getElementById(
+"semanaBadge"
+).textContent =
+"Semana " + semana;
+
+
+document.getElementById(
+"planejamento"
+).classList.add(
+"hidden"
+);
+
+
+document.getElementById(
+"cardConfirmacao"
+).classList.add(
+"hidden"
+);
+
+
+document.getElementById(
+"cardAtivo"
+).classList.remove(
+"hidden"
+);
+
+
+document.getElementById(
+"cardFase"
+).classList.remove(
+"hidden"
+);
+
+
+document.getElementById(
+"cardHoje"
+).classList.remove(
+"hidden"
+);
+
+
+document.getElementById(
+"semanaAtual"
+).textContent =
+semana + " / 52";
+
+
+/* -----------------------------
+FASE
+----------------------------- */
+
+if(fase){
+
+document.getElementById(
+"faseNome"
+).textContent =
+fase.nome;
+
+
+document.getElementById(
+"focoFase"
+).textContent =
+fase.foco;
+
+
+document.getElementById(
+"esforco"
+).textContent =
+fase.esforco;
+
+
+document.getElementById(
+"faseTitulo"
+).textContent =
+fase.nome;
+
+
+document.getElementById(
+"faseDescricao"
+).textContent =
+fase.foco;
+
+
+document.getElementById(
+"faseObservacao"
+).textContent =
+fase.observacao;
+
+}
+
+
+/* -----------------------------
+BARRA DE PROGRESSO
+----------------------------- */
+
+const percentual =
+Math.round(
+(semana / 52) * 100
+);
+
+
+document.getElementById(
+"barra"
+).style.width =
+percentual + "%";
+
+
+document.getElementById(
+"progressoSemana"
+).textContent =
+semana + " / 52";
+
+
+document.getElementById(
+"progressoPercentual"
+).textContent =
+percentual + "%";
+
+
+/* =================================================
+TREINO DE HOJE
+================================================= */
+
+if(
+hoje === "Descanso"
+){
+
+document.getElementById(
+"tituloHoje"
+).textContent =
+"😴 Descanso";
+
+
+document.getElementById(
+"subtituloHoje"
+).textContent =
+"Dia sem treino";
+
+
+document.getElementById(
+"badgeHoje"
+).textContent =
+"Descanso";
+
+
+document.getElementById(
+"orientacaoHoje"
+).textContent =
+"Hoje é descanso. Próximo treino: " +
+dados.proximoTreino +
+".";
+
+}else{
+
+document.getElementById(
+"tituloHoje"
+).textContent =
+"🏋️ Treino " +
+dados.proximoTreino;
+
+
+document.getElementById(
+"subtituloHoje"
+).textContent =
+"Hoje é dia de treino";
+
+
+document.getElementById(
+"badgeHoje"
+).textContent =
+dados.proximoTreino;
+
+
+document.getElementById(
+"orientacaoHoje"
+).textContent =
+"Registre suas cargas e repetições durante o treino.";
+
+}
+
+}
+
+
+/* =====================================================
+NAVEGAÇÃO ENTRE ABAS
+===================================================== */
+
+function abrirTela(tela){
+
+const telas = [
+
+"inicio",
+"treino",
+"progresso"
+
+];
+
+
+const menus = [
+
+"menuInicio",
+"menuTreino",
+"menuProgresso"
+
+];
+
+
+/* -----------------------------
+VERIFICAÇÃO DO TREINO
+----------------------------- */
+
+if(
+tela === "treino"
+){
+
+if(!dados.dataInicio){
+
+alert(
+
+"O plano ainda não foi iniciado.\n\n" +
+
+"Escolha a data de início e os 3 dias de treino na página inicial."
+
+);
+
+abrirTela(
+"inicio"
+);
+
+return;
+
+}
+
+
+if(
+treinoHoje() === "Descanso"
+){
+
+alert(
+"Hoje é dia de descanso. 😴"
+);
+
+abrirTela(
+"inicio"
+);
+
+return;
+
+}
+
+}
+
+
+/* -----------------------------
+ESCONDER TODAS AS TELAS
+----------------------------- */
+
+telas.forEach(
+nome => {
+
+const elemento =
+document.getElementById(
+nome
+);
+
+if(elemento){
+
+elemento.classList.toggle(
+"hidden",
+nome !== tela
+);
+
+}
+
+});
+
+
+/* -----------------------------
+ATUALIZAR MENU
+----------------------------- */
+
+menus.forEach(
+id => {
+
+const botao =
+document.getElementById(
+id
+);
+
+if(botao){
+
+botao.classList.remove(
+"active"
+);
+
+}
+
+});
+
+
+const idMenu =
+"menu" +
+tela.charAt(0).toUpperCase() +
+tela.slice(1);
+
+
+const menu =
+document.getElementById(
+idMenu
+);
+
+
+if(menu){
+
+menu.classList.add(
+"active"
+);
+
+}
+
+
+/* -----------------------------
+AÇÕES ESPECÍFICAS
+----------------------------- */
+
+if(
+tela === "treino"
+){
+
+montarTreino(
+dados.proximoTreino
+);
+
+}
+
+
+if(
+tela === "progresso"
+){
+
+montarHistorico();
+
+montarHistoricoPeso();
+
+if(
+document.getElementById(
+"resumoExercicios"
+)
+){
+
+montarResumoExercicios();
+
+}
+
+}
+
+}
+
+
+/* =====================================================
+EVENTOS DO PLANEJAMENTO
+===================================================== */
+
+const campoData =
+document.getElementById(
+"dataPlanejamento"
+);
+
+
+if(campoData){
+
+campoData.addEventListener(
+"change",
+function(){
+
+atualizarPlanejamento();
+
+}
+);
+
+}
+
+
+/* =====================================================
+ATUALIZAÇÃO AO MUDAR A DATA
+===================================================== */
+
+function atualizarDataEPrevia(){
+
+atualizarPlanejamento();
+
+}
+
+
+/* =====================================================
+INICIALIZAÇÃO
+===================================================== */
+
+function iniciarAplicativo(){
+
+/*
+Sincroniza dias selecionados.
+*/
+
+diasSelecionados =
+Array.isArray(
+dados.diasTreino
+)
+?
+[...dados.diasTreino]
+:
+[];
+
+
+/*
+Cria seletor.
+*/
+
+criarSeletorDias();
+
+
+/*
+Preenche data salva,
+se houver.
+*/
+
+const campo =
+document.getElementById(
+"dataPlanejamento"
+);
+
+
+if(
+campo &&
+dados.dataInicio
+){
+
+campo.value =
+dados.dataInicio;
+
+}
+
+
+/*
+Atualiza contador.
+*/
+
+const contador =
+document.getElementById(
+"contadorDias"
+);
+
+
+if(contador){
+
+contador.textContent =
+
+diasSelecionados.length +
+" de 3 dias selecionados";
+
+}
+
+
+/*
+Atualiza prévia.
+*/
+
+atualizarPlanejamento();
+
+
+/*
+Atualiza toda interface.
+*/
+
+atualizar();
+
+
+/*
+Garante início na aba inicial.
+*/
+
+abrirTela(
+"inicio"
+);
+
+}
+
+
+/* =====================================================
+INICIAR APP
+===================================================== */
+
+iniciarAplicativo();
+  
