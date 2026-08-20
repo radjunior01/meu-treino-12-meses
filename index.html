@@ -1996,4 +1996,1315 @@ abrirTela(
 );
 
 }
-  
+  /* =====================================================
+MONTAR TREINO
+===================================================== */
+
+function montarTreino(tipo){
+
+const lista =
+document.getElementById(
+"listaExercicios"
+);
+
+if(!lista){
+
+return;
+
+}
+
+
+const exercicios =
+tipo === "A"
+?
+treinoA
+:
+treinoB;
+
+
+lista.innerHTML = "";
+
+
+exercicios.forEach(
+(exercicio,index)=>{
+
+
+let seriesHTML = "";
+
+
+for(
+let s=1;
+s<=exercicio.series;
+s++
+){
+
+
+const chave =
+tipo +
+"_" +
+index +
+"_" +
+s;
+
+
+const anterior =
+dados.cargas[chave] || {};
+
+
+seriesHTML += `
+
+<div class="series">
+
+<div class="series-title">
+
+Série ${s}
+
+${
+anterior.carga !== undefined &&
+anterior.carga !== null
+?
+" • Última: " +
+anterior.carga +
+" kg" +
+(
+anterior.reps
+?
+" / " +
+anterior.reps +
+" reps"
+:
+""
+)
+:
+""
+}
+
+</div>
+
+
+<div class="inputs">
+
+<input
+
+type="number"
+
+step="0.5"
+
+placeholder="Carga kg"
+
+class="carga"
+
+data-exercicio="${index}"
+
+data-serie="${s}"
+
+value="${
+anterior.carga !== undefined &&
+anterior.carga !== null
+?
+anterior.carga
+:
+""
+}"
+
+>
+
+
+<input
+
+type="number"
+
+placeholder="Reps"
+
+class="reps"
+
+data-exercicio="${index}"
+
+data-serie="${s}"
+
+value=""
+
+>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+lista.innerHTML += `
+
+<div class="exercise">
+
+<div class="exercise-name">
+
+${exercicio.nome}
+
+</div>
+
+
+<div class="exercise-info">
+
+${exercicio.series}
+séries •
+
+${exercicio.reps}
+repetições •
+
+⏱️ ${exercicio.descanso}
+
+</div>
+
+
+<div class="exercise-note">
+
+💡 ${exercicio.nota}
+
+</div>
+
+
+${seriesHTML}
+
+</div>
+
+`;
+
+});
+
+
+treinoEmEdicao = tipo;
+
+
+document.getElementById(
+"treinoTitulo"
+).textContent =
+"🏋️ Treino " + tipo;
+
+
+document.getElementById(
+"treinoSubtitulo"
+).textContent =
+"Registre carga e repetições";
+
+
+document.getElementById(
+"treinoBadge"
+).textContent =
+tipo;
+
+}
+
+
+/* =====================================================
+CONCLUIR TREINO
+===================================================== */
+
+function concluirTreino(){
+
+if(!treinoEmEdicao){
+
+alert(
+"Abra um treino primeiro."
+);
+
+return;
+
+}
+
+
+const exercicios =
+treinoEmEdicao === "A"
+?
+treinoA
+:
+treinoB;
+
+
+const registros = [];
+
+
+document
+.querySelectorAll(".exercise")
+.forEach(
+(exercicioDiv,index)=>{
+
+
+const cargas =
+exercicioDiv
+.querySelectorAll(".carga");
+
+
+const reps =
+exercicioDiv
+.querySelectorAll(".reps");
+
+
+const series = [];
+
+
+cargas.forEach(
+(carga,i)=>{
+
+
+const cargaValor =
+parseFloat(
+carga.value
+);
+
+
+const repsValor =
+parseInt(
+reps[i].value
+);
+
+
+if(
+!isNaN(cargaValor) ||
+!isNaN(repsValor)
+){
+
+
+series.push({
+
+carga:
+isNaN(cargaValor)
+?
+null
+:
+cargaValor,
+
+reps:
+isNaN(repsValor)
+?
+null
+:
+repsValor
+
+});
+
+
+/*
+Atualiza a última carga
+do exercício.
+*/
+
+if(
+!isNaN(cargaValor)
+){
+
+
+const chave =
+treinoEmEdicao +
+"_" +
+index +
+"_" +
+(i+1);
+
+
+dados.cargas[chave] = {
+
+carga:cargaValor,
+
+reps:
+isNaN(repsValor)
+?
+null
+:
+repsValor
+
+};
+
+}
+
+}
+
+});
+
+
+registros.push({
+
+exercicio:
+exercicios[index].nome,
+
+series:series
+
+});
+
+});
+
+
+/*
+Exige pelo menos uma série registrada.
+*/
+
+const possuiRegistro =
+registros.some(
+item =>
+item.series.length > 0
+);
+
+
+if(!possuiRegistro){
+
+alert(
+
+"Registre pelo menos uma série antes de concluir o treino."
+
+);
+
+return;
+
+}
+
+
+/*
+Confirmação final.
+*/
+
+const confirmar =
+confirm(
+
+"Concluir o Treino " +
+treinoEmEdicao +
+"?\n\n" +
+
+"Os dados serão adicionados ao histórico."
+
+);
+
+
+if(!confirmar){
+
+return;
+
+}
+
+
+const semana =
+calcularSemana();
+
+
+const agora =
+new Date();
+
+
+const registro = {
+
+id:Date.now(),
+
+data:
+agora.toLocaleDateString(
+"pt-BR"
+),
+
+hora:
+agora.toLocaleTimeString(
+"pt-BR",
+{
+hour:"2-digit",
+minute:"2-digit"
+}
+),
+
+treino:
+treinoEmEdicao,
+
+semana:
+semana,
+
+exercicios:
+registros
+
+};
+
+
+dados.historicoTreinos.push(
+registro
+);
+
+
+dados.treinos =
+dados.historicoTreinos.length;
+
+
+/*
+Alterna A/B.
+*/
+
+dados.proximoTreino =
+treinoEmEdicao === "A"
+?
+"B"
+:
+"A";
+
+
+salvar();
+
+
+alert(
+
+"Treino " +
+treinoEmEdicao +
+" registrado com sucesso! 💪🔥"
+
+);
+
+
+treinoEmEdicao = null;
+
+
+abrirTela(
+"progresso"
+);
+
+
+atualizar();
+
+}
+
+
+/* =====================================================
+SALVAR PESO
+===================================================== */
+
+function salvarPeso(){
+
+const campo =
+document.getElementById(
+"campoPeso"
+);
+
+
+const peso =
+parseFloat(
+campo.value
+);
+
+
+if(
+!peso ||
+peso <= 0
+){
+
+alert(
+"Digite um peso válido."
+);
+
+return;
+
+}
+
+
+dados.peso = peso;
+
+
+dados.historicoPeso.push({
+
+peso:peso,
+
+data:
+new Date()
+.toLocaleDateString(
+"pt-BR"
+)
+
+});
+
+
+campo.value = "";
+
+
+salvar();
+
+
+atualizar();
+
+}
+
+
+/* =====================================================
+HISTÓRICO DE PESO
+===================================================== */
+
+function montarHistoricoPeso(){
+
+const area =
+document.getElementById(
+"historicoPeso"
+);
+
+
+if(
+dados.historicoPeso.length === 0
+){
+
+area.innerHTML = `
+
+<p class="muted">
+
+Nenhum registro ainda.
+
+</p>
+
+`;
+
+return;
+
+}
+
+
+area.innerHTML = "";
+
+
+dados.historicoPeso
+.slice()
+.reverse()
+.forEach(
+(item)=>{
+
+
+area.innerHTML += `
+
+<div class="history">
+
+<div class="muted">
+
+${item.data}
+
+</div>
+
+<strong>
+
+${item.peso} kg
+
+</strong>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+/* =====================================================
+HISTÓRICO DE TREINOS
+===================================================== */
+
+function montarHistorico(){
+
+const area =
+document.getElementById(
+"historicoTreinos"
+);
+
+
+document.getElementById(
+"historicoQuantidade"
+).textContent =
+dados.historicoTreinos.length;
+
+
+if(
+dados.historicoTreinos.length === 0
+){
+
+area.innerHTML = `
+
+<p class="muted">
+
+Nenhum treino concluído ainda.
+
+</p>
+
+`;
+
+return;
+
+}
+
+
+area.innerHTML = "";
+
+
+dados.historicoTreinos
+.slice()
+.reverse()
+.forEach(
+(registro)=>{
+
+
+let html = `
+
+<div class="history">
+
+<div class="row">
+
+<strong>
+
+Treino ${registro.treino}
+
+</strong>
+
+<span class="badge">
+
+Semana ${registro.semana}
+
+</span>
+
+</div>
+
+
+<div class="muted">
+
+${registro.data} • ${registro.hora}
+
+</div>
+
+`;
+
+
+registro.exercicios.forEach(
+(exercicio)=>{
+
+
+html += `
+
+<div class="history-exercise">
+
+<strong>
+
+${exercicio.exercicio}
+
+</strong>
+
+<br>
+
+`;
+
+
+if(
+exercicio.series.length === 0
+){
+
+html +=
+"Nenhuma série registrada";
+
+}else{
+
+
+exercicio.series.forEach(
+(serie,i)=>{
+
+
+html += `
+
+Série ${i+1}:
+
+${
+serie.carga !== null
+?
+serie.carga+" kg"
+:
+"--"
+}
+
+•
+
+${
+serie.reps !== null
+?
+serie.reps+" reps"
+:
+"--"
+}
+
+<br>
+
+`;
+
+});
+
+}
+
+
+html += `
+
+</div>
+
+`;
+
+});
+
+
+html += `
+
+</div>
+
+`;
+
+
+area.innerHTML += html;
+
+});
+
+}
+
+
+/* =====================================================
+RESUMO DOS EXERCÍCIOS
+===================================================== */
+
+function montarResumoExercicios(){
+
+const area =
+document.getElementById(
+"resumoExercicios"
+);
+
+
+const mapa = {};
+
+
+dados.historicoTreinos.forEach(
+(treino)=>{
+
+
+treino.exercicios.forEach(
+(exercicio)=>{
+
+
+if(
+!mapa[exercicio.exercicio]
+){
+
+mapa[exercicio.exercicio] = {
+
+maiorCarga:0,
+
+ultimaCarga:null,
+
+ultimoTreino:null,
+
+melhorReps:0
+
+};
+
+}
+
+
+exercicio.series.forEach(
+(serie)=>{
+
+
+if(
+serie.carga !== null &&
+serie.carga > mapa[
+exercicio.exercicio
+].maiorCarga
+){
+
+mapa[
+exercicio.exercicio
+].maiorCarga =
+serie.carga;
+
+}
+
+
+if(
+serie.reps !== null &&
+serie.reps >
+mapa[
+exercicio.exercicio
+].melhorReps
+){
+
+mapa[
+exercicio.exercicio
+].melhorReps =
+serie.reps;
+
+}
+
+});
+
+});
+
+});
+
+
+/*
+Último registro de cada exercício.
+*/
+
+dados.historicoTreinos
+.slice()
+.reverse()
+.forEach(
+(treino)=>{
+
+
+treino.exercicios.forEach(
+(exercicio)=>{
+
+
+if(
+!mapa[exercicio.exercicio]
+){
+
+return;
+
+}
+
+
+if(
+mapa[
+exercicio.exercicio
+].ultimaCarga === null
+){
+
+const cargas =
+exercicio.series
+.filter(
+serie =>
+serie.carga !== null
+);
+
+
+if(cargas.length){
+
+mapa[
+exercicio.exercicio
+].ultimaCarga =
+cargas[
+cargas.length-1
+].carga;
+
+mapa[
+exercicio.exercicio
+].ultimoTreino =
+treino.data;
+
+}
+
+}
+
+});
+
+});
+
+
+const nomes =
+Object.keys(mapa);
+
+
+if(
+nomes.length === 0
+){
+
+area.innerHTML = `
+
+<p class="muted">
+
+Nenhum treino registrado ainda.
+
+</p>
+
+`;
+
+return;
+
+}
+
+
+let html = `
+
+<table class="table">
+
+<thead>
+
+<tr>
+
+<th>Exercício</th>
+
+<th>Maior carga</th>
+
+<th>Última</th>
+
+<th>Reps</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+`;
+
+
+nomes.forEach(
+(nome)=>{
+
+
+const item =
+mapa[nome];
+
+
+html += `
+
+<tr>
+
+<td>
+
+<strong>
+${nome}
+</strong>
+
+</td>
+
+<td>
+
+${
+item.maiorCarga
+?
+item.maiorCarga+" kg"
+:
+"--"
+}
+
+</td>
+
+<td>
+
+${
+item.ultimaCarga !== null
+?
+item.ultimaCarga+" kg"
+:
+"--"
+}
+
+</td>
+
+<td>
+
+${
+item.melhorReps
+?
+item.melhorReps
+:
+"--"
+}
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+
+html += `
+
+</tbody>
+
+</table>
+
+`;
+
+
+area.innerHTML = html;
+
+}
+
+
+/* =====================================================
+BACKUP
+===================================================== */
+
+function exportarBackup(){
+
+const backup = {
+
+versao:"V5.1",
+
+exportadoEm:
+new Date().toISOString(),
+
+dados:dados
+
+};
+
+
+const blob =
+new Blob(
+[
+JSON.stringify(
+backup,
+null,
+2
+)
+],
+{
+type:"application/json"
+}
+);
+
+
+const url =
+URL.createObjectURL(
+blob
+);
+
+
+const link =
+document.createElement("a");
+
+
+link.href = url;
+
+link.download =
+"meu-treino-V5-backup.json";
+
+
+link.click();
+
+
+URL.revokeObjectURL(
+url
+);
+
+}
+
+
+/* =====================================================
+RESTAURAR BACKUP
+===================================================== */
+
+function importarBackup(event){
+
+const arquivo =
+event.target.files[0];
+
+
+if(!arquivo){
+
+return;
+
+}
+
+
+const leitor =
+new FileReader();
+
+
+leitor.onload =
+function(e){
+
+try{
+
+
+const backup =
+JSON.parse(
+e.target.result
+);
+
+
+if(
+!backup.dados
+){
+
+throw new Error(
+"Arquivo inválido"
+);
+
+}
+
+
+const confirmar =
+confirm(
+
+"Restaurar este backup?\n\n" +
+
+"Os dados atuais serão substituídos."
+
+);
+
+
+if(!confirmar){
+
+return;
+
+}
+
+
+dados =
+backup.dados;
+
+
+/*
+Garante estrutura mínima.
+*/
+
+if(
+!Array.isArray(
+dados.historicoTreinos
+)
+){
+
+dados.historicoTreinos = [];
+
+}
+
+
+if(
+!Array.isArray(
+dados.historicoPeso
+)
+){
+
+dados.historicoPeso = [];
+
+}
+
+
+if(!dados.cargas){
+
+dados.cargas = {};
+
+}
+
+
+dados.treinos =
+dados.historicoTreinos.length;
+
+
+salvar();
+
+
+alert(
+"Backup restaurado com sucesso! 🔐"
+);
+
+
+location.reload();
+
+
+}catch(erro){
+
+console.error(
+erro
+);
+
+alert(
+"Não foi possível restaurar este backup."
+);
+
+}
+
+};
+
+
+leitor.readAsText(
+arquivo
+);
+
+}
+
+
+/* =====================================================
+REINICIAR PLANO
+===================================================== */
+
+function reiniciarPlano(){
+
+const primeiraConfirmacao =
+confirm(
+
+"⚠️ ATENÇÃO!\n\n" +
+
+"Isso apagará o plano atual, histórico de treinos e cargas.\n\n" +
+
+"Você fez um backup antes de continuar?"
+
+);
+
+
+if(!primeiraConfirmacao){
+
+return;
+
+}
+
+
+const segundaConfirmacao =
+confirm(
+
+"ÚLTIMA CONFIRMAÇÃO!\n\n" +
+
+"Tem certeza que deseja REINICIAR o plano?\n\n" +
+
+"Depois disso você voltará para a tela de planejamento."
+
+);
+
+
+if(!segundaConfirmacao){
+
+return;
+
+}
+
+
+/*
+Mantém o histórico de peso,
+mas remove o plano e seus registros.
+*/
+
+dados = {
+
+dataInicio:null,
+
+diasTreino:[],
+
+treinos:0,
+
+peso:
+dados.peso || null,
+
+historicoPeso:
+dados.historicoPeso || [],
+
+proximoTreino:"A",
+
+historicoTreinos:[],
+
+cargas:{}
+
+};
+
+
+diasSelecionados = [];
+
+
+treinoEmEdicao = null;
+
+
+salvar();
+
+
+alert(
+"Plano reiniciado. 🔄"
+);
+
+
+location.reload();
+
+}
