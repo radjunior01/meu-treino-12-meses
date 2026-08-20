@@ -1041,3 +1041,959 @@ onclick="abrirTela('progresso')"
 
 
 <script>
+/* =====================================================
+DADOS DOS TREINOS
+===================================================== */
+
+const treinoA = [
+
+{
+nome:"Leg press",
+series:3,
+reps:"8–12",
+descanso:"2 min",
+nota:"Ao fazer 12 reps nas 3 séries com boa técnica, aumente um pouco a carga."
+},
+
+{
+nome:"Supino máquina ou barra",
+series:3,
+reps:"8–12",
+descanso:"2 min",
+nota:"Mesma regra."
+},
+
+{
+nome:"Remada baixa",
+series:3,
+reps:"8–12",
+descanso:"2 min",
+nota:"Movimento controlado, sem puxar com o corpo."
+},
+
+{
+nome:"Elevação lateral",
+series:3,
+reps:"12–15",
+descanso:"60–90 s",
+nota:"Aumente a carga mantendo controle."
+},
+
+{
+nome:"Mesa flexora",
+series:2,
+reps:"10–15",
+descanso:"90 s",
+nota:"Controle a volta do movimento."
+},
+
+{
+nome:"Rosca bíceps",
+series:2,
+reps:"10–15",
+descanso:"60–90 s",
+nota:"Evite balançar o tronco."
+},
+
+{
+nome:"Tríceps na polia",
+series:2,
+reps:"10–15",
+descanso:"60–90 s",
+nota:"Movimento controlado."
+}
+
+];
+
+
+const treinoB = [
+
+{
+nome:"Agachamento guiado ou leg press",
+series:3,
+reps:"8–12",
+descanso:"2 min",
+nota:"Priorize técnica e amplitude confortável."
+},
+
+{
+nome:"Supino inclinado",
+series:3,
+reps:"8–12",
+descanso:"2 min",
+nota:"Controle a descida."
+},
+
+{
+nome:"Puxada alta",
+series:3,
+reps:"8–12",
+descanso:"2 min",
+nota:"Puxe em direção ao alto do peito."
+},
+
+{
+nome:"Desenvolvimento de ombros máquina",
+series:2,
+reps:"8–12",
+descanso:"2 min",
+nota:"Movimento controlado."
+},
+
+{
+nome:"Cadeira extensora",
+series:2,
+reps:"10–15",
+descanso:"90 s",
+nota:"Controle subida e descida."
+},
+
+{
+nome:"Rosca bíceps",
+series:2,
+reps:"10–15",
+descanso:"60–90 s",
+nota:"Sem balanço."
+},
+
+{
+nome:"Tríceps na polia",
+series:2,
+reps:"10–15",
+descanso:"60–90 s",
+nota:"Controle o movimento."
+}
+
+];
+
+
+/* =====================================================
+FASES DO PLANO
+===================================================== */
+
+const fases = [
+
+{
+inicio:1,
+fim:4,
+nome:"Adaptação",
+esforco:"Leve–moderado",
+foco:"Aprender técnica e rotina",
+observacao:"Termine as séries sentindo que conseguiria mais 3–4 repetições."
+},
+
+{
+inicio:5,
+fim:12,
+nome:"Construção 1",
+esforco:"Moderado",
+foco:"Aumentar gradualmente cargas/reps",
+observacao:"Chegue perto da falha, sem precisar falhar em todas as séries."
+},
+
+{
+inicio:13,
+fim:24,
+nome:"Construção 2",
+esforco:"Moderado–alto",
+foco:"Consistência e progressão",
+observacao:"Registre cargas e repetições."
+},
+
+{
+inicio:25,
+fim:36,
+nome:"Construção 3",
+esforco:"Moderado–alto",
+foco:"Consolidar técnica e volume",
+observacao:"Reavalie medidas e fotos."
+},
+
+{
+inicio:37,
+fim:52,
+nome:"Construção 4",
+esforco:"Moderado–alto",
+foco:"Ganhar músculo mantendo cintura controlada",
+observacao:"Ajuste alimentação conforme evolução."
+}
+
+];
+
+
+const nomesDias = [
+"Dom",
+"Seg",
+"Ter",
+"Qua",
+"Qui",
+"Sex",
+"Sáb"
+];
+
+
+/* =====================================================
+CHAVE DE ARMAZENAMENTO
+===================================================== */
+
+const CHAVE_V5 = "meuTreino12MesesV5";
+
+
+/* =====================================================
+CARREGAR DADOS
+===================================================== */
+
+function criarDadosIniciais(){
+
+return {
+
+dataInicio:null,
+
+diasTreino:[],
+
+treinos:0,
+
+peso:null,
+
+historicoPeso:[],
+
+proximoTreino:"A",
+
+historicoTreinos:[],
+
+cargas:{}
+
+};
+
+}
+
+
+let dados;
+
+
+/*
+Tenta primeiro carregar a V5.
+
+Se ainda não existir V5, tenta aproveitar
+os dados existentes da V3/V4.
+*/
+
+try{
+
+const dadosV5 =
+localStorage.getItem(CHAVE_V5);
+
+if(dadosV5){
+
+dados =
+JSON.parse(dadosV5);
+
+}else{
+
+const dadosAntigos =
+localStorage.getItem("meuTreino12MesesV3");
+
+if(dadosAntigos){
+
+dados =
+JSON.parse(dadosAntigos);
+
+}else{
+
+dados =
+criarDadosIniciais();
+
+}
+
+}
+
+}catch(erro){
+
+console.error(
+"Erro ao carregar dados:",
+erro
+);
+
+dados =
+criarDadosIniciais();
+
+}
+
+
+/* =====================================================
+GARANTIR ESTRUTURA
+===================================================== */
+
+if(!dados.dataInicio){
+
+dados.dataInicio = null;
+
+}
+
+if(!Array.isArray(dados.diasTreino)){
+
+dados.diasTreino = [];
+
+}
+
+if(!Array.isArray(dados.historicoTreinos)){
+
+dados.historicoTreinos = [];
+
+}
+
+if(!Array.isArray(dados.historicoPeso)){
+
+dados.historicoPeso = [];
+
+}
+
+if(!dados.cargas){
+
+dados.cargas = {};
+
+}
+
+if(!dados.proximoTreino){
+
+dados.proximoTreino = "A";
+
+}
+
+dados.treinos =
+dados.historicoTreinos.length;
+
+
+/* =====================================================
+VARIÁVEIS
+===================================================== */
+
+let diasSelecionados =
+dados.diasTreino.length === 3
+?
+[...dados.diasTreino]
+:
+[];
+
+let treinoEmEdicao = null;
+
+
+/* =====================================================
+SALVAR
+===================================================== */
+
+function salvar(){
+
+localStorage.setItem(
+CHAVE_V5,
+JSON.stringify(dados)
+);
+
+}
+
+
+/* =====================================================
+DATA DE PLANEJAMENTO
+===================================================== */
+
+function obterDataPlanejamento(){
+
+const campo =
+document.getElementById(
+"dataPlanejamento"
+);
+
+if(!campo || !campo.value){
+
+return null;
+
+}
+
+return new Date(
+campo.value + "T00:00:00"
+);
+
+}
+
+
+/* =====================================================
+SELETOR DE DIAS
+===================================================== */
+
+function criarSeletorDias(){
+
+const area =
+document.getElementById(
+"seletorDias"
+);
+
+if(!area){
+
+return;
+
+}
+
+area.innerHTML = "";
+
+for(let i=0;i<7;i++){
+
+const div =
+document.createElement("div");
+
+div.className = "day";
+
+
+if(
+diasSelecionados.includes(i)
+){
+
+div.classList.add("selected");
+
+}
+
+
+div.innerHTML = `
+
+${nomesDias[i]}
+
+<small>
+
+${
+diasSelecionados.includes(i)
+?
+"✓"
+:
+""
+}
+
+</small>
+
+`;
+
+
+div.onclick = function(){
+
+if(
+diasSelecionados.includes(i)
+){
+
+diasSelecionados =
+diasSelecionados.filter(
+d => d !== i
+);
+
+}else{
+
+if(
+diasSelecionados.length >= 3
+){
+
+alert(
+"Escolha exatamente 3 dias."
+);
+
+return;
+
+}
+
+diasSelecionados.push(i);
+
+}
+
+
+diasSelecionados.sort(
+(a,b)=>a-b
+);
+
+
+document.getElementById(
+"contadorDias"
+).textContent =
+
+diasSelecionados.length +
+" de 3 dias selecionados";
+
+
+criarSeletorDias();
+
+atualizarPlanejamento();
+
+};
+
+
+area.appendChild(div);
+
+}
+
+}
+
+
+/* =====================================================
+TREINO NA SEMANA
+===================================================== */
+
+function treinoNaSemana(
+semana,
+dia
+){
+
+if(
+!diasSelecionados.includes(dia)
+){
+
+return "Descanso";
+
+}
+
+
+const posicao =
+diasSelecionados.indexOf(dia);
+
+
+if(
+semana % 2 === 1
+){
+
+return posicao % 2 === 0
+?
+"A"
+:
+"B";
+
+}
+
+
+return posicao % 2 === 0
+?
+"B"
+:
+"A";
+
+}
+
+
+/* =====================================================
+PRÉVIA DO CALENDÁRIO
+===================================================== */
+
+function atualizarPlanejamento(){
+
+const data =
+obterDataPlanejamento();
+
+const area =
+document.getElementById(
+"previewCalendario"
+);
+
+
+if(
+!data ||
+diasSelecionados.length !== 3
+){
+
+area.innerHTML = `
+
+<p class="muted">
+
+Escolha a data e os 3 dias de treino
+para visualizar.
+
+</p>
+
+`;
+
+return;
+
+}
+
+
+area.innerHTML = "";
+
+
+for(
+let semana=1;
+semana<=8;
+semana++
+){
+
+const inicio =
+new Date(data);
+
+inicio.setDate(
+inicio.getDate() +
+((semana-1)*7)
+);
+
+
+let html = `
+
+<div class="preview">
+
+<div class="week-title">
+
+Semana ${semana}
+
+</div>
+
+<div class="week-days">
+
+`;
+
+
+for(
+let dia=0;
+dia<7;
+dia++
+){
+
+const dataDia =
+new Date(inicio);
+
+dataDia.setDate(
+inicio.getDate()+dia
+);
+
+
+const diaSemana =
+dataDia.getDay();
+
+
+const treino =
+treinoNaSemana(
+semana,
+diaSemana
+);
+
+
+let classe = "rest";
+
+
+if(treino === "A"){
+
+classe = "a";
+
+}
+
+
+if(treino === "B"){
+
+classe = "b";
+
+}
+
+
+html += `
+
+<div class="week-day ${classe}">
+
+${nomesDias[diaSemana]}
+
+<strong>
+
+${
+treino === "Descanso"
+?
+"•"
+:
+treino
+}
+
+</strong>
+
+</div>
+
+`;
+
+}
+
+
+html += `
+
+</div>
+
+</div>
+
+`;
+
+
+area.innerHTML += html;
+
+}
+
+}
+
+
+/* =====================================================
+INICIAR PLANO OFICIALMENTE
+===================================================== */
+
+function iniciarPlanoOficial(){
+
+const campo =
+document.getElementById(
+"dataPlanejamento"
+);
+
+const data =
+campo.value;
+
+
+if(!data){
+
+alert(
+"Escolha a data de início."
+);
+
+return;
+
+}
+
+
+if(
+diasSelecionados.length !== 3
+){
+
+alert(
+"Escolha exatamente 3 dias de treino."
+);
+
+return;
+
+}
+
+
+/*
+Confirma antes de substituir o plano.
+*/
+
+const confirmar =
+confirm(
+
+"Confirma o início oficial do plano?\n\n" +
+
+"Data: " +
+new Date(
+data+"T00:00:00"
+).toLocaleDateString("pt-BR") +
+
+"\n\n" +
+
+"Treinos: " +
+diasSelecionados
+.map(d=>nomesDias[d])
+.join(", ") +
+
+"\n\n" +
+
+"Seu histórico atual será reiniciado."
+
+);
+
+
+if(!confirmar){
+
+return;
+
+}
+
+
+/* ==============================
+NOVO PLANO
+============================== */
+
+dados.dataInicio = data;
+
+dados.diasTreino =
+[...diasSelecionados];
+
+dados.treinos = 0;
+
+dados.proximoTreino = "A";
+
+dados.historicoTreinos = [];
+
+dados.cargas = {};
+
+
+/*
+Mantém histórico de peso.
+*/
+
+if(!Array.isArray(dados.historicoPeso)){
+
+dados.historicoPeso = [];
+
+}
+
+
+/*
+Salva imediatamente.
+*/
+
+salvar();
+
+
+alert(
+"Plano iniciado oficialmente! 🚀💪"
+);
+
+
+atualizar();
+
+}
+
+
+/* =====================================================
+CALCULAR SEMANA
+===================================================== */
+
+function calcularSemana(){
+
+if(!dados.dataInicio){
+
+return null;
+
+}
+
+
+const inicio =
+new Date(
+dados.dataInicio+"T00:00:00"
+);
+
+const hoje =
+new Date();
+
+
+const diferenca =
+hoje.getTime() -
+inicio.getTime();
+
+
+const dias =
+Math.floor(
+diferenca /
+(1000*60*60*24)
+);
+
+
+if(dias < 0){
+
+return 1;
+
+}
+
+
+let semana =
+Math.floor(dias/7)+1;
+
+
+if(semana > 52){
+
+semana = 52;
+
+}
+
+
+return semana;
+
+}
+
+
+/* =====================================================
+OBTER FASE
+===================================================== */
+
+function obterFase(semana){
+
+return fases.find(
+fase =>
+semana >= fase.inicio &&
+semana <= fase.fim
+);
+
+}
+
+
+/* =====================================================
+TREINO DE HOJE
+===================================================== */
+
+function treinoHoje(){
+
+const semana =
+calcularSemana();
+
+
+if(!semana){
+
+return "Descanso";
+
+}
+
+
+const dia =
+new Date().getDay();
+
+
+if(
+!dados.diasTreino.includes(dia)
+){
+
+return "Descanso";
+
+}
+
+
+return dados.proximoTreino;
+
+}
+
+
+/* =====================================================
+ABRIR TREINO ATUAL
+===================================================== */
+
+function abrirTreinoAtual(){
+
+if(
+!dados.dataInicio
+){
+
+alert(
+"O plano ainda não foi iniciado."
+);
+
+return;
+
+}
+
+
+const tipo =
+treinoHoje();
+
+
+if(
+tipo === "Descanso"
+){
+
+alert(
+"Hoje é dia de descanso. 😴"
+);
+
+return;
+
+}
+
+
+montarTreino(
+dados.proximoTreino
+);
+
+abrirTela(
+"treino"
+);
+
+}
+  
