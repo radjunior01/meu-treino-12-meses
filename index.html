@@ -2372,10 +2372,7 @@ s<=exercicio.series;
 s++
 ){
 
-const chave=
-tipo+
-"_"++
-"_"+s;
+const chave = tipo + "__" + s;
 
 const anterior=
 dados.cargas[chave] || {};
@@ -2601,10 +2598,7 @@ if(
 !isNaN(cargaValor)
 ){
 
-const chave=
-treinoEmEdicao+
-"_"++
-"_"+(i+1);
+const chave = treinoEmEdicao + "__" + (i + 1);
 
 dados.cargas[chave]={
 
