@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#111827">
 
-<title>Meu Treino V4.1</title>
+<title>Meu Treino V4.2</title>
 
 <style>
 
@@ -390,7 +390,7 @@ grid-template-columns:1fr;
 <h1>💪 Meu Treino</h1>
 
 <p>
-Plano de hipertrofia • 52 semanas • V4.1
+Plano de hipertrofia • 52 semanas • V4.2
 </p>
 
 </header>
@@ -1041,13 +1041,16 @@ CONFIGURAÇÃO
 ===================================================== */
 
 const CHAVE_ATUAL =
+"meuTreinoV42";
+
+const CHAVE_V41 =
 "meuTreinoV41";
 
 const CHAVE_V3 =
 "meuTreino12MesesV3";
 
 const CHAVE_BACKUP =
-"meuTreinoV41_backup";
+"meuTreinoV42_backup";
 
 
 /* =====================================================
@@ -1249,9 +1252,15 @@ function dadosVazios(){
 
 return {
 
-versao:4.1,
+versao:4.2,
 
 dataInicio:null,
+
+/*
+Data escolhida durante o planejamento.
+Fica separada da data oficial.
+*/
+dataPlanejamento:null,
 
 diasTreino:[],
 
@@ -1275,6 +1284,218 @@ backupCriadoEm:null
 
 
 /* =====================================================
+NORMALIZAR
+===================================================== */
+
+function normalizarDados(obj){
+
+const base=
+dadosVazios();
+
+if(
+!obj ||
+typeof obj!=="object"
+){
+
+return base;
+
+}
+
+
+/*
+Data oficial.
+*/
+
+if(
+typeof obj.dataInicio==="string" &&
+/^\d{4}-\d{2}-\d{2}$/.test(obj.dataInicio)
+){
+
+base.dataInicio=
+obj.dataInicio;
+
+}
+
+
+/*
+Data de planejamento.
+
+V4.1 já podia ter esta propriedade,
+então preservamos.
+*/
+
+if(
+typeof obj.dataPlanejamento==="string" &&
+/^\d{4}-\d{2}-\d{2}$/.test(obj.dataPlanejamento)
+){
+
+base.dataPlanejamento=
+obj.dataPlanejamento;
+
+}
+
+
+/*
+Se existe plano oficial mas não existe
+data de planejamento, usa a oficial.
+*/
+
+if(
+base.dataInicio &&
+!base.dataPlanejamento
+){
+
+base.dataPlanejamento=
+base.dataInicio;
+
+}
+
+
+/*
+Dias.
+*/
+
+if(
+Array.isArray(obj.diasTreino)
+){
+
+base.diasTreino=
+[...new Set(
+obj.diasTreino
+.map(Number)
+.filter(
+d=>d>=0 && d<=6
+)
+)];
+
+}
+
+
+/*
+Treinos.
+*/
+
+if(
+typeof obj.treinos==="number" &&
+isFinite(obj.treinos)
+){
+
+base.treinos=
+Math.max(0,obj.treinos);
+
+}
+
+
+/*
+Peso.
+*/
+
+if(
+typeof obj.peso==="number" &&
+isFinite(obj.peso)
+){
+
+base.peso=
+obj.peso;
+
+}
+
+
+/*
+Histórico de peso.
+*/
+
+if(
+Array.isArray(obj.historicoPeso)
+){
+
+base.historicoPeso=
+obj.historicoPeso;
+
+}
+
+
+/*
+Próximo treino.
+*/
+
+if(
+obj.proximoTreino==="A" ||
+obj.proximoTreino==="B"
+){
+
+base.proximoTreino=
+obj.proximoTreino;
+
+}
+
+
+/*
+Histórico de treinos.
+*/
+
+if(
+Array.isArray(obj.historicoTreinos)
+){
+
+base.historicoTreinos=
+obj.historicoTreinos;
+
+}
+
+
+/*
+Cargas.
+*/
+
+if(
+obj.cargas &&
+typeof obj.cargas==="object"
+){
+
+base.cargas=
+obj.cargas;
+
+}
+
+
+/*
+Backup.
+*/
+
+if(
+typeof obj.backupCriadoEm==="string"
+){
+
+base.backupCriadoEm=
+obj.backupCriadoEm;
+
+}
+
+
+/*
+O histórico é a fonte mais confiável
+para a quantidade de treinos.
+*/
+
+if(
+base.historicoTreinos.length>
+base.treinos
+){
+
+base.treinos=
+base.historicoTreinos.length;
+
+}
+
+base.versao=4.2;
+
+return base;
+
+}
+
+
+/* =====================================================
 CARREGAR DADOS
 ===================================================== */
 
@@ -1282,20 +1503,30 @@ function carregarDados(){
 
 let bruto=null;
 
+
+/*
+1. Tenta V4.2.
+*/
+
 try{
 
 bruto=
-localStorage.getItem(CHAVE_ATUAL);
+localStorage.getItem(
+CHAVE_ATUAL
+);
 
 }catch(e){
 
-bruto=null;
+console.warn(
+"Erro ao acessar V4.2.",
+e
+);
 
 }
 
 
 /*
-Se existe V4 válida, usa.
+V4.2 encontrada.
 */
 
 if(bruto){
@@ -1310,7 +1541,7 @@ return normalizarDados(salvo);
 }catch(e){
 
 console.warn(
-"V4 não pôde ser lida.",
+"V4.2 não pôde ser lida.",
 e
 );
 
@@ -1320,13 +1551,60 @@ e
 
 
 /*
-Tenta migrar V3.
+2. Tenta V4.1.
+*/
+
+try{
+
+const v41=
+localStorage.getItem(
+CHAVE_V41
+);
+
+if(v41){
+
+const dadosAntigos=
+JSON.parse(v41);
+
+const migrado=
+normalizarDados(
+dadosAntigos
+);
+
+
+/*
+Salva imediatamente como V4.2.
+*/
+
+localStorage.setItem(
+CHAVE_ATUAL,
+JSON.stringify(migrado)
+);
+
+return migrado;
+
+}
+
+}catch(e){
+
+console.warn(
+"Não foi possível migrar V4.1.",
+e
+);
+
+}
+
+
+/*
+3. Tenta V3.
 */
 
 try{
 
 const antigo=
-localStorage.getItem(CHAVE_V3);
+localStorage.getItem(
+CHAVE_V3
+);
 
 if(antigo){
 
@@ -1334,9 +1612,9 @@ const dadosAntigos=
 JSON.parse(antigo);
 
 const migrado=
-normalizarDados(dadosAntigos);
-
-migrado.versao=4.1;
+normalizarDados(
+dadosAntigos
+);
 
 localStorage.setItem(
 CHAVE_ATUAL,
@@ -1358,138 +1636,10 @@ e
 
 
 /*
-Não encontramos nada.
-Começa vazio.
+4. Começa vazio.
 */
 
 return dadosVazios();
-
-}
-
-
-/* =====================================================
-NORMALIZAR
-===================================================== */
-
-function normalizarDados(obj){
-
-const base=
-dadosVazios();
-
-if(!obj || typeof obj!=="object"){
-
-return base;
-
-}
-
-
-/*
-Copiar somente propriedades existentes.
-*/
-
-if(
-typeof obj.dataInicio==="string"
-){
-
-base.dataInicio=
-obj.dataInicio;
-
-}
-
-if(
-Array.isArray(obj.diasTreino)
-){
-
-base.diasTreino=
-obj.diasTreino
-.map(Number)
-.filter(
-d=>d>=0 && d<=6
-);
-
-}
-
-if(
-typeof obj.treinos==="number"
-){
-
-base.treinos=
-obj.treinos;
-
-}
-
-if(
-typeof obj.peso==="number"
-){
-
-base.peso=
-obj.peso;
-
-}
-
-if(
-Array.isArray(obj.historicoPeso)
-){
-
-base.historicoPeso=
-obj.historicoPeso;
-
-}
-
-if(
-obj.proximoTreino==="A" ||
-obj.proximoTreino==="B"
-){
-
-base.proximoTreino=
-obj.proximoTreino;
-
-}
-
-if(
-Array.isArray(obj.historicoTreinos)
-){
-
-base.historicoTreinos=
-obj.historicoTreinos;
-
-}
-
-if(
-obj.cargas &&
-typeof obj.cargas==="object"
-){
-
-base.cargas=
-obj.cargas;
-
-}
-
-if(
-typeof obj.backupCriadoEm==="string"
-){
-
-base.backupCriadoEm=
-obj.backupCriadoEm;
-
-}
-
-
-/*
-Corrige quantidade de treinos
-caso o histórico seja mais confiável.
-*/
-
-if(
-base.historicoTreinos.length>base.treinos
-){
-
-base.treinos=
-base.historicoTreinos.length;
-
-}
-
-return base;
 
 }
 
@@ -1519,6 +1669,32 @@ function salvar(){
 
 try{
 
+/*
+Garante que os dias atualmente selecionados
+estejam sincronizados antes de salvar.
+*/
+
+dados.diasTreino=
+[...new Set(
+diasSelecionados
+.map(Number)
+.filter(
+d=>d>=0 && d<=6
+)
+)];
+
+
+/*
+Garante versão.
+*/
+
+dados.versao=4.2;
+
+
+/*
+Salva.
+*/
+
 localStorage.setItem(
 CHAVE_ATUAL,
 JSON.stringify(dados)
@@ -1528,15 +1704,74 @@ return true;
 
 }catch(e){
 
-alert(
-"Não foi possível salvar os dados neste momento."
+console.error(
+"Erro ao salvar:",
+e
 );
 
-console.error(e);
+alert(
+"⚠️ Não foi possível salvar os dados neste momento."
+);
 
 return false;
 
 }
+
+}
+
+
+/* =====================================================
+SALVAR PLANEJAMENTO
+===================================================== */
+
+function salvarPlanejamentoTemporario(){
+
+const campo=
+document.getElementById(
+"dataPlanejamento"
+);
+
+
+/*
+Data.
+*/
+
+if(
+campo &&
+campo.value
+){
+
+dados.dataPlanejamento=
+campo.value;
+
+}else if(
+!dados.dataPlanejamento
+){
+
+dados.dataPlanejamento=null;
+
+}
+
+
+/*
+Dias.
+*/
+
+dados.diasTreino=
+[...new Set(
+diasSelecionados
+.map(Number)
+.filter(
+d=>d>=0 && d<=6
+)
+)];
+
+
+/*
+Salva imediatamente.
+*/
+
+salvar();
 
 }
 
@@ -1552,21 +1787,33 @@ document.getElementById(
 "dataPlanejamento"
 );
 
-if(!campo){
-
-return null;
-
-}
-
-if(!campo.value){
-
-return null;
-
-}
+if(
+campo &&
+campo.value
+){
 
 return new Date(
 campo.value+"T00:00:00"
 );
+
+}
+
+
+/*
+Fallback para o dado salvo.
+*/
+
+if(
+dados.dataPlanejamento
+){
+
+return new Date(
+dados.dataPlanejamento+"T00:00:00"
+);
+
+}
+
+return null;
 
 }
 
@@ -1601,9 +1848,10 @@ document.createElement("div");
 
 div.className="day";
 
-if(
-diasSelecionados.includes(i)
-){
+const selecionado=
+diasSelecionados.includes(i);
+
+if(selecionado){
 
 div.classList.add("selected");
 
@@ -1613,7 +1861,7 @@ div.innerHTML=
 `
 ${nomesDias[i]}
 <small>
-${diasSelecionados.includes(i)?"✓":" "}
+${selecionado?"✓":" "}
 </small>
 `;
 
@@ -1629,11 +1877,19 @@ area.appendChild(div);
 
 }
 
+
+const contador=
 document.getElementById(
 "contadorDias"
-).textContent=
+);
+
+if(contador){
+
+contador.textContent=
 diasSelecionados.length+
 " de 3 dias selecionados";
+
+}
 
 }
 
@@ -1675,40 +1931,16 @@ diasSelecionados.sort(
 
 }
 
-criarSeletorDias();
+
+/*
+SALVA IMEDIATAMENTE.
+*/
 
 salvarPlanejamentoTemporario();
 
+criarSeletorDias();
+
 atualizarPlanejamento();
-
-}
-
-
-/* =====================================================
-SALVAR PLANEJAMENTO
-===================================================== */
-
-function salvarPlanejamentoTemporario(){
-
-const campo=
-document.getElementById(
-"dataPlanejamento"
-);
-
-if(
-campo &&
-campo.value
-){
-
-dados.dataPlanejamento=
-campo.value;
-
-}
-
-dados.diasTreino=
-[...diasSelecionados];
-
-salvar();
 
 }
 
@@ -1914,7 +2146,7 @@ return;
 
 
 /*
-Se já existe plano, perguntar antes de substituir.
+Se já existe plano, confirmar reinício.
 */
 
 if(dados.dataInicio){
@@ -1954,11 +2186,13 @@ dados.historicoPeso
 
 
 /*
-Cria novo plano,
-sem destruir o restante.
+Cria plano oficial.
 */
 
 dados.dataInicio=
+campo.value;
+
+dados.dataPlanejamento=
 campo.value;
 
 dados.diasTreino=
@@ -1978,7 +2212,18 @@ pesoAnterior;
 dados.historicoPeso=
 historicoPesoAnterior;
 
-salvar();
+
+/*
+Salva antes de atualizar a interface.
+*/
+
+if(
+!salvar()
+){
+
+return;
+
+}
 
 alert(
 "Plano iniciado oficialmente! 🚀💪"
@@ -2011,9 +2256,13 @@ dados.dataInicio+"T00:00:00"
 const hoje=
 new Date();
 
-inicio.setHours(0,0,0,0);
+inicio.setHours(
+0,0,0,0
+);
 
-hoje.setHours(0,0,0,0);
+hoje.setHours(
+0,0,0,0
+);
 
 const diferenca=
 hoje.getTime()-
@@ -2437,7 +2686,14 @@ treinoEmEdicao==="A"
 :
 "A";
 
-salvar();
+
+if(
+!salvar()
+){
+
+return;
+
+}
 
 alert(
 "Treino "+
@@ -2698,7 +2954,7 @@ const pacote={
 
 app:"Meu Treino",
 
-versao:"4.1",
+versao:"4.2",
 
 exportadoEm:
 new Date().toISOString(),
@@ -2731,7 +2987,7 @@ document.createElement("a");
 link.href=url;
 
 link.download=
-"meu-treino-V4.1-backup.json";
+"meu-treino-V4.2-backup.json";
 
 document.body.appendChild(link);
 
@@ -2746,11 +3002,18 @@ URL.revokeObjectURL(url);
 1000
 );
 
+const status=
 document.getElementById(
 "statusCofre"
-).textContent=
+);
+
+if(status){
+
+status.textContent=
 "✅ JSON exportado com sucesso em "+
 new Date().toLocaleString("pt-BR");
+
+}
 
 }
 
@@ -2767,7 +3030,7 @@ const pacote={
 
 app:"Meu Treino",
 
-versao:"4.1",
+versao:"4.2",
 
 criadoEm:
 new Date().toISOString(),
@@ -2798,6 +3061,8 @@ alert(
 );
 
 }catch(e){
+
+console.error(e);
 
 alert(
 "Não foi possível criar o backup interno."
@@ -2843,7 +3108,7 @@ return;
 
 
 /*
-Preserva o estado atual.
+Preserva estado atual.
 */
 
 try{
@@ -2854,7 +3119,7 @@ JSON.stringify({
 
 app:"Meu Treino",
 
-versao:"4.1",
+versao:"4.2",
 
 criadoEm:
 new Date().toISOString(),
@@ -2865,7 +3130,14 @@ dados
 })
 );
 
-}catch(e){}
+}catch(e){
+
+console.warn(
+"Não foi possível criar cópia anterior.",
+e
+);
+
+}
 
 
 /*
@@ -2908,11 +3180,11 @@ location.reload();
 
 }catch(e){
 
+console.error(e);
+
 alert(
 "Não foi possível restaurar o backup interno."
 );
-
-console.error(e);
 
 }
 
@@ -2951,7 +3223,7 @@ let dadosImportados=null;
 
 
 /*
-Aceita nosso formato atual.
+Formato V4.x.
 */
 
 if(
@@ -2964,11 +3236,14 @@ pacote.dados;
 
 }else if(
 pacote &&
-pacote.dataInicio!==undefined
+(
+pacote.dataInicio!==undefined ||
+pacote.dataPlanejamento!==undefined
+)
 ){
 
 /*
-Aceita também um JSON direto da V3.
+JSON direto.
 */
 
 dadosImportados=
@@ -2990,7 +3265,7 @@ dadosImportados
 
 
 /*
-Backup de segurança ANTES da substituição.
+Backup antes da importação.
 */
 
 localStorage.setItem(
@@ -2999,7 +3274,7 @@ JSON.stringify({
 
 app:"Meu Treino",
 
-versao:"4.1",
+versao:"4.2",
 
 criadoEm:
 new Date().toISOString(),
@@ -3027,12 +3302,12 @@ location.reload();
 
 }catch(erro){
 
+console.error(erro);
+
 alert(
 "❌ Não foi possível restaurar este JSON.\n\n"+
 "Os dados atuais não foram alterados."
 );
-
-console.error(erro);
 
 }
 
@@ -3061,6 +3336,11 @@ localStorage.getItem(
 CHAVE_BACKUP
 );
 
+const v41=
+localStorage.getItem(
+CHAVE_V41
+);
+
 const v3=
 localStorage.getItem(
 CHAVE_V3
@@ -3074,7 +3354,7 @@ CHAVE_ATUAL
 let html="";
 
 html+=
-"Versão atual: V4.1<br>";
+"Versão atual: V4.2<br>";
 
 html+=
 "Plano iniciado: "+
@@ -3082,19 +3362,26 @@ html+=
 "<br>";
 
 html+=
-"Data de início: "+
+"Data oficial: "+
 (dados.dataInicio||"nenhuma")+
 "<br>";
 
 html+=
+"Data de planejamento salva: "+
+(dados.dataPlanejamento||"nenhuma")+
+"<br>";
+
+html+=
 "Dias selecionados: "+
-(dados.diasTreino.length
+(
+dados.diasTreino.length
 ?
 dados.diasTreino.map(
 d=>nomesDias[d]
 ).join(", ")
 :
-"nenhum")+
+"nenhum"
+)+
 "<br>";
 
 html+=
@@ -3109,17 +3396,46 @@ dados.historicoPeso.length+
 
 html+=
 "Backup interno: "+
-(backup?"ENCONTRADO":"não encontrado")+
+(
+backup
+?
+"ENCONTRADO"
+:
+"não encontrado"
+)+
+"<br>";
+
+html+=
+"Dados V4.1 antigos: "+
+(
+v41
+?
+"ENCONTRADOS"
+:
+"não encontrados"
+)+
 "<br>";
 
 html+=
 "Dados V3 antigos: "+
-(v3?"ENCONTRADOS":"não encontrados")+
+(
+v3
+?
+"ENCONTRADOS"
+:
+"não encontrados"
+)+
 "<br>";
 
 html+=
-"Dados V4.1: "+
-(atual?"ENCONTRADOS":"não encontrados");
+"Dados V4.2: "+
+(
+atual
+?
+"ENCONTRADOS"
+:
+"não encontrados"
+);
 
 area.innerHTML=
 html;
@@ -3132,6 +3448,10 @@ ATUALIZAR INTERFACE
 ===================================================== */
 
 function atualizar(){
+
+/*
+Quantidade de treinos.
+*/
 
 document.getElementById(
 "totalTreinos"
@@ -3148,6 +3468,11 @@ document.getElementById(
 ).textContent=
 dados.treinos;
 
+
+/*
+Peso.
+*/
+
 document.getElementById(
 "pesoAtual"
 ).textContent=
@@ -3159,7 +3484,11 @@ dados.peso+" kg"
 
 
 /*
-Restaurar data de planejamento
+Restaurar data.
+
+PRIORIDADE:
+1. data oficial
+2. data de planejamento
 */
 
 const campo=
@@ -3167,45 +3496,56 @@ document.getElementById(
 "dataPlanejamento"
 );
 
-if(
-campo
-){
+if(campo){
 
-if(
-dados.dataPlanejamento &&
-!dados.dataInicio
-){
+let dataParaMostrar=
+dados.dataInicio ||
+dados.dataPlanejamento ||
+"";
 
 campo.value=
-dados.dataPlanejamento;
+dataParaMostrar;
 
 }
 
-if(
-dados.dataInicio
-){
 
-campo.value=
-dados.dataInicio;
-
-}
-
-}
-
+/*
+Restaurar dias.
+*/
 
 diasSelecionados=
 Array.isArray(
 dados.diasTreino
 )
 ?
-[...dados.diasTreino]
+[...new Set(
+dados.diasTreino
+.map(Number)
+.filter(
+d=>d>=0 && d<=6
+)
+)]
 :
 [];
 
 
+/*
+Atualizar seletor.
+*/
+
 criarSeletorDias();
 
+
+/*
+Atualizar prévia.
+*/
+
 atualizarPlanejamento();
+
+
+/*
+Históricos.
+*/
 
 montarHistorico();
 
@@ -3327,6 +3667,7 @@ document.getElementById(
 ).textContent=
 semana+" / 52";
 
+
 if(fase){
 
 document.getElementById(
@@ -3361,6 +3702,11 @@ fase.observacao;
 
 }
 
+
+/*
+Barra.
+*/
+
 const percentual=
 Math.round(
 (semana/52)*100
@@ -3381,6 +3727,10 @@ document.getElementById(
 ).textContent=
 percentual+"%";
 
+
+/*
+Hoje.
+*/
 
 if(
 hoje==="Descanso"
@@ -3490,8 +3840,7 @@ document
 
 
 /*
-TREINO:
-Agora só bloqueia se não houver plano.
+Treino.
 */
 
 if(
@@ -3537,8 +3886,7 @@ tipo
 
 
 /*
-PROGRESSO:
-sempre acessível.
+Progresso.
 */
 
 if(
@@ -3566,8 +3914,30 @@ document
 "change",
 function(){
 
+/*
+Salva imediatamente a nova data.
+*/
+
+if(
+this.value
+){
+
 dados.dataPlanejamento=
 this.value;
+
+}else{
+
+dados.dataPlanejamento=
+null;
+
+}
+
+
+/*
+IMPORTANTE:
+não altera dataInicio enquanto
+o plano não for oficialmente iniciado.
+*/
 
 salvar();
 
@@ -3575,17 +3945,63 @@ atualizarPlanejamento();
 
 atualizar();
 
-}
-);
+});
 
 
 /* =====================================================
 INICIALIZAÇÃO
 ===================================================== */
 
+(function iniciarAplicacao(){
+
+/*
+Recarrega explicitamente os estados
+persistidos antes da primeira pintura.
+*/
+
+diasSelecionados=
+Array.isArray(
+dados.diasTreino
+)
+?
+[...new Set(
+dados.diasTreino
+.map(Number)
+.filter(
+d=>d>=0 && d<=6
+)
+)]
+:
+[];
+
+
+/*
+Se houver plano oficial e a data de planejamento
+estiver vazia, sincroniza sem apagar nada.
+*/
+
+if(
+dados.dataInicio &&
+!dados.dataPlanejamento
+){
+
+dados.dataPlanejamento=
+dados.dataInicio;
+
+salvar();
+
+}
+
+
+/*
+Renderização final.
+*/
+
 criarSeletorDias();
 
 atualizar();
+
+})();
 
 </script>
 
