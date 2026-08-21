@@ -26,7 +26,7 @@ color:white;
 padding:20px 18px;
 position:sticky;
 top:0;
-z-index:10;
+z-:10;
 }
 
 header h1{
@@ -311,7 +311,7 @@ display:flex;
 justify-content:center;
 gap:5px;
 padding:9px;
-z-index:20;
+z-:20;
 }
 
 nav button{
@@ -1963,7 +1963,7 @@ return "Descanso";
 }
 
 const posicao=
-diasSelecionados.indexOf(dia);
+diasSelecionados.Of(dia);
 
 if(
 semana%2===1
@@ -2362,7 +2362,7 @@ treinoB;
 lista.innerHTML="";
 
 exercicios.forEach(
-(exercicio,index)=>{
+(exercicio,)=>{
 
 let seriesHTML="";
 
@@ -2374,7 +2374,7 @@ s++
 
 const chave=
 tipo+
-"_"+index+
+"_"++
 "_"+s;
 
 const anterior=
@@ -2410,7 +2410,7 @@ type="number"
 step="0.5"
 placeholder="Carga kg"
 class="carga"
-data-exercicio="${index}"
+data-exercicio="${}"
 data-serie="${s}"
 value=""
 >
@@ -2419,7 +2419,7 @@ value=""
 type="number"
 placeholder="Reps"
 class="reps"
-data-exercicio="${index}"
+data-exercicio="${}"
 data-serie="${s}"
 value=""
 >
@@ -2551,7 +2551,7 @@ const registros=[];
 document
 .querySelectorAll(".exercise")
 .forEach(
-(exercicioDiv,index)=>{
+(exercicioDiv,)=>{
 
 const cargas=
 exercicioDiv
@@ -2603,7 +2603,7 @@ if(
 
 const chave=
 treinoEmEdicao+
-"_"+index+
+"_"++
 "_"+(i+1);
 
 dados.cargas[chave]={
@@ -2628,7 +2628,7 @@ repsValor
 registros.push({
 
 exercicio:
-exercicios[index].nome,
+exercicios[].nome,
 
 series:series
 
