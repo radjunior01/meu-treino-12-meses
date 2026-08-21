@@ -1,0 +1,17 @@
+{
+  "name": "meu-treino-12-meses",
+  "version": "4.2.0",
+  "description": "Meu Treino - Plano de hipertrofia de 52 semanas",
+  "private": true,
+  "scripts": {
+    "cap:add": "npx cap add android",
+    "cap:sync": "npx cap sync android"
+  },
+  "dependencies": {
+    "@capacitor/core": "^8.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.0.0",
+    "@capacitor/android": "^8.0.0"
+  }
+}
