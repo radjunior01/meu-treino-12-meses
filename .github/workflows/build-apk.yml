@@ -25,10 +25,11 @@ jobs:
       - name: 📦 Instalar dependências
         run: npm install
 
-      - name: 🌐 Preparar arquivos web
-        run: |
-          mkdir -p www
-          cp index.html www/index.html
+      - name: 🌐 Preparar arquivos we
+      brun: |
+    mkdir -p www
+    cp index.html www/index.html
+    cp capacitor-plugins.js www/capacitor-plugins.js
 
       - name: 🤖 Criar projeto Android
         run: npx cap add android
