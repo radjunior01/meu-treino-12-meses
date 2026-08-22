@@ -4313,11 +4313,16 @@ criarSeletorDias();
 atualizar();
 
 })();
-alert(
-    "Capacitor disponível: " +
-    typeof window.Capacitor
+
+    alert(
+    "Capacitor: " +
+    typeof window.Capacitor +
+    "\nFilesystem: " +
+    typeof window.Capacitor?.Plugins?.Filesystem +
+    "\nShare: " +
+    typeof window.Capacitor?.Plugins?.Share
 );
-    
+
 </script>
 
 </body>
