@@ -145,6 +145,12 @@ opacity:.45;
 cursor:not-allowed;
 }
 
+.botoes-alterar-dias{
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
 input{
 width:100%;
 padding:11px;
@@ -543,34 +549,6 @@ onclick="iniciarPlanoOficial()"
 
 </div>
 
-<!-- ALTERAR DIAS -->
-
-<div
-class="card hidden"
-id="cardAlterarDias"
->
-
-<strong>
-🗓️ Dias de treino
-</strong>
-
-<p class="muted">
-Se precisar, você pode trocar os dias da semana sem reiniciar o plano.
-</p>
-
-<div
-class="day-grid"
-id="seletorDiasAtivo"
-></div>
-
-<p
-class="muted"
-id="contadorDiasAtivo"
->
-0 de 3 dias selecionados
-</p>
-
-</div>
 
 <!-- ATIVO -->
 
@@ -641,16 +619,9 @@ Treinos concluídos
 </div>
 
 </div>
-<br>
-
-<button
-class="secondary"
-onclick="abrirAlteracaoDias()"
->
-⚙️ Alterar dias de treino
-</button>
 
 </div>
+
 
 <!-- =====================================================
 ALTERAR DIAS DO PLANO
@@ -685,7 +656,7 @@ id="contadorDiasAtivo"
 0 de 3 dias selecionados
 </p>
 
-<div class="row">
+<div class="botoes-alterar-dias">
 
 <button
 class="green"
@@ -1981,84 +1952,6 @@ diasSelecionados.length+
 
 }
 
-/* =====================================================
-SELETOR DE DIAS DO PLANO ATIVO
-===================================================== */
-
-function criarSeletorDiasAtivo(){
-
-const area=
-document.getElementById(
-"seletorDiasAtivo"
-);
-
-if(!area){
-
-return;
-
-}
-
-area.innerHTML="";
-
-for(
-let i=0;
-i<7;
-i++
-){
-
-const div=
-document.createElement("div");
-
-div.className="day";
-
-const selecionado=
-diasSelecionados.includes(i);
-
-if(selecionado){
-
-div.classList.add("selected");
-
-}
-
-div.innerHTML=
-`
-${nomesDias[i]}
-<small>
-${selecionado?"✓":" "}
-</small>
-`;
-
-div.addEventListener(
-"click",
-function(){
-
-alternarDia(i);
-
-});
-
-area.appendChild(div);
-
-}
-
-
-/*
-Contador.
-*/
-
-const contador=
-document.getElementById(
-"contadorDiasAtivo"
-);
-
-if(contador){
-
-contador.textContent=
-diasSelecionados.length+
-" de 3 dias selecionados";
-
-}
-
-}
 
 /* =====================================================
 ALTERNAR DIA
@@ -2101,17 +1994,6 @@ diasSelecionados.sort(
 SALVA OS DIAS SEM ALTERAR
 A DATA OFICIAL DO PLANO.
 */
-
-dados.diasTreino=
-[...new Set(
-diasSelecionados
-.map(Number)
-.filter(
-d=>d>=0 && d<=6
-)
-)];
-
-salvar();
 
 criarSeletorDias();
 
