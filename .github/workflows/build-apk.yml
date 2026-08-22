@@ -25,11 +25,10 @@ jobs:
       - name: 📦 Instalar dependências
         run: npm install
 
-      - name: 🌐 Preparar arquivos we
-      brun: |
-    mkdir -p www
-   "@capacitor/filesystem": "^8.0.0",
-"@capacitor/share": "^8.0.0"
+      - name: 🌐 Preparar arquivos web
+        run: |
+          mkdir -p www
+          cp index.html www/index.html
 
       - name: 🤖 Criar projeto Android
         run: npx cap add android
