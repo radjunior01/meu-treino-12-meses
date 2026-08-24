@@ -2,6 +2,22 @@
 <html lang="pt-BR">
 <head>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    const SUPABASE_URL =
+  "https://wuwosfxafattxrxjuwng.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_v2KVqk3WE4DrNjN8KjzssA_i2vhzSQg";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+console.log(
+  "Supabase conectado:",
+  !!supabaseClient
+);
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#111827">
