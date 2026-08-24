@@ -19,6 +19,108 @@ console.log(
   "Supabase conectado:",
   !!supabaseClient
 );
+         /* =====================================================
+   SUPABASE - AUTENTICAÇÃO
+===================================================== */
+
+async function criarConta(email, senha){
+
+    const { data, error } =
+        await supabaseClient.auth.signUp({
+            email: email,
+            password: senha
+        });
+
+    if(error){
+
+        console.error(
+            "Erro ao criar conta:",
+            error
+        );
+
+        alert(
+            "⚠️ Não foi possível criar a conta.\n\n" +
+            error.message
+        );
+
+        return false;
+    }
+
+    console.log(
+        "Conta criada:",
+        data
+    );
+
+    alert(
+        "✅ Conta criada!\n\n" +
+        "Verifique seu e-mail para confirmar a conta."
+    );
+
+    return true;
+}
+
+
+async function entrarConta(email, senha){
+
+    const { data, error } =
+        await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: senha
+        });
+
+    if(error){
+
+        console.error(
+            "Erro ao entrar:",
+            error
+        );
+
+        alert(
+            "⚠️ Não foi possível entrar.\n\n" +
+            error.message
+        );
+
+        return false;
+    }
+
+    console.log(
+        "Usuário conectado:",
+        data.user
+    );
+
+    return true;
+}
+
+
+async function sairConta(){
+
+    const { error } =
+        await supabaseClient.auth.signOut();
+
+    if(error){
+
+        console.error(
+            "Erro ao sair:",
+            error
+        );
+
+        return false;
+    }
+
+    console.log(
+        "Usuário desconectado."
+    );
+
+    return true;
+}
+
+
+function usuarioAtual(){
+
+    return supabaseClient
+        .auth
+        .getUser();
+}
          </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
