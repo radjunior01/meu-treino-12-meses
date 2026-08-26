@@ -129,6 +129,46 @@ function usuarioAtual(){
         .auth
         .getUser();
 }
+         
+
+/* =====================================================
+   RECUPERAÇÃO DE SENHA
+===================================================== */
+
+async function novaSenha(senha){
+
+    const { data, error } =
+        await supabaseClient.auth.updateUser({
+            password: senha
+        });
+
+    if(error){
+
+        console.error(
+            "Erro ao alterar senha:",
+            error
+        );
+
+        alert(
+            "⚠️ Não foi possível alterar a senha.\n\n" +
+            error.message
+        );
+
+        return false;
+    }
+
+    console.log(
+        "Senha alterada com sucesso."
+    );
+
+    alert(
+        "✅ Senha alterada com sucesso!"
+    );
+
+    return true;
+}
+
+
          console.log(
   "Auth disponível:",
   !!supabaseClient.auth
