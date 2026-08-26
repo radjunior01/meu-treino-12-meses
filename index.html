@@ -1,650 +1,443 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-     <script>
-    const SUPABASE_URL =
-  "https://wuwosfxafattxrxjuwng.supabase.co";
 
-const SUPABASE_KEY =
-  "sb_publishable_v2KVqk3WE4DrNjN8KjzssA_i2vhzSQg";
-
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
-
-console.log(
-  "Supabase conectado:",
-  !!supabaseClient
-);
-         supabaseClient.auth.onAuthStateChange((event, session) => {
-
-    console.log(
-        "Evento Auth:",
-        event
-    );
-
-    if(event === "PASSWORD_RECOVERY"){
-
-        const tela =
-            document.getElementById(
-                "telaRecuperarSenha"
-            );
-
-        if(tela){
-
-            tela.style.display = "block";
-
-        }
-
-    }
-
-});
-         /* =====================================================
-   SUPABASE - AUTENTICAÇÃO
-===================================================== */
-
-async function criarConta(email, senha){
-
-    const { data, error } =
-        await supabaseClient.auth.signUp({
-            email: email,
-            password: senha
-        });
-
-    if(error){
-
-        console.error(
-            "Erro ao criar conta:",
-            error
-        );
-
-        alert(
-            "⚠️ Não foi possível criar a conta.\n\n" +
-            error.message
-        );
-
-        return false;
-    }
-
-    console.log(
-        "Conta criada:",
-        data
-    );
-
-    alert(
-        "✅ Conta criada!\n\n" +
-        "Verifique seu e-mail para confirmar a conta."
-    );
-
-    return true;
-}
-
-
-async function entrarConta(email, senha){
-
-    const { data, error } =
-        await supabaseClient.auth.signInWithPassword({
-            email: email,
-            password: senha
-        });
-
-    if(error){
-
-        console.error(
-            "Erro ao entrar:",
-            error
-        );
-
-        alert(
-            "⚠️ Não foi possível entrar.\n\n" +
-            error.message
-        );
-
-        return false;
-    }
-
-    console.log(
-        "Usuário conectado:",
-        data.user
-    );
-
-    return true;
-}
-
-
-async function sairConta(){
-
-    const { error } =
-        await supabaseClient.auth.signOut();
-
-    if(error){
-
-        console.error(
-            "Erro ao sair:",
-            error
-        );
-
-        return false;
-    }
-
-    console.log(
-        "Usuário desconectado."
-    );
-
-    return true;
-}
-
-
-function usuarioAtual(){
-
-    return supabaseClient
-        .auth
-        .getUser();
-}
-         
-
-/* =====================================================
-   RECUPERAÇÃO DE SENHA
-===================================================== */
-
-async function novaSenha(senha){
-
-    const { data, error } =
-        await supabaseClient.auth.updateUser({
-            password: senha
-        });
-
-    if(error){
-
-        console.error(
-            "Erro ao alterar senha:",
-            error
-        );
-
-        alert(
-            "⚠️ Não foi possível alterar a senha.\n\n" +
-            error.message
-        );
-
-        return false;
-    }
-
-    console.log(
-        "Senha alterada com sucesso."
-    );
-
-    alert(
-        "✅ Senha alterada com sucesso!"
-    );
-
-    return true;
-}
-
-         const btnSalvarNovaSenha =
-    document.getElementById("btnSalvarNovaSenha");
-
-if(btnSalvarNovaSenha){
-
-    btnSalvarNovaSenha.addEventListener(
-        "click",
-        async function(){
-
-            const senha =
-                document.getElementById(
-                    "novaSenhaInput"
-                ).value;
-
-            const confirmar =
-                document.getElementById(
-                    "confirmarSenhaInput"
-                ).value;
-
-
-            if(!senha || !confirmar){
-
-                alert(
-                    "⚠️ Preencha os dois campos."
-                );
-
-                return;
-            }
-
-
-            if(senha !== confirmar){
-
-                alert(
-                    "⚠️ As senhas não são iguais."
-                );
-
-                return;
-            }
-
-
-            if(senha.length < 6){
-
-                alert(
-                    "⚠️ A senha deve ter pelo menos 6 caracteres."
-                );
-
-                return;
-            }
-
-
-            const sucesso =
-                await novaSenha(senha);
-
-
-            if(sucesso){
-
-                document.getElementById(
-                    "novaSenhaInput"
-                ).value = "";
-
-                document.getElementById(
-                    "confirmarSenhaInput"
-                ).value = "";
-
-            }
-
-        }
-    );
-
-}
-
-         console.log(
-  "Auth disponível:",
-  !!supabaseClient.auth
-);
-         </script>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#111827">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1.0"
+>
+
+<meta
+    name="theme-color"
+    content="#111827"
+>
 
 <title>Meu Treino V4.2</title>
 
 <style>
 
 *{
-box-sizing:border-box;
+    box-sizing:border-box;
 }
 
 body{
-margin:0;
-font-family:Arial,Helvetica,sans-serif;
-background:#f1f5f9;
-color:#111827;
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f1f5f9;
+    color:#111827;
 }
 
 header{
-background:#111827;
-color:white;
-padding:20px 18px;
-position:sticky;
-top:0;
-z-index:10;
+    background:#111827;
+    color:white;
+    padding:20px 18px;
+    position:sticky;
+    top:0;
+    z-index:10;
 }
 
 header h1{
-margin:0;
-font-size:24px;
+    margin:0;
+    font-size:24px;
 }
 
 header p{
-margin:6px 0 0;
-color:#cbd5e1;
-font-size:13px;
+    margin:6px 0 0;
+    color:#cbd5e1;
+    font-size:13px;
 }
 
 main{
-max-width:760px;
-margin:auto;
-padding:15px 14px 100px;
+    max-width:760px;
+    margin:auto;
+    padding:15px 14px 100px;
 }
 
 .card{
-background:white;
-border-radius:18px;
-padding:18px;
-margin-bottom:14px;
-box-shadow:0 4px 15px rgba(0,0,0,.06);
+    background:white;
+    border-radius:18px;
+    padding:18px;
+    margin-bottom:14px;
+    box-shadow:0 4px 15px rgba(0,0,0,.06);
 }
 
 .row{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
 }
 
 .muted{
-color:#64748b;
-font-size:13px;
-line-height:1.5;
+    color:#64748b;
+    font-size:13px;
+    line-height:1.5;
 }
 
 .small{
-font-size:11px;
+    font-size:11px;
 }
 
 .badge{
-background:#e5e7eb;
-padding:6px 10px;
-border-radius:20px;
-font-size:11px;
+    background:#e5e7eb;
+    padding:6px 10px;
+    border-radius:20px;
+    font-size:11px;
 }
 
 .grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
 }
 
 .stat{
-background:#f8fafc;
-border-radius:14px;
-padding:14px;
+    background:#f8fafc;
+    border-radius:14px;
+    padding:14px;
 }
 
 .stat span{
-font-size:12px;
-color:#64748b;
+    font-size:12px;
+    color:#64748b;
 }
 
 .stat strong{
-display:block;
-font-size:21px;
-margin-top:5px;
+    display:block;
+    font-size:21px;
+    margin-top:5px;
 }
 
 .progress{
-height:10px;
-background:#e5e7eb;
-border-radius:20px;
-overflow:hidden;
-margin:14px 0;
+    height:10px;
+    background:#e5e7eb;
+    border-radius:20px;
+    overflow:hidden;
+    margin:14px 0;
 }
 
 .progress-bar{
-height:100%;
-background:#111827;
-width:0%;
-transition:.3s;
+    height:100%;
+    background:#111827;
+    width:0%;
+    transition:.3s;
 }
 
 button{
-border:0;
-border-radius:12px;
-padding:12px 15px;
-background:#111827;
-color:white;
-font-weight:bold;
-cursor:pointer;
-font-size:14px;
+    border:0;
+    border-radius:12px;
+    padding:12px 15px;
+    background:#111827;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    font-size:14px;
 }
 
 button.green{
-background:#166534;
+    background:#166534;
 }
 
 button.secondary{
-background:#e5e7eb;
-color:#111827;
+    background:#e5e7eb;
+    color:#111827;
 }
 
 button.red{
-background:#991b1b;
+    background:#991b1b;
 }
 
 button:disabled{
-opacity:.45;
-cursor:not-allowed;
+    opacity:.45;
+    cursor:not-allowed;
 }
 
 .botoes-alterar-dias{
-display:flex;
-flex-direction:column;
-gap:12px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
 }
 
 input{
-width:100%;
-padding:11px;
-border:1px solid #cbd5e1;
-border-radius:10px;
-font-size:14px;
-background:white;
+    width:100%;
+    padding:11px;
+    border:1px solid #cbd5e1;
+    border-radius:10px;
+    font-size:14px;
+    background:white;
 }
 
 .inputs{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:8px;
-margin-top:10px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-top:10px;
 }
 
 .day-grid{
-display:grid;
-grid-template-columns:repeat(7,1fr);
-gap:6px;
-margin-top:12px;
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:6px;
+    margin-top:12px;
 }
 
 .day{
-border:1px solid #cbd5e1;
-border-radius:10px;
-padding:9px 4px;
-text-align:center;
-font-size:11px;
-cursor:pointer;
-background:white;
-user-select:none;
+    border:1px solid #cbd5e1;
+    border-radius:10px;
+    padding:9px 4px;
+    text-align:center;
+    font-size:11px;
+    cursor:pointer;
+    background:white;
+    user-select:none;
 }
 
 .day.selected{
-background:#111827;
-color:white;
-border-color:#111827;
+    background:#111827;
+    color:white;
+    border-color:#111827;
 }
 
 .day small{
-display:block;
-margin-top:4px;
-opacity:.7;
+    display:block;
+    margin-top:4px;
+    opacity:.7;
 }
 
 .preview{
-border-top:1px solid #e5e7eb;
-padding:13px 0;
+    border-top:1px solid #e5e7eb;
+    padding:13px 0;
 }
 
 .preview:first-child{
-border-top:0;
+    border-top:0;
 }
 
 .week-title{
-font-weight:bold;
-margin-bottom:8px;
+    font-weight:bold;
+    margin-bottom:8px;
 }
 
 .week-days{
-display:grid;
-grid-template-columns:repeat(7,1fr);
-gap:4px;
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:4px;
 }
 
 .week-day{
-background:#f8fafc;
-border-radius:8px;
-padding:8px 3px;
-text-align:center;
-font-size:10px;
+    background:#f8fafc;
+    border-radius:8px;
+    padding:8px 3px;
+    text-align:center;
+    font-size:10px;
 }
 
 .week-day strong{
-display:block;
-font-size:12px;
-margin-top:4px;
+    display:block;
+    font-size:12px;
+    margin-top:4px;
 }
 
 .week-day.a{
-background:#e5e7eb;
+    background:#e5e7eb;
 }
 
 .week-day.b{
-background:#dbeafe;
+    background:#dbeafe;
 }
 
 .week-day.rest{
-color:#94a3b8;
+    color:#94a3b8;
 }
 
 .phase{
-border-left:5px solid #111827;
-padding-left:12px;
+    border-left:5px solid #111827;
+    padding-left:12px;
 }
 
 .exercise{
-padding:16px 0;
-border-top:1px solid #e5e7eb;
+    padding:16px 0;
+    border-top:1px solid #e5e7eb;
 }
 
 .exercise:first-child{
-border-top:0;
+    border-top:0;
 }
 
 .exercise-name{
-font-weight:bold;
-font-size:16px;
+    font-weight:bold;
+    font-size:16px;
 }
 
 .exercise-info{
-font-size:13px;
-color:#64748b;
-margin-top:5px;
+    font-size:13px;
+    color:#64748b;
+    margin-top:5px;
 }
 
 .exercise-note{
-font-size:12px;
-color:#475569;
-margin-top:8px;
-line-height:1.45;
+    font-size:12px;
+    color:#475569;
+    margin-top:8px;
+    line-height:1.45;
 }
 
 .series{
-margin-top:10px;
-padding:10px;
-background:#f8fafc;
-border-radius:10px;
+    margin-top:10px;
+    padding:10px;
+    background:#f8fafc;
+    border-radius:10px;
 }
 
 .series-title{
-font-size:12px;
-font-weight:bold;
-margin-bottom:6px;
+    font-size:12px;
+    font-weight:bold;
+    margin-bottom:6px;
 }
 
 .history{
-padding:12px 0;
-border-top:1px solid #e5e7eb;
+    padding:12px 0;
+    border-top:1px solid #e5e7eb;
 }
 
 .history:first-child{
-border-top:0;
+    border-top:0;
 }
 
 .history-exercise{
-padding:8px 0;
-font-size:12px;
+    padding:8px 0;
+    font-size:12px;
 }
 
 .hidden{
-display:none!important;
+    display:none!important;
 }
 
 nav{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-background:white;
-border-top:1px solid #e5e7eb;
-display:flex;
-justify-content:center;
-gap:5px;
-padding:9px;
-z-index:20;
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    background:white;
+    border-top:1px solid #e5e7eb;
+    display:flex;
+    justify-content:center;
+    gap:5px;
+    padding:9px;
+    z-index:20;
 }
 
 nav button{
-background:transparent;
-color:#64748b;
-font-size:12px;
-padding:9px 12px;
+    background:transparent;
+    color:#64748b;
+    font-size:12px;
+    padding:9px 12px;
 }
 
 nav button.active{
-background:#111827;
-color:white;
+    background:#111827;
+    color:white;
 }
 
 .warning{
-background:#fff7ed;
-border:1px solid #fed7aa;
-border-radius:12px;
-padding:12px;
-font-size:12px;
-line-height:1.5;
+    background:#fff7ed;
+    border:1px solid #fed7aa;
+    border-radius:12px;
+    padding:12px;
+    font-size:12px;
+    line-height:1.5;
 }
 
 .success{
-background:#f0fdf4;
-border:1px solid #bbf7d0;
-border-radius:12px;
-padding:12px;
-font-size:12px;
-line-height:1.5;
+    background:#f0fdf4;
+    border:1px solid #bbf7d0;
+    border-radius:12px;
+    padding:12px;
+    font-size:12px;
+    line-height:1.5;
 }
 
 .danger{
-background:#fef2f2;
-border:1px solid #fecaca;
-border-radius:12px;
-padding:12px;
-font-size:12px;
-line-height:1.5;
+    background:#fef2f2;
+    border:1px solid #fecaca;
+    border-radius:12px;
+    padding:12px;
+    font-size:12px;
+    line-height:1.5;
 }
 
 .cofre{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:8px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+}
+
+/* =====================================================
+   RECUPERAÇÃO DE SENHA
+===================================================== */
+
+#telaRecuperarSenha{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    background:#fff;
+    padding:30px 20px;
+    overflow:auto;
+}
+
+#telaRecuperarSenha .recuperar-conteudo{
+    max-width:420px;
+    margin:60px auto;
+    text-align:center;
+}
+
+#telaRecuperarSenha input{
+    width:100%;
+    padding:14px;
+    margin:10px 0;
+    font-size:16px;
+}
+
+#btnSalvarNovaSenha{
+    width:100%;
+    padding:14px;
+    margin-top:15px;
+    font-size:16px;
+}
+
+.mensagem-senha{
+    margin-top:12px;
+    font-size:13px;
+    line-height:1.5;
 }
 
 @media(max-width:500px){
 
-.grid{
-grid-template-columns:1fr 1fr;
-}
+    .grid{
+        grid-template-columns:1fr 1fr;
+    }
 
-.day-grid{
-gap:4px;
-}
+    .day-grid{
+        gap:4px;
+    }
 
-.day{
-font-size:10px;
-padding:8px 2px;
-}
+    .day{
+        font-size:10px;
+        padding:8px 2px;
+    }
 
-.cofre{
-grid-template-columns:1fr;
-}
+    .cofre{
+        grid-template-columns:1fr;
+    }
 
 }
 
 </style>
+
 </head>
 
 <body>
@@ -881,9 +674,7 @@ Treinos concluídos
 </div>
 
 
-<!-- =====================================================
-ALTERAR DIAS DO PLANO
-===================================================== -->
+<!-- ALTERAR DIAS -->
 
 <div
 class="card hidden"
@@ -933,6 +724,7 @@ Cancelar
 </div>
 
 </div>
+
 
 <!-- FASE -->
 
@@ -1351,6 +1143,58 @@ onclick="abrirTela('progresso')"
 </nav>
 
 
+<!-- =====================================================
+RECUPERAÇÃO DE SENHA
+===================================================== -->
+
+<div
+    id="telaRecuperarSenha"
+>
+
+    <div
+        class="recuperar-conteudo"
+    >
+
+        <h2>
+            🔐 Nova senha
+        </h2>
+
+        <p>
+            Digite sua nova senha abaixo.
+        </p>
+
+        <input
+            id="novaSenhaInput"
+            type="password"
+            placeholder="Nova senha"
+            autocomplete="new-password"
+        >
+
+        <input
+            id="confirmarSenhaInput"
+            type="password"
+            placeholder="Confirmar nova senha"
+            autocomplete="new-password"
+        >
+
+        <button
+            id="btnSalvarNovaSenha"
+            class="green"
+            type="button"
+        >
+            SALVAR NOVA SENHA
+        </button>
+
+        <div
+            id="mensagemSenha"
+            class="mensagem-senha"
+        ></div>
+
+    </div>
+
+</div>
+
+
 <script>
 
 /* =====================================================
@@ -1573,10 +1417,6 @@ versao:4.2,
 
 dataInicio:null,
 
-/*
-Data escolhida durante o planejamento.
-Fica separada da data oficial.
-*/
 dataPlanejamento:null,
 
 diasTreino:[],
@@ -1619,10 +1459,6 @@ return base;
 }
 
 
-/*
-Data oficial.
-*/
-
 if(
 typeof obj.dataInicio==="string" &&
 /^\d{4}-\d{2}-\d{2}$/.test(obj.dataInicio)
@@ -1633,13 +1469,6 @@ obj.dataInicio;
 
 }
 
-
-/*
-Data de planejamento.
-
-V4.1 já podia ter esta propriedade,
-então preservamos.
-*/
 
 if(
 typeof obj.dataPlanejamento==="string" &&
@@ -1652,11 +1481,6 @@ obj.dataPlanejamento;
 }
 
 
-/*
-Se existe plano oficial mas não existe
-data de planejamento, usa a oficial.
-*/
-
 if(
 base.dataInicio &&
 !base.dataPlanejamento
@@ -1667,10 +1491,6 @@ base.dataInicio;
 
 }
 
-
-/*
-Dias.
-*/
 
 if(
 Array.isArray(obj.diasTreino)
@@ -1688,10 +1508,6 @@ d=>d>=0 && d<=6
 }
 
 
-/*
-Treinos.
-*/
-
 if(
 typeof obj.treinos==="number" &&
 isFinite(obj.treinos)
@@ -1702,10 +1518,6 @@ Math.max(0,obj.treinos);
 
 }
 
-
-/*
-Peso.
-*/
 
 if(
 typeof obj.peso==="number" &&
@@ -1718,10 +1530,6 @@ obj.peso;
 }
 
 
-/*
-Histórico de peso.
-*/
-
 if(
 Array.isArray(obj.historicoPeso)
 ){
@@ -1731,10 +1539,6 @@ obj.historicoPeso;
 
 }
 
-
-/*
-Próximo treino.
-*/
 
 if(
 obj.proximoTreino==="A" ||
@@ -1747,10 +1551,6 @@ obj.proximoTreino;
 }
 
 
-/*
-Histórico de treinos.
-*/
-
 if(
 Array.isArray(obj.historicoTreinos)
 ){
@@ -1760,10 +1560,6 @@ obj.historicoTreinos;
 
 }
 
-
-/*
-Cargas.
-*/
 
 if(
 obj.cargas &&
@@ -1776,10 +1572,6 @@ obj.cargas;
 }
 
 
-/*
-Backup.
-*/
-
 if(
 typeof obj.backupCriadoEm==="string"
 ){
@@ -1789,11 +1581,6 @@ obj.backupCriadoEm;
 
 }
 
-
-/*
-O histórico é a fonte mais confiável
-para a quantidade de treinos.
-*/
 
 if(
 base.historicoTreinos.length>
@@ -1820,11 +1607,6 @@ function carregarDados(){
 
 let bruto=null;
 
-
-/*
-1. Tenta V4.2.
-*/
-
 try{
 
 bruto=
@@ -1841,10 +1623,6 @@ e
 
 }
 
-
-/*
-V4.2 encontrada.
-*/
 
 if(bruto){
 
@@ -1867,10 +1645,6 @@ e
 }
 
 
-/*
-2. Tenta V4.1.
-*/
-
 try{
 
 const v41=
@@ -1887,11 +1661,6 @@ const migrado=
 normalizarDados(
 dadosAntigos
 );
-
-
-/*
-Salva imediatamente como V4.2.
-*/
 
 localStorage.setItem(
 CHAVE_ATUAL,
@@ -1911,10 +1680,6 @@ e
 
 }
 
-
-/*
-3. Tenta V3.
-*/
 
 try{
 
@@ -1952,10 +1717,6 @@ e
 }
 
 
-/*
-4. Começa vazio.
-*/
-
 return dadosVazios();
 
 }
@@ -1977,6 +1738,8 @@ Array.isArray(dados.diasTreino)
 
 let treinoEmEdicao=null;
 
+let diasTemporarios=[];
+
 
 /* =====================================================
 SALVAR
@@ -1985,11 +1748,6 @@ SALVAR
 function salvar(){
 
 try{
-
-/*
-Garante que os dias atualmente selecionados
-estejam sincronizados antes de salvar.
-*/
 
 dados.diasTreino=
 [...new Set(
@@ -2000,17 +1758,7 @@ d=>d>=0 && d<=6
 )
 )];
 
-
-/*
-Garante versão.
-*/
-
 dados.versao=4.2;
-
-
-/*
-Salva.
-*/
 
 localStorage.setItem(
 CHAVE_ATUAL,
@@ -2034,8 +1782,6 @@ return false;
 
 }
 
-}
-
 
 /* =====================================================
 SALVAR PLANEJAMENTO
@@ -2047,11 +1793,6 @@ const campo=
 document.getElementById(
 "dataPlanejamento"
 );
-
-
-/*
-Data.
-*/
 
 if(
 campo &&
@@ -2069,11 +1810,6 @@ dados.dataPlanejamento=null;
 
 }
 
-
-/*
-Dias.
-*/
-
 dados.diasTreino=
 [...new Set(
 diasSelecionados
@@ -2082,11 +1818,6 @@ diasSelecionados
 d=>d>=0 && d<=6
 )
 )];
-
-
-/*
-Salva imediatamente.
-*/
 
 salvar();
 
@@ -2114,11 +1845,6 @@ campo.value+"T00:00:00"
 );
 
 }
-
-
-/*
-Fallback para o dado salvo.
-*/
 
 if(
 dados.dataPlanejamento
@@ -2194,7 +1920,6 @@ area.appendChild(div);
 
 }
 
-
 const contador=
 document.getElementById(
 "contadorDias"
@@ -2248,254 +1973,208 @@ diasSelecionados.sort(
 
 }
 
-/*
-SALVA OS DIAS SEM ALTERAR
-A DATA OFICIAL DO PLANO.
-*/
-
 criarSeletorDias();
 
 criarSeletorDiasAtivo();
 
 atualizarPlanejamento();
+
 }
 
+
 /* =====================================================
-ALTERAÇÃO DE DIAS COM PLANO ATIVO
+ALTERAÇÃO DE DIAS
 ===================================================== */
-
-let diasTemporarios = [];
-
-
-/* -----------------------------------------------------
-ABRIR ALTERAÇÃO
------------------------------------------------------ */
 
 function abrirAlteracaoDias(){
 
-    /*
-    Cria uma cópia dos dias atuais.
-    Assim podemos cancelar sem alterar o plano.
-    */
+diasTemporarios=
+[...dados.diasTreino];
 
-    diasTemporarios =
-        [...dados.diasTreino];
+criarSeletorDiasAtivo();
 
-    criarSeletorDiasAtivo();
+const card=
+document.getElementById(
+"cardAlterarDias"
+);
 
-    document
-        .getElementById("cardAlterarDias")
-        .classList
-        .remove("hidden");
+if(card){
 
-    /*
-    Rola suavemente até a área.
-    */
+card.classList.remove(
+"hidden"
+);
 
-    document
-        .getElementById("cardAlterarDias")
-        .scrollIntoView({
-            behavior:"smooth",
-            block:"center"
-        });
+card.scrollIntoView({
+behavior:"smooth",
+block:"center"
+});
 
 }
 
+}
 
-/* -----------------------------------------------------
-CRIAR SELETOR
------------------------------------------------------ */
 
 function criarSeletorDiasAtivo(){
 
-    const area =
-        document.getElementById(
-            "seletorDiasAtivo"
-        );
+const area=
+document.getElementById(
+"seletorDiasAtivo"
+);
 
-    if(!area) return;
+if(!area){
 
-    area.innerHTML = "";
-
-    for(
-        let i=0;
-        i<7;
-        i++
-    ){
-
-        const div =
-            document.createElement("div");
-
-        div.className = "day";
-
-        const selecionado =
-            diasTemporarios.includes(i);
-
-        if(selecionado){
-
-            div.classList.add(
-                "selected"
-            );
-
-        }
-
-        div.innerHTML =
-        `
-        ${nomesDias[i]}
-
-        <small>
-        ${selecionado ? "✓" : " "}
-        </small>
-        `;
-
-        div.onclick =
-        function(){
-
-            alternarDiaTemporario(i);
-
-        };
-
-        area.appendChild(div);
-
-    }
-
-    const contador =
-        document.getElementById(
-            "contadorDiasAtivo"
-        );
-
-    if(contador){
-
-        contador.textContent =
-            diasTemporarios.length+
-            " de 3 dias selecionados";
-
-    }
+return;
 
 }
 
+area.innerHTML="";
 
-/* -----------------------------------------------------
-ALTERNAR DIA TEMPORÁRIO
------------------------------------------------------ */
+for(
+let i=0;
+i<7;
+i++
+){
+
+const div=
+document.createElement("div");
+
+div.className="day";
+
+const selecionado=
+diasTemporarios.includes(i);
+
+if(selecionado){
+
+div.classList.add(
+"selected"
+);
+
+}
+
+div.innerHTML=
+`
+${nomesDias[i]}
+<small>
+${selecionado?"✓":" "}
+</small>
+`;
+
+div.onclick=
+function(){
+
+alternarDiaTemporario(i);
+
+};
+
+area.appendChild(div);
+
+}
+
+const contador=
+document.getElementById(
+"contadorDiasAtivo"
+);
+
+if(contador){
+
+contador.textContent=
+diasTemporarios.length+
+" de 3 dias selecionados";
+
+}
+
+}
+
 
 function alternarDiaTemporario(dia){
 
-    if(
-        diasTemporarios.includes(dia)
-    ){
+if(
+diasTemporarios.includes(dia)
+){
 
-        diasTemporarios =
-            diasTemporarios.filter(
-                d => d !== dia
-            );
+diasTemporarios=
+diasTemporarios.filter(
+d=>d!==dia
+);
 
-    }else{
+}else{
 
-        if(
-            diasTemporarios.length >= 3
-        ){
+if(
+diasTemporarios.length>=3
+){
 
-            alert(
-                "Você já escolheu 3 dias. " +
-                "Desmarque um dia antes de escolher outro."
-            );
+alert(
+"Você já escolheu 3 dias. Desmarque um dia antes de escolher outro."
+);
 
-            return;
-
-        }
-
-        diasTemporarios.push(dia);
-
-        diasTemporarios.sort(
-            (a,b)=>a-b
-        );
-
-    }
-
-    criarSeletorDiasAtivo();
+return;
 
 }
 
+diasTemporarios.push(dia);
 
-/* -----------------------------------------------------
-SALVAR NOVOS DIAS
------------------------------------------------------ */
+diasTemporarios.sort(
+(a,b)=>a-b
+);
+
+}
+
+criarSeletorDiasAtivo();
+
+}
+
 
 function salvarAlteracaoDias(){
 
-    if(
-        diasTemporarios.length !== 3
-    ){
+if(
+diasTemporarios.length!==3
+){
 
-        alert(
-            "Escolha exatamente 3 dias de treino."
-        );
+alert(
+"Escolha exatamente 3 dias de treino."
+);
 
-        return;
+return;
 
-    }
+}
 
+dados.diasTreino=
+[...diasTemporarios];
 
-    /*
-    Apenas os dias são alterados.
+diasSelecionados=
+[...diasTemporarios];
 
-    NÃO mexemos em:
-    - data de início
-    - semana
-    - treinos
-    - histórico
-    - cargas
-    - peso
-    - próximo treino
-    */
+if(
+!salvar()
+){
 
-    dados.diasTreino =
-        [...diasTemporarios];
+return;
 
+}
 
-    diasSelecionados =
-        [...diasTemporarios];
+document
+.getElementById("cardAlterarDias")
+.classList
+.add("hidden");
 
+alert(
+"✅ Dias de treino atualizados!\n\n"+
+"O plano continua na mesma data e semana."
+);
 
-    if(
-        !salvar()
-    ){
-
-        return;
-
-    }
-
-
-    document
-        .getElementById("cardAlterarDias")
-        .classList
-        .add("hidden");
-
-
-    alert(
-        "✅ Dias de treino atualizados!\n\n"+
-        "O plano continua na mesma data e semana."
-    );
-
-
-    atualizar();
+atualizar();
 
 }
 
 
-/* -----------------------------------------------------
-CANCELAR
------------------------------------------------------ */
-
 function cancelarAlteracaoDias(){
 
-    diasTemporarios = [];
+diasTemporarios=[];
 
-    document
-        .getElementById("cardAlterarDias")
-        .classList
-        .add("hidden");
+document
+.getElementById("cardAlterarDias")
+.classList
+.add("hidden");
 
 }
 
@@ -2554,6 +2233,14 @@ const area=
 document.getElementById(
 "previewCalendario"
 );
+
+if(
+!area
+){
+
+return;
+
+}
 
 if(
 !data ||
@@ -2699,11 +2386,6 @@ return;
 
 }
 
-
-/*
-Se já existe plano, confirmar reinício.
-*/
-
 if(dados.dataInicio){
 
 const confirmar=
@@ -2722,11 +2404,6 @@ return;
 
 }
 
-
-/*
-Preserva peso e histórico de peso.
-*/
-
 const pesoAnterior=
 dados.peso;
 
@@ -2738,11 +2415,6 @@ dados.historicoPeso
 dados.historicoPeso
 :
 [];
-
-
-/*
-Cria plano oficial.
-*/
 
 dados.dataInicio=
 campo.value;
@@ -2766,11 +2438,6 @@ pesoAnterior;
 
 dados.historicoPeso=
 historicoPesoAnterior;
-
-
-/*
-Salva antes de atualizar a interface.
-*/
 
 if(
 !salvar()
@@ -2907,6 +2574,12 @@ document.getElementById(
 "listaExercicios"
 );
 
+if(!lista){
+
+return;
+
+}
+
 const exercicios=
 tipo==="A"
 ?
@@ -3035,7 +2708,7 @@ tipo;
 
 
 /* =====================================================
-ABRIR TREINO ATUAL
+ABRIR TREINO
 ===================================================== */
 
 function abrirTreinoAtual(){
@@ -3241,7 +2914,6 @@ treinoEmEdicao==="A"
 :
 "A";
 
-
 if(
 !salvar()
 ){
@@ -3327,10 +2999,23 @@ document.getElementById(
 "historicoTreinos"
 );
 
+const quantidade=
 document.getElementById(
 "historicoQuantidade"
-).textContent=
+);
+
+if(!area){
+
+return;
+
+}
+
+if(quantidade){
+
+quantidade.textContent=
 dados.historicoTreinos.length;
+
+}
 
 if(
 dados.historicoTreinos.length===0
@@ -3390,6 +3075,7 @@ ${exercicio.exercicio}
 `;
 
 if(
+!exercicio.series ||
 exercicio.series.length===0
 ){
 
@@ -3455,6 +3141,12 @@ const area=
 document.getElementById(
 "historicoPeso"
 );
+
+if(!area){
+
+return;
+
+}
 
 if(
 dados.historicoPeso.length===0
@@ -3605,11 +3297,18 @@ new Date().toISOString();
 
 salvar();
 
+const status=
 document.getElementById(
 "statusCofre"
-).textContent=
+);
+
+if(status){
+
+status.textContent=
 "💾 Backup interno criado em "+
 new Date().toLocaleString("pt-BR");
+
+}
 
 alert(
 "Backup interno criado com sucesso! 🛡️"
@@ -3661,11 +3360,6 @@ return;
 
 }
 
-
-/*
-Preserva estado atual.
-*/
-
 try{
 
 localStorage.setItem(
@@ -3693,11 +3387,6 @@ e
 );
 
 }
-
-
-/*
-Restaurar.
-*/
 
 try{
 
@@ -3776,11 +3465,6 @@ e.target.result
 
 let dadosImportados=null;
 
-
-/*
-Formato V4.x.
-*/
-
 if(
 pacote &&
 pacote.dados
@@ -3797,10 +3481,6 @@ pacote.dataPlanejamento!==undefined
 )
 ){
 
-/*
-JSON direto.
-*/
-
 dadosImportados=
 pacote;
 
@@ -3812,16 +3492,10 @@ throw new Error(
 
 }
 
-
 const restaurado=
 normalizarDados(
 dadosImportados
 );
-
-
-/*
-Backup antes da importação.
-*/
 
 localStorage.setItem(
 CHAVE_BACKUP+"_antes_importacao",
@@ -3839,7 +3513,6 @@ dados
 
 })
 );
-
 
 localStorage.setItem(
 CHAVE_ATUAL,
@@ -3885,6 +3558,12 @@ const area=
 document.getElementById(
 "diagnostico"
 );
+
+if(!area){
+
+return;
+
+}
 
 const backup=
 localStorage.getItem(
@@ -4004,10 +3683,6 @@ ATUALIZAR INTERFACE
 
 function atualizar(){
 
-/*
-Quantidade de treinos.
-*/
-
 document.getElementById(
 "totalTreinos"
 ).textContent=
@@ -4024,10 +3699,6 @@ document.getElementById(
 dados.treinos;
 
 
-/*
-Peso.
-*/
-
 document.getElementById(
 "pesoAtual"
 ).textContent=
@@ -4037,14 +3708,6 @@ dados.peso+" kg"
 :
 "-- kg";
 
-
-/*
-Restaurar data.
-
-PRIORIDADE:
-1. data oficial
-2. data de planejamento
-*/
 
 const campo=
 document.getElementById(
@@ -4064,10 +3727,6 @@ dataParaMostrar;
 }
 
 
-/*
-Restaurar dias.
-*/
-
 diasSelecionados=
 Array.isArray(
 dados.diasTreino
@@ -4084,32 +3743,14 @@ d=>d>=0 && d<=6
 [];
 
 
-/*
-Atualizar seletor.
-*/
-
 criarSeletorDias();
 
-
-/*
-Atualizar prévia.
-*/
-
 atualizarPlanejamento();
-
-
-/*
-Históricos.
-*/
 
 montarHistorico();
 
 montarHistoricoPeso();
 
-
-/*
-Sem plano ativo.
-*/
 
 if(
 !dados.dataInicio
@@ -4148,6 +3789,12 @@ document.getElementById(
 );
 
 document.getElementById(
+"cardAlterarDias"
+).classList.add(
+"hidden"
+);
+
+document.getElementById(
 "cardFase"
 ).classList.add(
 "hidden"
@@ -4164,25 +3811,20 @@ return;
 }
 
 
-/*
-Plano ativo.
-*/
-
 document.getElementById(
 "statusPlano"
 ).textContent=
 "Plano ativo";
 
-/*
-Se o plano estiver ativo,
-mostra o seletor de dias.
-*/
 
 document.getElementById(
 "cardAlterarDias"
 ).classList.remove(
 "hidden"
 );
+
+diasTemporarios=
+[...dados.diasTreino];
 
 criarSeletorDiasAtivo();
 
@@ -4195,6 +3837,7 @@ obterFase(semana);
 
 const hoje=
 treinoHoje();
+
 
 document.getElementById(
 "semanaBadge"
@@ -4272,10 +3915,6 @@ fase.observacao;
 }
 
 
-/*
-Barra.
-*/
-
 const percentual=
 Math.round(
 (semana/52)*100
@@ -4296,10 +3935,6 @@ document.getElementById(
 ).textContent=
 percentual+"%";
 
-
-/*
-Hoje.
-*/
 
 if(
 hoje==="Descanso"
@@ -4402,15 +4037,19 @@ const idMenu=
 tela.charAt(0).toUpperCase()+
 tela.slice(1);
 
-document
-.getElementById(idMenu)
-.classList
-.add("active");
+const menu=
+document.getElementById(
+idMenu
+);
 
+if(menu){
 
-/*
-Treino.
-*/
+menu.classList.add(
+"active"
+);
+
+}
+
 
 if(
 tela==="treino"
@@ -4454,10 +4093,6 @@ tipo
 }
 
 
-/*
-Progresso.
-*/
-
 if(
 tela==="progresso"
 ){
@@ -4483,10 +4118,6 @@ document
 "change",
 function(){
 
-/*
-Salva imediatamente a nova data.
-*/
-
 if(
 this.value
 ){
@@ -4501,13 +4132,6 @@ null;
 
 }
 
-
-/*
-IMPORTANTE:
-não altera dataInicio enquanto
-o plano não for oficialmente iniciado.
-*/
-
 salvar();
 
 atualizarPlanejamento();
@@ -4518,15 +4142,389 @@ atualizar();
 
 
 /* =====================================================
+RECUPERAÇÃO DE SENHA
+===================================================== */
+
+/*
+Verifica se o Supabase está disponível.
+*/
+
+function supabaseDisponivel(){
+
+return typeof supabaseClient !== "undefined" &&
+supabaseClient &&
+supabaseClient.auth &&
+typeof supabaseClient.auth.updateUser==="function";
+
+}
+
+
+/*
+Altera a senha do usuário autenticado.
+*/
+
+async function novaSenha(senha){
+
+if(
+!supabaseDisponivel()
+){
+
+console.error(
+"supabaseClient não está disponível."
+);
+
+alert(
+"⚠️ O sistema de autenticação não está disponível neste momento."
+);
+
+return false;
+
+}
+
+try{
+
+const resultado=
+await supabaseClient.auth.updateUser({
+
+password:senha
+
+});
+
+const error=
+resultado?.error;
+
+if(error){
+
+console.error(
+"Erro ao alterar senha:",
+error
+);
+
+alert(
+"⚠️ Não foi possível alterar a senha.\n\n"+
+(error.message||"Erro desconhecido.")
+);
+
+return false;
+
+}
+
+console.log(
+"Senha alterada com sucesso."
+);
+
+alert(
+"✅ Senha alterada com sucesso!"
+);
+
+return true;
+
+}catch(error){
+
+console.error(
+"Erro inesperado ao alterar senha:",
+error
+);
+
+alert(
+"⚠️ Ocorreu um erro ao alterar a senha.\n\n"+
+(error.message||"Tente novamente.")
+);
+
+return false;
+
+}
+
+}
+
+
+/*
+Mostra a tela de nova senha.
+*/
+
+function mostrarTelaRecuperarSenha(){
+
+const tela=
+document.getElementById(
+"telaRecuperarSenha"
+);
+
+if(!tela){
+
+return;
+
+}
+
+tela.style.display="block";
+
+document.body.style.overflow="hidden";
+
+}
+
+
+/*
+Fecha a tela de nova senha.
+*/
+
+function fecharTelaRecuperarSenha(){
+
+const tela=
+document.getElementById(
+"telaRecuperarSenha"
+);
+
+if(!tela){
+
+return;
+
+}
+
+tela.style.display="none";
+
+document.body.style.overflow="";
+
+}
+
+
+/*
+Salva a nova senha.
+*/
+
+async function salvarNovaSenha(){
+
+const campoSenha=
+document.getElementById(
+"novaSenhaInput"
+);
+
+const campoConfirmar=
+document.getElementById(
+"confirmarSenhaInput"
+);
+
+const botao=
+document.getElementById(
+"btnSalvarNovaSenha"
+);
+
+const mensagem=
+document.getElementById(
+"mensagemSenha"
+);
+
+const senha=
+campoSenha.value.trim();
+
+const confirmar=
+campoConfirmar.value.trim();
+
+
+if(
+!senha ||
+!confirmar
+){
+
+alert(
+"⚠️ Preencha os dois campos."
+);
+
+return;
+
+}
+
+
+if(
+senha!==confirmar
+){
+
+alert(
+"⚠️ As senhas não são iguais."
+);
+
+return;
+
+}
+
+
+if(
+senha.length<6
+){
+
+alert(
+"⚠️ A senha deve ter pelo menos 6 caracteres."
+);
+
+return;
+
+}
+
+
+if(botao){
+
+botao.disabled=true;
+
+botao.textContent=
+"ALTERANDO...";
+
+}
+
+
+if(mensagem){
+
+mensagem.textContent=
+"Alterando sua senha...";
+
+}
+
+
+const sucesso=
+await novaSenha(
+senha
+);
+
+
+if(sucesso){
+
+campoSenha.value="";
+
+campoConfirmar.value="";
+
+if(mensagem){
+
+mensagem.textContent=
+"✅ Senha alterada com sucesso.";
+
+}
+
+fecharTelaRecuperarSenha();
+
+}else{
+
+if(mensagem){
+
+mensagem.textContent=
+"Não foi possível alterar a senha.";
+
+}
+
+}
+
+
+if(botao){
+
+botao.disabled=false;
+
+botao.textContent=
+"SALVAR NOVA SENHA";
+
+}
+
+}
+
+
+/*
+IMPORTANTE:
+
+Aqui usamos somente addEventListener.
+
+Não existe mais:
+
+onclick="salvarNovaSenha()"
+
+junto com outro listener.
+
+Isso evita execução duplicada.
+*/
+
+document
+.getElementById(
+"btnSalvarNovaSenha"
+)
+.addEventListener(
+"click",
+salvarNovaSenha
+);
+
+
+/* =====================================================
+DETECTAR FLUXO DE RECUPERAÇÃO
+===================================================== */
+
+function verificarRecuperacaoSenha(){
+
+try{
+
+const hash=
+window.location.hash || "";
+
+const search=
+window.location.search || "";
+
+
+/*
+Fluxo tradicional do Supabase:
+#access_token=...
+&type=recovery
+*/
+
+const parametrosHash=
+new URLSearchParams(
+hash.startsWith("#")
+?
+hash.substring(1)
+:
+hash
+);
+
+const parametrosSearch=
+new URLSearchParams(
+search.startsWith("?")
+?
+search.substring(1)
+:
+search
+);
+
+const tipoHash=
+parametrosHash.get("type");
+
+const tipoSearch=
+parametrosSearch.get("type");
+
+
+if(
+tipoHash==="recovery" ||
+tipoSearch==="recovery"
+){
+
+setTimeout(
+function(){
+
+mostrarTelaRecuperarSenha();
+
+},
+300
+);
+
+}
+
+}catch(e){
+
+console.warn(
+"Não foi possível verificar recuperação de senha:",
+e
+);
+
+}
+
+}
+
+
+/* =====================================================
 INICIALIZAÇÃO
 ===================================================== */
 
 (function iniciarAplicacao(){
-
-/*
-Recarrega explicitamente os estados
-persistidos antes da primeira pintura.
-*/
 
 diasSelecionados=
 Array.isArray(
@@ -4544,11 +4542,6 @@ d=>d>=0 && d<=6
 [];
 
 
-/*
-Se houver plano oficial e a data de planejamento
-estiver vazia, sincroniza sem apagar nada.
-*/
-
 if(
 dados.dataInicio &&
 !dados.dataPlanejamento
@@ -4562,179 +4555,31 @@ salvar();
 }
 
 
-/*
-Renderização final.
-*/
-
 criarSeletorDias();
 
 atualizar();
 
+verificarRecuperacaoSenha();
+
 })();
 
+
+/* =====================================================
+DIAGNÓSTICO SUPABASE
+===================================================== */
+
 console.log(
-  "Supabase:",
-  typeof window.supabase
+"Supabase disponível:",
+supabaseDisponivel()
+);
+
+console.log(
+"Supabase:",
+typeof window.supabase
 );
 
 </script>
 
- <!-- =====================================================
-     RECUPERAÇÃO DE SENHA
-===================================================== -->
-
-<div
-    id="telaRecuperarSenha"
-    style="
-        display:none;
-        position:fixed;
-        inset:0;
-        z-index:99999;
-        background:#fff;
-        padding:30px 20px;
-        box-sizing:border-box;
-        overflow:auto;
-    "
->
-
-    <div
-        style="
-            max-width:420px;
-            margin:60px auto;
-            text-align:center;
-        "
-    >
-
-        <h2>🔐 Nova senha</h2>
-
-        <p>
-            Digite sua nova senha abaixo.
-        </p>
-
-        <input
-            id="novaSenhaInput"
-            type="password"
-            placeholder="Nova senha"
-            autocomplete="new-password"
-            style="
-                width:100%;
-                box-sizing:border-box;
-                padding:14px;
-                margin:10px 0;
-                font-size:16px;
-                border:1px solid #ccc;
-                border-radius:8px;
-            "
-        >
-
-        <input
-            id="confirmarSenhaInput"
-            type="password"
-            placeholder="Confirmar nova senha"
-            autocomplete="new-password"
-            style="
-                width:100%;
-                box-sizing:border-box;
-                padding:14px;
-                margin:10px 0;
-                font-size:16px;
-                border:1px solid #ccc;
-                border-radius:8px;
-            "
-        >
-
-        <button
-            id="btnSalvarNovaSenha"
-            onclick="salvarNovaSenha()"
-            style="
-                width:100%;
-                padding:14px;
-                margin-top:15px;
-                font-size:16px;
-                font-weight:bold;
-                border:0;
-                border-radius:8px;
-                cursor:pointer;
-            "
-        >
-            SALVAR NOVA SENHA
-        </button>
-
-    </div>
-
-</div>   
-    </div>
-
-<script>
-
-document
-    .getElementById("btnSalvarNovaSenha")
-    .addEventListener(
-        "click",
-        async function(){
-
-            const senha =
-                document.getElementById(
-                    "novaSenhaInput"
-                ).value;
-
-            const confirmar =
-                document.getElementById(
-                    "confirmarSenhaInput"
-                ).value;
-
-
-            if(!senha || !confirmar){
-
-                alert(
-                    "⚠️ Preencha os dois campos."
-                );
-
-                return;
-            }
-
-
-            if(senha !== confirmar){
-
-                alert(
-                    "⚠️ As senhas não são iguais."
-                );
-
-                return;
-            }
-
-
-            if(senha.length < 6){
-
-                alert(
-                    "⚠️ A senha deve ter pelo menos 6 caracteres."
-                );
-
-                return;
-            }
-
-
-            const sucesso =
-                await novaSenha(senha);
-
-
-            if(sucesso){
-
-                document.getElementById(
-                    "novaSenhaInput"
-                ).value = "";
-
-                document.getElementById(
-                    "confirmarSenhaInput"
-                ).value = "";
-
-            }
-
-        }
-        const btnSalvarNovaSenha =
-    );
-
-</script>
-
 </body>
+
 </html>
