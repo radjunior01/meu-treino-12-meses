@@ -19,6 +19,14 @@ console.log(
   "Supabase conectado:",
   !!supabaseClient
 );
+         supabaseClient.auth.onAuthStateChange((event, session) => {
+
+    console.log(
+        "Evento Auth:",
+        event
+    );
+
+});
          /* =====================================================
    SUPABASE - AUTENTICAÇÃO
 ===================================================== */
