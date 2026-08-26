@@ -183,6 +183,68 @@ async function novaSenha(senha){
     return true;
 }
 
+         document
+    .getElementById("btnSalvarNovaSenha")
+    .addEventListener("click", async function(){
+
+        const senha =
+            document.getElementById(
+                "novaSenhaInput"
+            ).value;
+
+        const confirmar =
+            document.getElementById(
+                "confirmarSenhaInput"
+            ).value;
+
+
+        if(!senha || !confirmar){
+
+            alert(
+                "⚠️ Preencha os dois campos."
+            );
+
+            return;
+        }
+
+
+        if(senha !== confirmar){
+
+            alert(
+                "⚠️ As senhas não são iguais."
+            );
+
+            return;
+        }
+
+
+        if(senha.length < 6){
+
+            alert(
+                "⚠️ A senha deve ter pelo menos 6 caracteres."
+            );
+
+            return;
+        }
+
+
+        const sucesso =
+            await novaSenha(senha);
+
+
+        if(sucesso){
+
+            document.getElementById(
+                "novaSenhaInput"
+            ).value = "";
+
+            document.getElementById(
+                "confirmarSenhaInput"
+            ).value = "";
+
+        }
+
+});
 
          console.log(
   "Auth disponível:",
