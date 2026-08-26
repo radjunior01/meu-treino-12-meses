@@ -26,6 +26,21 @@ console.log(
         event
     );
 
+    if(event === "PASSWORD_RECOVERY"){
+
+        const tela =
+            document.getElementById(
+                "telaRecuperarSenha"
+            );
+
+        if(tela){
+
+            tela.style.display = "block";
+
+        }
+
+    }
+
 });
          /* =====================================================
    SUPABASE - AUTENTICAÇÃO
@@ -4494,5 +4509,89 @@ console.log(
 
 </script>
 
+ <!-- =====================================================
+     RECUPERAÇÃO DE SENHA
+===================================================== -->
+
+<div
+    id="telaRecuperarSenha"
+    style="
+        display:none;
+        position:fixed;
+        inset:0;
+        z-index:99999;
+        background:#fff;
+        padding:30px 20px;
+        box-sizing:border-box;
+        overflow:auto;
+    "
+>
+
+    <div
+        style="
+            max-width:420px;
+            margin:60px auto;
+            text-align:center;
+        "
+    >
+
+        <h2>🔐 Nova senha</h2>
+
+        <p>
+            Digite sua nova senha abaixo.
+        </p>
+
+        <input
+            id="novaSenhaInput"
+            type="password"
+            placeholder="Nova senha"
+            autocomplete="new-password"
+            style="
+                width:100%;
+                box-sizing:border-box;
+                padding:14px;
+                margin:10px 0;
+                font-size:16px;
+                border:1px solid #ccc;
+                border-radius:8px;
+            "
+        >
+
+        <input
+            id="confirmarSenhaInput"
+            type="password"
+            placeholder="Confirmar nova senha"
+            autocomplete="new-password"
+            style="
+                width:100%;
+                box-sizing:border-box;
+                padding:14px;
+                margin:10px 0;
+                font-size:16px;
+                border:1px solid #ccc;
+                border-radius:8px;
+            "
+        >
+
+        <button
+            id="btnSalvarNovaSenha"
+            style="
+                width:100%;
+                padding:14px;
+                margin-top:15px;
+                font-size:16px;
+                font-weight:bold;
+                border:0;
+                border-radius:8px;
+                cursor:pointer;
+            "
+        >
+            SALVAR NOVA SENHA
+        </button>
+
+    </div>
+
+</div>   
+    
 </body>
 </html>
